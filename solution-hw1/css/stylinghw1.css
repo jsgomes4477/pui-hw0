@@ -1,0 +1,166 @@
+/* stylinghw1.css */
+
+
+/* applies to all elements within the body due to inheritance */
+body {
+    font-family: 'Inter', Arial, Helvetica, sans-serif; /* explain when to put in quotation */
+    font-size: 14px; /* default is 16px */
+    font-weight: 300;
+
+    /* center content */
+    max-width: 900px;
+    margin: auto;
+}
+/* taken from example in class */
+
+a {
+    text-decoration: none; /* removes hyperlinking formatting from all links */
+    color: black;
+}
+
+/* Style for navigation container */
+nav {
+    display: flex; /* creates flexbox for nav elements */
+    flex-direction: column; /* vertically aligns everything within flexbox */
+    align-items: flex-start; /* starts every item from the left */
+}
+
+.logo {
+    width: 400px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.hr-line {
+    width: 100%; /* line takes up 100% width of the container */
+    margin-bottom: 5px;
+}
+
+hr {
+    border: 0; /* removes border from hr line call */
+    height: 3px;
+    background: black;
+}
+
+.products, .cart {
+    display: flex;
+    justify-content: center; /* centers links horizontally */
+    width: 100%; /* link is centered by 100% of container space */
+    margin-bottom: 10px;
+}
+
+.products:hover, .cart:hover {
+    font-weight: bold;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Style for each item on the main page */
+#items {
+    display: flex;
+    flex-direction: column; /* makes flexbox align in a column instead of a row */
+    align-items: center; /* centers items within the flexbox column */
+    width: 100%;
+    gap: 50px; /* adds space between each item */
+    padding: 10px; /* adds padding around all content */
+    box-sizing: border-box; /* includes padding within border width and height */
+}
+
+.item {
+    display: block; /* creates a block level object */
+    color: inherit;
+    background-color: white;
+    padding: 10px;
+}
+
+.item:hover {
+    background-color: yellow; /* changes flexbox color w/ mouse hover */
+    font-weight: bold; /* bolds text when mouse hovers over */
+}
+
+.bordered-img {
+    border: 2px solid black; /* adds a black border around each image */
+}
+
+.item-desc, .item-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* aligns items to the left of each image */
+}
+
+/* Style for product detail page */
+
+.dsc-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.dsc-text {
+    font-size: 14px;
+}
+
+.menu1, .menu2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+select {
+    width: 200px;
+    height: 40px;
+    border: solid black;
+    border-width: 2.5px;
+    font-size: 14px;
+}
+
+.add-to-cart {
+    display: flex;
+    margin-top: 20px;
+}
+
+.price, .cart-button {
+    font-size: 14px;
+}
+
+/* Style for shopping cart page */
+
+#cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-item {
+    margin-top: 30px;
+}
+
+.cart-text {
+    font-size: 22px;
+    margin-top: 45px;
+}
+
+.cart-desc {
+    font-size: 16px;
+}
+
+.cart-button, .checkout {
+    display: flex;
+    border: solid black;
+    border-width: 3px;
+    padding: 10px 20px;
+    background-color: yellow;
+}
+
+.hr-short {
+    width: 65%;
+    margin-top: 45px;
+}

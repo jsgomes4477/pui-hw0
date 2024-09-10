@@ -1,15 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="UTF-8">
-  <title>Page Title</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Product Gallery</title>
+    <link rel="stylesheet" href="../solution-hw1/css/stylinghw1.css"> <!-- link to css file -->
+  </head>
   
   <body>
 
-    <h1>I am the solution to HW1!</h1>
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="../solution-hw1/index.html"> <!-- adds a link to the logo -->
+            <img src="../assets/logo/logo-01.svg" alt="BunBunBakeshop logo"/> 
+          </a>
+        </div>
 
-    <p>
-        And I can link to <a href="./otherpage.html">other pages.</a>
-    </p>
+        <div class="hr-line">
+          <hr> <!-- horizontal line below the logo -->
+        </div>
+
+        <div class="products"> <!-- links product text to product gallery -->
+          <a href="../solution-hw1/index.html">PRODUCTS</a>
+        </div>
+
+        <div class="cart"> <!-- links cart text to shopping cart page -->
+          <a href="../../pui-hw0/solution-hw1/shoppingcart.html">CART</a>
+        </div>
+
+      </nav>
+    </header>
+
+    <main>
+      <p>
+        Our hand-made cinnamon rolls
+      </p>
+
+      <section id="items">
+
+        <a href="../solution-hw1/productdetail.html">
+
+          <div class="item">
+            <img src="../assets/products/original-cinnamon-roll.jpg"
+              width="400" alt="picture of the original cinnamon roll option"
+              class="bordered-img">
+  
+            <p class="item-desc">
+              Original cinnamon roll
+            </p>
+  
+            <p class="item-price">
+              $2.49
+            </p>
+          </div>
+
+        <div class="item">
+          <img src="../assets/products/apple-cinnamon-roll.jpg"
+            width="400" alt="picture of the apple cinnamon roll option"
+            class="bordered-img">
+
+            <p class="item-desc">
+              Apple cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.49
+            </p>
+        </div>
+
+          <div class="item">
+            <img src="../assets/products/raisin-cinnamon-roll.jpg"
+              width="400" alt="picture of raisin cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Raisin cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $2.99
+            </p>
+          </div>
+
+          <div class="item">
+            <img src="../assets/products/walnut-cinnamon-roll.jpg"
+              width="400" alt="picture of walnut raisin cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Walnut cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.49
+            </p>
+          </div>
+          
+          <div class="item">
+            <img src="../assets/products/double-chocolate-cinnamon-roll.jpg"
+              width="400" alt="picture of double chocolate cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Double-chocolate cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.99
+            </p>
+          </div>
+
+          <div class="item">
+            <img src="../assets/products/strawberry-cinnamon-roll.jpg"
+              width="400" alt="picture of strawberry cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Strawberry cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.99
+            </p>
+          </div>
+
+        </a> <!-- currently each item links to the same product detail page -->
+
+      </section>
+
+    </main>
 
   </body>
+
 </html>
+
+<!-- Done by Jenna Gomes, I referenced w3schools.com -->
