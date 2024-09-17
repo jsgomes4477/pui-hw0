@@ -9,35 +9,26 @@ body, html {
     padding: 0;
   }
   
-/* Container for the top-bar */
+/* Style for navigation bar using flexbox containers */
 .top-bar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    justify-content: flex-start;
 }
 
-a {
-    text-decoration: none; /* removes hyperlinking formatting from all links */
-    color: black;
-}
-
-/* Style for navigation container */
-nav {
-    display: flex; /* creates flexbox for nav elements */
-    justify-content: flex-end;
-    flex-direction: row; /* vertically aligns everything within flexbox */
-    align-items: center; /* starts every item from the left */
-    width: 100%;
-}
-
-.logo { 
+.logo {
     width: 320px;
     margin: 20px;
 }
 
+a { /* removes hyperlinking formatting from all links */
+    text-decoration: none;
+    color: black;
+}
+
 .nav-bar {
-    width: 780px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .nav-bttns {
@@ -61,22 +52,20 @@ nav {
     font-size: 28px;
 }
 
-/* Style for each item on the main page */
-
-/* Grid container styles */
+/* Grid container styles, product gallery on main page */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* creates 3 equal columns */
     gap: 35px;
     width: 100%; /*grid container fills total available width */
-    margin: auto; /* centers the grid horizontally */
-    padding: 60px;
+    /* margin: auto; centers the grid horizontally */
+    /* padding: 60px; */
 }
 
 /* Grid item styles */
 .grid-item {
     text-align: left;
-    padding: 10px;
+    padding: 40px;
 }
 
 /* Image inside each grid item */
