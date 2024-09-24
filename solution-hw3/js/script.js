@@ -8,22 +8,29 @@ const opts = { //object for all possible price options
     packSizeMult: [1, 3, 5, 10],
 };
 
-// Event listener for glazing dropdown (uses change and target.value from class)
-document.querySelector('select[name="glazings"]').addEventListener('change', function(event) {
+// Event handler for changes detected with glazings dropdown menu
+function onGlazeChange(event) {
     const selectedGlazing = event.target.value;  // gets user input for current glazing option
     const glazingIdx = opts.glazing.indexOf(selectedGlazing); // finds index of that glazing
     selectedGlazingPrice = opts.glazingPrice[glazingIdx]; // get price change from list
-    updatePrice();
-});
+    updatePrice(); //makes a call to update the prce shown on screen
+}
 
-// Event listener for pack size dropdown
-document.querySelector('select[name="packs"]').addEventListener('change', function(event) {
+// Event handler for changes detected with pack size dropdown menu
+function onPackChange(event) {
     const selectedPackSize = event.target.value;  // gets user input for current pack size
     const packIdx = opts.packSize.indexOf(parseInt(selectedPackSize)); // finds index for size
     selectedPackNum = opts.packSizeMult[packIdx]; // gets corresponding pack size multiplier
-    updatePrice();
-});
+    updatePrice(); //makes a call to to update the prce shown on screen
+}
 
+// Event listener for glazing dropdown (uses change and target.value from class)
+document.querySelector('select[name="glazings"]').addEventListener('change', onGlazeChange);
+
+// Event listener for pack size dropdown
+document.querySelector('select[name="packs"]').addEventListener('change', onPackChange);
+
+// Updates the price by doing the calculations based on pack and glazing options
 function updatePrice() {
     const basePrice = 2.49; // base price for original cinnamon roll
     const totalPrice = (basePrice + selectedGlazingPrice) * selectedPackNum;
