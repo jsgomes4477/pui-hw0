@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="../solution-hw3/css/styling.css"> <!-- link to css file -->
+  </head>
+
+  <!-- navigation bar including logo and links -->
+    <div class="top-bar">
+        <div class="logo">
+            <a href="../solution-hw3/index.html"> <!-- adds a link to the logo -->
+              <img src="../assets/logo/logo-01.svg" alt="BunBunBakeshop logo"/> 
+            </a>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-bttns">
+              <nav>
+                  <!-- links cart text to shopping cart page -->
+                  <a href="../../pui-hw0/solution-hw3/shoppingcart.html"
+                      class="nav-links">CART</a>
+                  <!-- links product text to product gallery -->
+                  <a href="../solution-hw3/index.html" class="nav-links">
+                      PRODUCTS</a>
+              </nav>
+            </div>
+
+            <div>
+                <p class="tag-line">
+                    Our hand-made cinnamon rolls
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- product detail page elements-->
+    <div class="details">
+      
+      <div class="product">
+        <img src="../assets/products/original-cinnamon-roll.jpg"
+          alt="picture of the original cinnamon roll option"
+          class="big-border">
+      </div>
+  
+      <div class="menu-items">
+        <p class="dsc-text">
+          Customize our delicious, <br>
+          hand-made cinnamon roll to <br>
+          to your liking!
+        </p>
+
+        <p class="glazing">
+          Glazing:
+        </p>
+
+        <div class="menu1">
+          <select name="glazings" id="dropdown">
+            <option value="Keep original">Keep original</option>
+            <option value="Sugar milk">Sugar milk</option>
+            <option value="Vanilla milk">Vanilla milk</option>
+            <option value ="Double chocolate">Double chocolate</option>
+          </select>
+        </div>
+
+        <p class="packing">
+          Pack size:
+        </p>
+
+        <div class="menu2">
+          <select name="packs" id="dropdown">
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="6">6</option>
+            <option value ="12">12</option>
+          </select>
+        </div>
+
+        <div class="add-to-cart">
+          <p class="price">
+            $2.49
+          </p>
+          <p class="cart-button">
+            Add to cart
+          </p>
+        </div>
+      </div>
+    </div>
+
+</html>
