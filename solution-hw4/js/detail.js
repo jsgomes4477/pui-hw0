@@ -1,4 +1,4 @@
-////////////////////////////// URL Parsing /////////////////////////////////
+////////////////////////////// URL Parsing ////////////////////////////////
 
 //cart array that stores cart times
 let cart = [];
@@ -76,7 +76,33 @@ function updatePrice() {
     document.querySelector('.price').textContent = `$${totalPrice.toFixed(2)}`; 
 }
 
+//////////////////////////////// Add to Cart //////////////////////////////
 
+class Roll { //defines the class of for rolls users pick
+    constructor(rollType, rollGlazing, packSize, basePrice) {
+        this.type = rollType;
+        this.glazing =  rollGlazing;
+        this.size = packSize;
+        this.basePrice = basePrice;
+    }
+}
+
+//Event handler for when users add new items to their carts
+function onCartChange (event) {
+    
+    const newRoll = new Roll(
+        rollType,
+        document.querySelector('select[name="glazings"]').value,
+        document.querySelector('select[name="packs"]').value,
+        rollPrice,
+    );
+    cart.push(newRoll); //creates a new instance for a roll and adds to cart
+
+    console.log(cart); //prints entire cart array to console for new every item
+}
+
+//Event listener that detects a change for the cart button
+document.querySelector('.cart-button').addEventListener('click', onCartChange);
 
 ///////////////////////////////// References //////////////////////////////
 
@@ -87,3 +113,7 @@ function updatePrice() {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
 // how i formatted my event listeners documentation (in example of simple):
 // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
+// how to use a dictionary in JSON:
+// https://www.geeksforgeeks.org/how-to-access-and-process-nested-objects-arrays-or-json/
+// how to parse URLS;
+// https://github.com/CMU-PUI-2024/pui-materials/tree/main/in-lab-examples/puinote-lab04/url-params
