@@ -137,38 +137,33 @@ function initDetailPage() {
     const roll3_price = updateManual(roll3);
     const roll4_price = updateManual(roll4);
 
-    // Get the template element for cart items
-    const cartTemplate = document.querySelector('template.entire-item');
-
-    const roll1_clone = cartTemplate.content.cloneNode(true);
-    const roll2_clone = cartTemplate.content.cloneNode(true);
-    const roll3_clone = cartTemplate.content.cloneNode(true);
-    const roll4_clone = cartTemplate.content.cloneNode(true);
-
-    function newCartItem(clone, roll, roll_price) {
-        const img = clone.querySelector(".bordered-img");
-        
-        img.src = `../assets/products/${roll.imageFile}`;
+    function newCartItem(roll, roll_price) {
+        const template = document.querySelector('template.entire-item');
+        const clone = document.importNode(template.content, true);
+    
+        const entireItem = document.createElement('div'); //creates a new div element for each new cart item
+        entireItem.className = 'entire-item';
+        entireItem.appendChild(clone); //copies content from clone of template
+    
+        //modifications to cloned content that is placed within the div
+        const img = entireItem.querySelector(".bordered-img");
+        img.src = `../assets/products/${rolls[roll.type].imageFile}`;
         img.alt = `image of the ${roll.type} cinnamon roll`;
-
-        clone.querySelector('.type-desc').textContent = 
-            `${roll.type} Cinnamon Roll`;
-
-        clone.querySelector('.glazing-desc').textContent = `Glazing: ${roll.glazing}`;
-
-        clone.querySelector('.size-desc').textContent = `Pack Size: ${roll.size}`;
-
-        clone.querySelector('.cart-price p').textContent = `$${roll_price}`;
-
+    
+        entireItem.querySelector('.type-desc').textContent = `${roll.type} Cinnamon Roll`;
+        entireItem.querySelector('.glazing-desc').textContent = `Glazing: ${roll.glazing}`;
+        entireItem.querySelector('.size-desc').textContent = `Pack Size: ${roll.size}`;
+        entireItem.querySelector('.cart-price p').textContent = `$${roll_price}`;
+    
         const container = document.querySelector('.entire-cart');
-        container.insertBefore(clone, container.querySelector('.checkout-space'));
+        container.insertBefore(entireItem, container.querySelector('.checkout-space')); //adds div before checkout space
     }
 
     //Calling function above to display each new roll
-    newCartItem(roll1_clone, roll1, roll1_price);
-    newCartItem(roll2_clone, roll2, roll2_price);
-    newCartItem(roll3_clone, roll3, roll3_price);
-    newCartItem(roll4_clone, roll4, roll4_price);
+    newCartItem(roll1, roll1_price);
+    newCartItem(roll2, roll2_price);
+    newCartItem(roll3, roll3_price);
+    newCartItem(roll4, roll4_price);
   }
   
   document.addEventListener('DOMContentLoaded', function() {
