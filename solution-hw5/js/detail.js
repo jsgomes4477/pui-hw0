@@ -16,15 +16,15 @@ class Roll { //defines the class of for rolls users pick
     }
 }
 
+//cart array that stores cart times
+let cart = [];
+
 ///////////////////////// Multi Page Error Handling ////////////////////////
 
 
 function initDetailPage() {
    
     /////////////////////////// URL Parsing ////////////////////////////////
-
-    //cart array that stores cart times
-    let cart = [];
 
     //gets query string from URL, list of search params
     const queryString = window.location.search;
@@ -131,19 +131,21 @@ function initDetailPage() {
     const roll3 = new Roll("Raisin", 'Sugar milk', 3, 2.99);
     const roll4 = new Roll("Apple", 'Keep original', 3, 3.49);
 
-    //Manual price calculation from above
-    const roll1_price = updateManual(roll1);
-    const roll2_price = updateManual(roll2);
-    const roll3_price = updateManual(roll3);
-    const roll4_price = updateManual(roll4);
+    //populates cart array with starting rolls
+    cart.push(roll1);
+    cart.push(roll2);
+    cart.push(roll3);
+    cart.push(roll4);
 
-    function newCartItem(roll, roll_price) {
+    function createCartItem(roll, roll_price, id) {
         const template = document.querySelector('template.entire-item');
         const clone = document.importNode(template.content, true);
-    
-        const entireItem = document.createElement('div'); //creates a new div element for each new cart item
+
+        //creates a new div element for each new cart item
+        const entireItem = document.createElement('div');
         entireItem.className = 'entire-item';
         entireItem.appendChild(clone); //copies content from clone of template
+        entireItem.dataset.id = id; //unique identifier
     
         //modifications to cloned content that is placed within the div
         const img = entireItem.querySelector(".bordered-img");
@@ -154,16 +156,45 @@ function initDetailPage() {
         entireItem.querySelector('.glazing-desc').textContent = `Glazing: ${roll.glazing}`;
         entireItem.querySelector('.size-desc').textContent = `Pack Size: ${roll.size}`;
         entireItem.querySelector('.cart-price p').textContent = `$${roll_price}`;
-    
+
+        //creates button functionality for remove link
+        const removeButton = entireItem.querySelector('.remove');
+        removeButton.addEventListener('click', onRemove);
+
+        //adds div before checkout space
         const container = document.querySelector('.entire-cart');
-        container.insertBefore(entireItem, container.querySelector('.checkout-space')); //adds div before checkout space
+        container.insertBefore(entireItem, container.querySelector('.checkout-space'));
     }
 
-    //Calling function above to display each new roll
-    newCartItem(roll1, roll1_price);
-    newCartItem(roll2, roll2_price);
-    newCartItem(roll3, roll3_price);
-    newCartItem(roll4, roll4_price);
+    function onRemove(event){ //Event handler for remove (DOM specific)
+        if (cart.length > 0) { //checking for edge case
+            const entireItem = event.target.closest('.entire-item');
+            entireItem.remove(); //remove item from DOM
+            updateTotalPrice(); //updating price after removing an item
+        }
+    }
+
+    function updateTotalPrice() {
+        //using reduce to recalculate total
+        const cartTotal = cart.reduce((total, roll) => 
+                total + parseFloat(updateManual(roll)), 0);
+
+        //drawing new total for DOM
+        document.querySelector('.total-amount p').textContent 
+            = `$${cartTotal.toFixed(2)}`; 
+    }
+
+    function addToCart() {
+        for (let i = 0; i < cart.length; i++) {
+            let roll = cart[i];
+            let rollPrice = updateManual(roll);
+            createCartItem(roll, rollPrice, i); //DOM
+            updateTotalPrice(); //updating price after adding an item
+        }
+    }
+
+    addToCart(); //draws everything in my cart to the webpage
+    console.log(cart); //debugging
   }
   
   document.addEventListener('DOMContentLoaded', function() {
