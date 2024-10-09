@@ -16,8 +16,7 @@ class Roll { //defines the class of for rolls users pick
     }
 }
 
-//cart array that stores cart times
-let cart = [];
+let cart = []; //cart array that stores cart times
 
 ///////////////////////// Multi Page Error Handling ////////////////////////
 
@@ -102,7 +101,7 @@ function initDetailPage() {
             rollPrice,
         );
         cart.push(newRoll); //creates a new instance for a roll and adds to cart
-
+        // addToCart(); //not yet defined in this scope
         console.log(cart); //prints entire cart array to console for new every item
     }
 
@@ -137,7 +136,7 @@ function initDetailPage() {
     cart.push(roll3);
     cart.push(roll4);
 
-    function createCartItem(roll, roll_price, id) {
+    function createCartItem(roll, roll_price) { //creates new cart items
         const template = document.querySelector('template.entire-item');
         const clone = document.importNode(template.content, true);
 
@@ -145,7 +144,6 @@ function initDetailPage() {
         const entireItem = document.createElement('div');
         entireItem.className = 'entire-item';
         entireItem.appendChild(clone); //copies content from clone of template
-        entireItem.dataset.id = id; //unique identifier
     
         //modifications to cloned content that is placed within the div
         const img = entireItem.querySelector(".bordered-img");
@@ -168,16 +166,24 @@ function initDetailPage() {
 
     function onRemove(event){ //Event handler for remove (DOM specific)
         if (cart.length > 0) { //checking for edge case
+
+            //gets the closest entire item block based on mouse click location
             const entireItem = event.target.closest('.entire-item');
-            entireItem.remove(); //remove item from DOM
+
+            //gets index of current item by searching through parents
+            let index = Array.from(entireItem.parentNode.children).indexOf(entireItem) - 1;
+
+            cart.splice(index, 1); // remove item from cart array
+
             updateTotalPrice(); //updating price after removing an item
+
+            entireItem.remove(); //remove item from DOM
         }
     }
 
     function updateTotalPrice() {
         //using reduce to recalculate total
-        const cartTotal = cart.reduce((total, roll) => 
-                total + parseFloat(updateManual(roll)), 0);
+        const cartTotal = cart.reduce((total, roll) => total + parseFloat(updateManual(roll)), 0);
 
         //drawing new total for DOM
         document.querySelector('.total-amount p').textContent 
@@ -188,16 +194,16 @@ function initDetailPage() {
         for (let i = 0; i < cart.length; i++) {
             let roll = cart[i];
             let rollPrice = updateManual(roll);
-            createCartItem(roll, rollPrice, i); //DOM
+            createCartItem(roll, rollPrice); //DOM
             updateTotalPrice(); //updating price after adding an item
         }
     }
 
     addToCart(); //draws everything in my cart to the webpage
-    console.log(cart); //debugging
+    // console.log(cart); //debugging
   }
   
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() { //multi page
     if (document.body.id === 'detail-page') {
       initDetailPage();
     } else if (document.body.id === 'cart-page') {
