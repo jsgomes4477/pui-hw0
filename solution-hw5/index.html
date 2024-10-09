@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    
+    <title>Product Gallery</title>
+    
+    <link rel="stylesheet" href="../solution-hw5/css/styling.css"> <!-- link to css file -->
+    
+    <script defer src="../solution-hw5/js/rollsData.js"></script> <!-- loads JSON file -->
+
+    <script defer src="../solution-hw5/js/detail.js"></script> <!-- main JavaScript logic -->
+  </head>
+  
+  <body>
+    <!-- navigation bar including logo and links -->
+    <div class="top-bar">
+        <div class="logo">
+            <a href="../solution-hw5/index.html"> <!-- adds a link to the logo -->
+              <img src="../assets/logo/logo-01.svg" alt="BunBunBakeshop logo"/> 
+            </a>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-bttns">
+                <nav>
+                    <!-- links cart text to shopping cart page -->
+                    <a href="../../pui-hw0/solution-hw5/shoppingcart.html"
+                        class="nav-links">CART</a>
+                    <!-- links product text to product gallery -->
+                    <a href="../solution-hw5/index.html" class="nav-links">
+                        PRODUCTS</a>
+                </nav>
+            </div>
+
+            <div>
+                <p class="tag-line">
+                    Our hand-made cinnamon rolls
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- product page grid of available items -->
+    <!-- reference : https://www.w3schools.com/CSS/css_grid.asp -->
+    <div class="grid-container"> 
+        <a href="./productdetail.html?roll=Original" class="grid-item">
+            <img src="../assets/products/original-cinnamon-roll.jpg"
+              alt="picture of the original cinnamon roll option"
+              class="bordered-img">
+  
+            <p class="item-desc">
+              Original cinnamon roll
+            </p>
+  
+            <p class="item-price">
+              $2.49
+            </p>
+        </a>
+
+        <a href="./productdetail.html?roll=Apple" class="grid-item">
+            <img src="../assets/products/apple-cinnamon-roll.jpg"
+            alt="picture of the apple cinnamon roll option"
+            class="bordered-img">
+
+            <p class="item-desc">
+              Apple cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.49
+            </p>
+        </a>
+
+        <a href="./productdetail.html?roll=Raisin" class="grid-item">
+            <img src="../assets/products/raisin-cinnamon-roll.jpg"
+              alt="picture of raisin cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Raisin cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $2.99
+            </p>
+        </a>
+
+        <a href="./productdetail.html?roll=Walnut" class="grid-item">
+            <img src="../assets/products/walnut-cinnamon-roll.jpg"
+              alt="picture of walnut raisin cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Walnut cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.49
+            </p>
+        </a>
+
+        <a href="./productdetail.html?roll=Double-Chocolate" class="grid-item">
+            <img src="../assets/products/double-chocolate-cinnamon-roll.jpg"
+              alt="picture of double chocolate cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Double-chocolate cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.99
+            </p>
+        </a>
+
+        <a href="./productdetail.html?roll=Strawberry" class="grid-item">
+            <img src="../assets/products/strawberry-cinnamon-roll.jpg"
+              alt="picture of strawberry cinnamon roll option"
+              class="bordered-img">
+
+            <p class="item-desc">
+              Strawberry cinnamon roll
+            </p>
+
+            <p class="item-price">
+              $3.99
+            </p>
+        </a>
+    </div>
+  </body>
+
+</html>
+
+<!-- Done by Jenna Gomes, I referenced w3schools.com -->

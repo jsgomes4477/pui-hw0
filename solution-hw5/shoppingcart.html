@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+
+    <title>Shopping Cart</title>
+
+    <link rel="stylesheet" href="../solution-hw5/css/styling.css"> <!-- link to css file -->
+
+    <script defer src="../solution-hw5/js/rollsData.js"></script> <!-- loads JSON file -->
+
+    <script defer src="../solution-hw5/js/detail.js"></script> <!-- main JavaScript logic -->
+  </head>
+
+  <body id="cart-page">
+    <!-- navigation bar including logo and links -->
+    <div class="top-bar">
+        <div class="logo">
+            <a href="../solution-hw5/index.html"> <!-- adds a link to the logo -->
+              <img src="../assets/logo/logo-01.svg" alt="BunBunBakeshop logo"/> 
+            </a>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-bttns">
+              <nav>
+                <!-- links cart text to shopping cart page -->
+                <a href="../../pui-hw0/solution-hw5/shoppingcart.html"
+                    class="nav-links">CART</a>
+                <!-- links product text to product gallery -->
+                <a href="../solution-hw5/index.html" class="nav-links">
+                    PRODUCTS</a>
+              </nav>
+            </div>
+
+            <div>
+                <p class="tag-line">
+                    Our hand-made cinnamon rolls
+                </p>
+            </div>
+        </div>
+    </div>
+
+  <!-- shopping cart -->
+  <main>
+    <div class="entire-cart">
+      
+      <template class="entire-item"> <!-- template for cart items -->
+        <div class="cart-item">
+          <img src="../assets/products/original-cinnamon-roll.jpg"
+              alt="image of the original cinnamon roll"
+              class="bordered-img">
+          
+          <p class="remove">
+            Remove
+          </p>
+        </div>
+  
+        <div class="cart-desc">
+          <p class="type-desc">
+            Original Cinnamon Roll
+          </p>
+  
+          <p class="glazing-desc">
+            Glazing: Keep original
+          </p>
+  
+          <p class="size-desc">
+            Pack Size: 1
+          </p>
+        </div>
+  
+        <div class="cart-price">
+          <p>
+            $2.49
+          </p>
+        </div>
+        
+      </template> <!-- entire-item class ends here -->
+  
+      <!-- <div class="entire-item">
+        <div class="cart-item">
+          <img src="../assets/products/double-chocolate-cinnamon-roll.jpg"
+              alt="image of the double chocolate cinnamon roll"
+              class="bordered-img">
+  
+          <p class="remove">
+            Remove
+          </p>
+        </div>
+  
+        <div class="cart-desc">
+          <p class="type-desc">
+            Double Chocolate Cinnamon Roll
+          </p>
+  
+          <p class="glazing-desc">
+            Glazing: Sugar milk
+          </p>
+  
+          <p class="size-desc">
+            Pack Size: 6
+          </p>
+        </div>
+  
+        <div class="cart-price">
+          <p>
+            $27.45
+          </p>
+        </div>
+      </div> -->
+
+      <div class="checkout-space">
+        
+        <div class="cart-total">
+
+          <div class="total-text">
+            <p>Total</p>
+          </div>
+
+          <div class="total-amount">
+            <p>$29.94</p>
+          </div>
+        </div>
+
+        <div class="checkout">
+          <p class="cart-button">Checkout</p>
+        </div>
+
+      </div>
+      
+    </div>
+    
+  </main>
+
+</html>
