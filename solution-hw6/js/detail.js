@@ -107,7 +107,7 @@ function initDetailPage() {
 
     //Event listener that detects a change for the cart button
     document.querySelector('.cart-button').addEventListener('click', onCartChange);
-
+    
   }
   
   function initCartPage() {
