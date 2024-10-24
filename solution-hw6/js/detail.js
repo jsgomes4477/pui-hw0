@@ -16,9 +16,10 @@ class Roll { //defines the class of for rolls users pick
     }
 }
 
-let cart = []; //cart array that stores cart times
+// global declaration for cart storage using JSON
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-///////////////////////// Multi Page Error Handling ////////////////////////
+//////////////////////////// Multi Page Handling ////////////////////////////
 
 
 function initDetailPage() {
@@ -100,8 +101,10 @@ function initDetailPage() {
             document.querySelector('select[name="packs"]').value,
             rollPrice,
         );
+
         cart.push(newRoll); //creates a new instance for a roll and adds to cart
-        // addToCart(); //not yet defined in this scope
+        localStorage.setItem("cart", JSON.stringify(cart)); //updates w/ current cart
+
         console.log(cart); //prints entire cart array to console for new every item
     }
 
@@ -123,18 +126,6 @@ function initDetailPage() {
 
         return totalPrice.toFixed(2); //fixes floating point errors in JS
     }
-
-    //New roll instances (cart start)
-    const roll1 = new Roll("Original", 'Sugar milk', 1, 2.49);
-    const roll2 = new Roll("Walnut", 'Vanilla milk', 12, 3.49);
-    const roll3 = new Roll("Raisin", 'Sugar milk', 3, 2.99);
-    const roll4 = new Roll("Apple", 'Keep original', 3, 3.49);
-
-    //populates cart array with starting rolls
-    cart.push(roll1);
-    cart.push(roll2);
-    cart.push(roll3);
-    cart.push(roll4);
 
     function createCartItem(roll, roll_price) { //creates new cart items
         const template = document.querySelector('template.entire-item');
@@ -178,6 +169,10 @@ function initDetailPage() {
             updateTotalPrice(); //updating price after removing an item
 
             entireItem.remove(); //remove item from DOM
+
+            //update the cart in JSON and prints in console
+            localStorage.setItem("cart", JSON.stringify(cart));
+            console.log(cart);
         }
     }
 
@@ -201,7 +196,7 @@ function initDetailPage() {
     }
 
     addToCart(); //draws everything in my cart to the webpage
-    // console.log(cart); //debugging
+    console.log(cart);
   }
   
   document.addEventListener('DOMContentLoaded', function() { //multi page
