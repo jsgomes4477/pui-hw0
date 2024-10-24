@@ -220,3 +220,4 @@ function initDetailPage() {
 // https://www.geeksforgeeks.org/how-to-access-and-process-nested-objects-arrays-or-json/
 // how to parse URLS;
 // https://github.com/CMU-PUI-2024/pui-materials/tree/main/in-lab-examples/puinote-lab04/url-params
+// syntax for localStorage calls: https://blog.logrocket.com/localstorage-javascript-complete-guide/
