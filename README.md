@@ -13,3 +13,5 @@ HW3 DEPLOYED WEBSITE:  https://jsgomes4477.github.io/pui-hw0/solution-hw3/index.
 HW4 DEPLOYED WEBSITE: https://jsgomes4477.github.io/pui-hw0/solution-hw4/index.html
 
 HW5 DEPLOYED WEBSITE: https://jsgomes4477.github.io/pui-hw0/solution-hw5/index.html
+
+HW6 DEPLOYED WEBSITE: https://jsgomes4477.github.io/pui-hw0/solution-hw6/index.html
