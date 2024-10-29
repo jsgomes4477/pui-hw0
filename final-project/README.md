@@ -206,8 +206,6 @@ How would you use Generative AI responsibly?
 
 ![title for sketch1](images/sketch1.png)
 
-Add a few sentences about your design. Briefly state the motivation of each project idea. Example questions to answer:
-
 * I want to creative and interactive and narrative based website that explores the role of color from a cultural and visual perspective.
 * In order to do the above, I will use p5.js and Chroma.js to create a color picker tool and narrative elements, including poetry, literature,
 * and lyrics about the chosen color through APIs.
@@ -218,13 +216,20 @@ Add a few sentences about your design. Briefly state the motivation of each proj
 
 ![title for sketch1](images/sketch2.png)
 
-…
+* A simple portfolio that strongly shows my artistic abilities alongside my natural curiosity for design and computability.
+* I plan to use interesting animations and timelines to showcase my work and possibly have embedded interactivity through small software applications I have already developed.
+* I plan to include alt text and clear design that make it obvious which buttons to press, alongside good styling for readers to parse through the outline of each page.
+* I want to convey my own interests and skillsets to my audience.
 
 ### *Idea 3*
 
 ![title for sketch1](images/sketch3.png)
 
-…
+* This website will host an interactive design tool that utilizes my previous applications for creating generative patterns in my unique stylizations and projects
+* them onto patterns for sewing and fashion designing ideas.
+* I plan to use engaging models and 3D turn arounds of the items after the patterns are generated to create a novel experience with each mouse click!
+* I plan to include alt text and clear design that make it obvious which buttons to press, alongside good styling for readers to parse through the outline of each page.
+* I want to showcase a proof of concept for my idea of how to use generative software that is distinctly stylized in traditional textile pattern making. 
 
 ## Feedback Summary
 
