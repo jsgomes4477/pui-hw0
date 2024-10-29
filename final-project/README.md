@@ -233,7 +233,14 @@ How would you use Generative AI responsibly?
 
 ## Feedback Summary
 
-Summarize all the critiques you received during the lab session (\~300 words). 
+The feedback I recieved was mainly in reguards to my first idea since that is the one I am most likely to choose. However, people did enjoy the third idea and said it
+is interesting at a high level but a little out of scope for my current abilities and available time. For the first idea, many people said to include a homepage and clear
+instructional text at every step of the way since my tool is very exploratory and it might not be intuitive to users as to WHY they are using the tool (although the design
+is self explanatory and my peers said it would be easy to assume what the functionality is). Therefore, having a narrative style walkthrough with a strong landing page
+before the more visual elements are introduced was suggested and changing the formatting of the actual interactive color picker tools that I create in p5.js for mobile 
+devices versus laptop/desktop formatting was also discussed. It would also be nice to have a library that stores which colors users picked as another functionality.
+Finally, my peers enjoyed the idea of utilizing text as a supplementary visual element and the idea of using APIs to search for text that would be relevent to 
+my project as the ending page. 
 
 ## Feedback Digestion
 
