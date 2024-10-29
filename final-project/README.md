@@ -215,9 +215,13 @@ Add a few sentences about your design. Briefly state the motivation of each proj
 
 ### *Idea 2*
 
+![title for sketch1](images/sketch1.png)
+
 …
 
 ### *Idea 3*
+
+![title for sketch1](images/sketch1.png)
 
 …
 
