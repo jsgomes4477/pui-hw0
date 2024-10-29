@@ -208,10 +208,11 @@ How would you use Generative AI responsibly?
 
 Add a few sentences about your design. Briefly state the motivation of each project idea. Example questions to answer:
 
-* What is the basic idea of your final project? (1-2 sentences)  
-* How do you plan to make your design interactive and engaging?  
-* How do you plan to make your design accessible?  
-* What information do you specifically want to convey and include on your website?
+* I want to creative and interactive and narrative based website that explores the role of color from a cultural and visual perspective.
+* In order to do the above, I will use p5.js and Chroma.js to create a color picker tool and narrative elements, including poetry, literature,
+* and lyrics about the chosen color through APIs.
+* I will use alt text and clear explanations on screen about how to visually navigate my website, alongside how to save chosen colors, and the significance of the functionality. 
+* I want to convey the importance of applying your own desires onto the artistic narratives of others by dictating which colors you prefer to see on the canvas. 
 
 ### *Idea 2*
 
