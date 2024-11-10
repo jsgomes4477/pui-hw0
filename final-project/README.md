@@ -131,13 +131,13 @@ My goal is to create a website that operates as an interactive color picker tool
 
 ### *Prototype 1*
 
-![FP1 Low-fi Prototype](images/FP1_proto)
+![FP1 Low-fi Prototype](images/FP1_proto.png)
 
-A brief description and summary of the user feedback (\<100 words, 2 images) 
+Formatting is a little confusing for larger screens, there needs to be more pages and text especially a home page to introduce my idea. Have some sort of storage for previous colors picked.
 
 ### *Prototype 2*
 
-…
+![FP1 Low-fi Prototype](images/Page_1.png)
 
 ## Usability Test
 
