@@ -131,7 +131,7 @@ My goal is to create a website that operates as an interactive color picker tool
 
 ### *Prototype 1*
 
-![FP1 Low-fi Prototype](images/FP1_proto)
+![FP1 Low-fi Prototype](images/FP1_proto.png)
 
 A brief description and summary of the user feedback (\<100 words, 2 images) 
 
