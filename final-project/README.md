@@ -125,13 +125,13 @@ Remember to keep track of your prompts and usage for [FP4 writeup](#part-6-gener
 
 ## Project Description
 
-Briefly restate your motivation and a short description of your project.
+My goal is to create a website that operates as an interactive color picker tool to educate people on my art practice and the importance of resonating with color on a social and cultural level. 
 
 ## High-Fi Prototypes
 
 ### *Prototype 1*
 
-![title for prototype1](images/prototype1.png)
+![FP1 Low-fi Prototype](images/FP1_proto)
 
 A brief description and summary of the user feedback (\<100 words, 2 images) 
 
@@ -206,25 +206,45 @@ How would you use Generative AI responsibly?
 
 ![title for sketch1](images/sketch1.png)
 
-Add a few sentences about your design. Briefly state the motivation of each project idea. Example questions to answer:
-
-* What is the basic idea of your final project? (1-2 sentences)  
-* How do you plan to make your design interactive and engaging?  
-* How do you plan to make your design accessible?  
-* What information do you specifically want to convey and include on your website?
+* I want to creative and interactive and narrative based website that explores the role of color from a cultural and visual perspective.
+* In order to do the above, I will use p5.js and Chroma.js to create a color picker tool and narrative elements, including poetry, literature,
+* and lyrics about the chosen color through APIs.
+* I will use alt text and clear explanations on screen about how to visually navigate my website, alongside how to save chosen colors, and the significance of the functionality. 
+* I want to convey the importance of applying your own desires onto the artistic narratives of others by dictating which colors you prefer to see on the canvas. 
 
 ### *Idea 2*
 
-…
+![title for sketch1](images/sketch2.png)
+
+* A simple portfolio that strongly shows my artistic abilities alongside my natural curiosity for design and computability.
+* I plan to use interesting animations and timelines to showcase my work and possibly have embedded interactivity through small software applications I have already developed.
+* I plan to include alt text and clear design that make it obvious which buttons to press, alongside good styling for readers to parse through the outline of each page.
+* I want to convey my own interests and skillsets to my audience.
 
 ### *Idea 3*
 
-…
+![title for sketch1](images/sketch3.png)
+
+* This website will host an interactive design tool that utilizes my previous applications for creating generative patterns in my unique stylizations and projects
+* them onto patterns for sewing and fashion designing ideas.
+* I plan to use engaging models and 3D turn arounds of the items after the patterns are generated to create a novel experience with each mouse click!
+* I plan to include alt text and clear design that make it obvious which buttons to press, alongside good styling for readers to parse through the outline of each page.
+* I want to showcase a proof of concept for my idea of how to use generative software that is distinctly stylized in traditional textile pattern making. 
 
 ## Feedback Summary
 
-Summarize all the critiques you received during the lab session (\~300 words). 
+The feedback I recieved was mainly in reguards to my first idea since that is the one I am most likely to choose. However, people did enjoy the third idea and said it
+is interesting at a high level but a little out of scope for my current abilities and available time. For the first idea, many people said to include a homepage and clear
+instructional text at every step of the way since my tool is very exploratory and it might not be intuitive to users as to WHY they are using the tool (although the design
+is self explanatory and my peers said it would be easy to assume what the functionality is). Therefore, having a narrative style walkthrough with a strong landing page
+before the more visual elements are introduced was suggested and changing the formatting of the actual interactive color picker tools that I create in p5.js for mobile 
+devices versus laptop/desktop formatting was also discussed. It would also be nice to have a library that stores which colors users picked as another functionality.
+Finally, my peers enjoyed the idea of utilizing text as a supplementary visual element and the idea of using APIs to search for text that would be relevent to 
+my project as the ending page. 
 
 ## Feedback Digestion
 
-Digest the feedback you got in the lab (\~300 words). Indicate which critique you will act on in your next design and why you chose to incorporate/dismiss pieces of critique.
+I will definitely create a narrative style website instead of an entirely visual one, and focus on designing a strong landing page. I will also develop the API functionality
+if I have time. Both of these ideas were thought of by me in response to my peer's constructive critisms. I think I will also create a library of the colors that users pick,
+since that would make the overall functionality of the website better, however, I am not sure if I am completely tied to the idea yet since I am hoping to create a more 
+ephemeral feel to this project. 
