@@ -137,7 +137,7 @@ Formatting is a little confusing for larger screens, there needs to be more page
 
 ### *Prototype 2*
 
-![FP1 Mid-fi Prototype](images/Mid-fi.png)
+![FP1 Mid-fi Prototype](images/Mid_fi.png)
 
 ![FP1 Mid-fi Prototype](images/Page_1.png)
 
