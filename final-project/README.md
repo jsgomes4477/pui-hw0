@@ -141,6 +141,10 @@ Formatting is a little confusing for larger screens, there needs to be more page
 
 ![FP1 Mid-fi Prototype](images/Page_1.png)
 
+![FP1 Mid-fi Prototype](images/Page_2.png)
+
+![FP1 Mid-fi Prototype](images/Page_3.png)
+
 ## Usability Test
 
 Discuss the user feedback you got during the evaluation / usability test (\~300 words). Indicate which feedback you implemented, inspired new directions, or otherwise influenced your final design. 
