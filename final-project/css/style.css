@@ -1,0 +1,16 @@
+/* Common styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#web-p5-container {
+    width: 100%;
+    height: 100vh;
+}
+
+#mobile-p5-container {
+    width: 100%;
+    height: 100vh;
+}
