@@ -133,9 +133,10 @@ function mouseMoved() {
 }
 
 function mousePressed() {
-    if (arrowHovered && currentColor !== '#FFFFFF') {
-        window.location.href = 'library.html';
-    }
+    // if (arrowHovered && currentColor !== '#FFFFFF') {
+    //     window.location.href = 'library.html';
+    //     return;
+    // }
     
     if (menuVisible) {
         if (mouseY < height - 50 && mouseY > height - 70) {
