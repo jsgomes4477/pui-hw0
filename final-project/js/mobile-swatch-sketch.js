@@ -16,6 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.height = 932;
     container.appendChild(canvas);
 
+    const refreshButton = {
+        x: canvas.width - 80,
+        y: canvas.height - 130,
+        width: 70,
+        height: 30,
+        label: 'refresh'
+    };
+
     // Helper functions
     function lerp(start, end, amt) {
         return (1 - amt) * start + amt * end;
@@ -31,16 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             colors = JSON.parse(storedColors);
         } else {
             colors = Array(8).fill('#FFFFFF');
-        }
-        
-        const lastHexcode = localStorage.getItem('lastHexcode');
-        if (lastHexcode) {
-            const emptyIndex = colors.findIndex(color => color === '#FFFFFF');
-            if (emptyIndex !== -1) {
-                colors[emptyIndex] = lastHexcode;
-                localStorage.setItem('swatchColors', JSON.stringify(colors));
-                localStorage.removeItem('lastHexcode');
-            }
+            localStorage.setItem('swatchColors', JSON.stringify(colors));
         }
     }
 
@@ -103,6 +102,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function drawRefreshButton() {
+        ctx.fillStyle = '#000000';
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(refreshButton.label, refreshButton.x + refreshButton.width/2, refreshButton.y + refreshButton.height/2);
+    }
+
+    function resetColorSwatches() {
+        colors = Array(8).fill('#FFFFFF');
+        ColorManager.setSwatchColors(colors);
+        localStorage.setItem('swatchColors', JSON.stringify(colors));
+        draw(); // Redraw the canvas immediately
+    }
+
     function draw() {
         ctx.fillStyle = '#FFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -150,6 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             cardLiftAmount = lerp(cardLiftAmount, 0, easeSpeed);
         }
+
+        drawRefreshButton();
 
         requestAnimationFrame(draw);
     }
@@ -283,6 +299,13 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
                 window.location.href = 'index.html';
             }
+        }
+
+        // Check if refresh button was clicked
+        if (mouseX > refreshButton.x && mouseX < refreshButton.x + refreshButton.width &&
+            mouseY > refreshButton.y && mouseY < refreshButton.y + refreshButton.height) {
+            resetColorSwatches();
+            draw(); // Redraw the canvas immediately
         }
     });
 
