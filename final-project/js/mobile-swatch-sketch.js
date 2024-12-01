@@ -154,6 +154,57 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(draw);
     }
 
+    function drawBorderAndNavigate(color) {
+        const cardWidth = canvas.width - 280;
+        const totalHeight = 440;
+        const startY = (canvas.height - totalHeight) / 2 - 50;
+        const startX = (canvas.width - cardWidth) / 2;
+      
+        let opacity = 0;
+        const animationDuration = 1000; // 1 second
+        const startTime = Date.now();
+      
+        function animate() {
+          const currentTime = Date.now();
+          const elapsedTime = currentTime - startTime;
+          opacity = Math.min(elapsedTime / animationDuration, 1);
+      
+          // Clear the canvas and redraw the original content
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          draw();
+      
+          // Draw the color overlay
+          ctx.fillStyle = color;
+          ctx.globalAlpha = opacity;
+          drawRoundRect(startX, startY, cardWidth, totalHeight, 12);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+      
+          if (opacity < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Navigation after the animation is complete
+            setTimeout(() => {
+              ColorManager.setLastColor(color);
+              window.location.href = `library.html?color=${encodeURIComponent(color)}`;
+            }, 100);
+          }
+        }
+      
+        animate();
+      }
+      
+      // Helper function to draw rounded rectangles
+      function drawRoundRect(x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + width, y, x + width, y + height, radius);
+        ctx.arcTo(x + width, y + height, x, y + height, radius);
+        ctx.arcTo(x, y + height, x, y, radius);
+        ctx.arcTo(x, y, x + width, y, radius);
+        ctx.closePath();
+    }
+    
     // Event Listeners
     canvas.addEventListener('mousemove', (event) => {
         const rect = canvas.getBoundingClientRect();
@@ -192,6 +243,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     canvas.addEventListener('click', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        const cardWidth = canvas.width - 280;
+        const cardHeight = 55;
+        const cardOverlap = -15;
+        const stackHeight = 200;
+        const gapBetweenStacks = 40;
+        const totalHeight = (stackHeight * 2) + gapBetweenStacks;
+        const startY = (canvas.height - totalHeight) / 2 - 50;
+        const startX = (canvas.width - cardWidth) / 2;
+
+        for (let stackIndex = 0; stackIndex < 2; stackIndex++) {
+            let stackY = startY + (stackIndex * (stackHeight + gapBetweenStacks));
+            if (mouseX > startX && mouseX < startX + cardWidth &&
+                mouseY > stackY && mouseY < stackY + stackHeight) {
+            for (let cardIndex = 0; cardIndex < 4; cardIndex++) {
+                let cardY = stackY + (cardIndex * (cardHeight + cardOverlap)) + 6;
+                if (mouseY > cardY && mouseY < cardY + cardHeight) {
+                const colorIndex = stackIndex * 4 + (3 - cardIndex); // Reverse the card index
+                const selectedColor = colors[colorIndex];
+                drawBorderAndNavigate(selectedColor);
+                return;
+                }
+            }
+            }
+        }
+        
         if (menuVisible) {
             const rect = canvas.getBoundingClientRect();
             const mouseY = event.clientY - rect.top;

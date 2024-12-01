@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let topMargin = 20;
     let bottomMargin = 140;
     let col60, col30, col10;
-    let baseColor = ColorManager.getLastColor();
+
+    // Color variables
+    const urlParams = new URLSearchParams(window.location.search);
+    const colorFromURL = urlParams.get('color');
+    let baseColor = colorFromURL || ColorManager.getLastColor();
+    
     let isComplementary = false;
     let isMonochromatic = false;
     let isTriadic = false;
@@ -136,14 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
         drawButton(generateButton, col30.hex());
         drawButton(saveButton, col60.hex());
 
-        // Menu drawing code
+        // Draw menu
         ctx.fillStyle = '#000';
-        ctx.font = '24px Arial'; // Menu title
+        ctx.font = '24px Arial';
         ctx.textAlign = 'left';
         ctx.fillText('MENU', 15, canvas.height - 30);
 
         if (menuVisible) {
-            ctx.font = '18px Arial'; // Menu items - same size as home page
+            ctx.font = '18px Arial';
             ctx.fillText('SWATCHES', 15, canvas.height - 60);
             ctx.fillText('LIBRARY', 15, canvas.height - 80);
             ctx.fillText('HOME', 15, canvas.height - 100);
