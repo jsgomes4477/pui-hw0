@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let topMargin = 20;
     let bottomMargin = 140;
     let col60, col30, col10;
-    let baseColor = '#f58cbb';
+    let baseColor = localStorage.getItem('lastHexcode') || '#f58cbb';
     let isComplementary = false;
     let isMonochromatic = false;
     let isTriadic = false;

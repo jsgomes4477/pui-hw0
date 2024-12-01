@@ -102,17 +102,18 @@ function drawArrow() {
 // }
 
 function handleInput() {
-    let hexValue = inputBox.value();
-    let hexRegex = /^#[0-9A-Fa-f]{6}$/;
-    
-    if (hexRegex.test(hexValue)) {
+  let hexValue = inputBox.value();
+  let hexRegex = /^#[0-9A-Fa-f]{6}$/;
+  
+  if (hexRegex.test(hexValue)) {
       currentColor = hexValue;
+      ColorManager.setLastColor(hexValue);
       errorDiv.html('');
       redraw();
-    } else if (hexValue.length === 7) {
+  } else if (hexValue.length === 7) {
       errorDiv.html('Please enter a valid hex code (e.g., #FF0000)');
-    }
   }
+}
 
 function mouseMoved() {
     // Menu hover check
