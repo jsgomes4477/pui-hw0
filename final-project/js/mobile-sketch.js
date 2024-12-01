@@ -1,7 +1,7 @@
 let inputBox;
 let errorDiv;
 let menuVisible = false;
-let currentColor = '#FFFFFF';
+let currentColor = '#f58cbb';
 let arrowHovered = false;
 let mobileCanvas;
 
@@ -10,57 +10,68 @@ function setup() {
     mobileCanvas.parent('mobile-p5-container');
 
     // Create and position input box
-    inputBox = createInput('#');
-    inputBox.parent('mobile-p5-container');
-    inputBox.position(width/2 - 140, height/2 - 20);
-    inputBox.input(handleInput);
-
-    // Create error message div
-    errorDiv = createDiv('');
-    errorDiv.parent('mobile-p5-container');
-    errorDiv.class('error-message');
-    errorDiv.position(width/2 - 140, height/2 + 30);
-
-    noLoop();
+  inputBox = createInput('#');
+  inputBox.position(width/2 - 130, height/2 - 150);
+  inputBox.input(handleInput);
+  inputBox.style('font-size', '18px');
+  inputBox.style('padding', '8px');
+  inputBox.style('border-radius', '12px');
+  inputBox.style('border', '2px solid black');
+  inputBox.style('width', '280px');
+  
+  // Create error message div
+  errorDiv = createDiv('');
+  errorDiv.class('error-message');
+  errorDiv.position(width/2 - 140, height/2 + 30);
+  errorDiv.style('font-family', 'Arial');
+  errorDiv.style('color', 'red');
+  
+  noLoop();
 }
 
 function draw() {
-    // Set background to current color
-    background(currentColor);
-
-    // Draw white info rectangle at bottom
-    noStroke();
-    fill(255);
-    rect(2, height-200, width-4, 198);
-
-    // Draw arrow if color is set
-    if (currentColor !== '#FFFFFF') {
-        drawArrow();
-    }
-
-    // Draw "HEXCODE:" text
-    fill(0);
-    textSize(28);
-    textAlign(CENTER, CENTER);
-    text('hexcode:', width/2, height/2 - 60);
-
-    // Draw menu
-    textSize(24);
-    textAlign(LEFT);
-    text('MENU', 15, height - 30);
-
-    if (menuVisible) {
-        textSize(18);
-        text('SWATCHES', 15, height - 60);
-        text('LIBRARY', 15, height - 80);
-        text('HOME', 15, height - 100);
-    }
-
-    // Draw black border (always do this last)
-    noFill();
-    strokeWeight(4);
-    stroke(0);
-    rect(2, 2, width-4, height-4);
+  background(255);
+  
+  // Draw main color swatch with shadow
+  noStroke();
+  fill(0, 0, 0, 20);
+  rect(24, 24, width-48, height-240, 12);
+  
+  // Draw main color swatch
+  strokeWeight(2);
+  stroke(0);
+  fill(currentColor);
+  rect(20, 20, width-40, height-236, 12);
+  
+  // Draw bottom info panel shadow
+  // noStroke();
+  // fill(0, 0, 0, 20);
+  // rect(24, height-200+4, width-48, 194, 12);
+  
+  // Draw bottom info panel
+  // strokeWeight(2);
+  // stroke(0);
+  // fill(255);
+  // rect(20, height-200, width-40, 190, 12);
+  
+  // Draw "HEXCODE:" text
+  fill(0);
+  noStroke();
+  textSize(18);
+  textAlign(CENTER, CENTER);
+  text('enter a hexcode', width/2 - 70, height/2 - 80);
+  
+  // Draw menu
+  textSize(24);
+  textAlign(LEFT);
+  text('MENU', 15, height - 30);
+  
+  if (menuVisible) {
+    textSize(18);
+    text('SWATCHES', 15, height - 60);
+    text('LIBRARY', 15, height - 80);
+    text('HOME', 15, height - 100);
+  }
 }
 
 function drawArrow() {
@@ -83,25 +94,25 @@ function drawArrow() {
     pop();
 }
 
-function mouseWheel(event) {
-    if (currentColor !== '#FFFFFF') {
-        window.location.href = 'library.html';
-        return false;
-    }
-}
+// function mouseWheel(event) {
+//     if (currentColor !== '#FFFFFF') {
+//         window.location.href = 'library.html';
+//         return false;
+//     }
+// }
 
 function handleInput() {
     let hexValue = inputBox.value();
     let hexRegex = /^#[0-9A-Fa-f]{6}$/;
-
+    
     if (hexRegex.test(hexValue)) {
-        currentColor = hexValue;
-        errorDiv.html('');
-        redraw();
+      currentColor = hexValue;
+      errorDiv.html('');
+      redraw();
     } else if (hexValue.length === 7) {
-        errorDiv.html('Please enter a valid hex code (e.g., #FF0000)');
+      errorDiv.html('Please enter a valid hex code (e.g., #FF0000)');
     }
-}
+  }
 
 function mouseMoved() {
     // Menu hover check

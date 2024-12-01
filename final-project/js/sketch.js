@@ -22,3 +22,5 @@ function windowResized() {
         mobileCanvas.show();
     }
 }
+
+// Main page for JS multi page and web/mobile logic
