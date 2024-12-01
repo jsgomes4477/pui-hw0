@@ -25,6 +25,8 @@ function setup() {
   errorDiv.position(width/2 - 140, height/2 + 30);
   errorDiv.style('font-family', 'Arial');
   errorDiv.style('color', 'red');
+
+  currentColor = getLastEnteredColor();
   
   noLoop();
 }
@@ -61,6 +63,10 @@ function draw() {
     text('LIBRARY', 15, height - 80);
     text('HOME', 15, height - 100);
   }
+}
+
+function getLastEnteredColor() {
+    return localStorage.getItem('currentLibraryColor') || '#f58cbb'; // Default to pink if no color is stored
 }
 
 function handleInput() {
