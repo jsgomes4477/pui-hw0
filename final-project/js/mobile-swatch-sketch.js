@@ -6,11 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let cardLiftAmount = 0;
     const maxLiftAmount = 15;
     const easeSpeed = 0.4;
-    let colors = Array(8).fill('#FFFFFF'); // Initialize with empty white swatches
-    // let colors = [
-    //     '#FF9AA2', '#FFB7B2', '#FFDAC1', '#E2F0CB',  // First stack
-    //     '#B5EAD7', '#C7CEEA', '#E8E8E4', '#F7D794'   // Second stack
-    // ];
+    let colors = ColorManager.getSwatchColors();
 
     // Canvas setup
     const container = document.getElementById('mobile-p5-container');
@@ -29,55 +25,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return Math.min(a, b);
     }
 
-    // On page load, get stored colors
     function initializeColors() {
         const storedColors = localStorage.getItem('swatchColors');
         if (storedColors) {
             colors = JSON.parse(storedColors);
         } else {
-            colors = Array(8).fill('#FFFFFF'); // Initialize empty swatches
+            colors = Array(8).fill('#FFFFFF');
         }
         
-        // Check for new color from home page
         const lastHexcode = localStorage.getItem('lastHexcode');
         if (lastHexcode) {
-            // Find first empty (white) slot
             const emptyIndex = colors.findIndex(color => color === '#FFFFFF');
             if (emptyIndex !== -1) {
                 colors[emptyIndex] = lastHexcode;
                 localStorage.setItem('swatchColors', JSON.stringify(colors));
-                // Clear the last hexcode after using it
                 localStorage.removeItem('lastHexcode');
             }
-        }
-    }
-
-    function resetSwatches() {
-        colors = Array(8).fill('#FFFFFF');
-        localStorage.setItem('swatchColors', JSON.stringify(colors));
-    }
-
-    // Add new color to first empty slot
-    function addNewColor() {
-        const lastHexcode = localStorage.getItem('lastHexcode');
-        if (!lastHexcode) return;
-
-        const emptyIndex = colors.findIndex(color => color === '#FFFFFF');
-        if (emptyIndex !== -1) {
-            colors[emptyIndex] = lastHexcode;
-            localStorage.setItem('swatchColors', JSON.stringify(colors));
-        }
-    }
-
-    // Call this in setup
-    function setup() {
-        mobileCanvas = createCanvas(430, 932);
-        mobileCanvas.parent('mobile-p5-container');
-        initializeColors();
-        
-        // If coming from home page, add the new color
-        if (document.referrer.includes('index.html')) {
-            addNewColor();
         }
     }
 
@@ -118,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < 4; i++) {
             let cardY = y + (i * (cardHeight + cardOverlap)) + 6;
             let clipHeight = min(cardHeight - 8, (y + stackHeight) - cardY);
-
+            
             if (clipHeight > 0) {
                 let isHovered = (stackIndex === hoveredStack && i === hoveredCard);
                 let liftAmount = isHovered ? cardLiftAmount : 0;
@@ -141,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function draw() {
-        // Clear canvas
         ctx.fillStyle = '#FFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -170,19 +132,18 @@ document.addEventListener('DOMContentLoaded', function() {
         drawCardStack(startX, startY, colors.slice(0, 4), 0);
         drawCardStack(startX, startY + stackHeight + gapBetweenStacks, colors.slice(4, 8), 1);
 
-        // Menu
+        // Menu drawing code 
         ctx.fillStyle = '#000';
-        ctx.font = '24px Arial';
+        ctx.font = '24px Arial'; // Menu title
         ctx.textAlign = 'left';
         ctx.fillText('MENU', 15, canvas.height - 30);
 
         if (menuVisible) {
-            ctx.font = '18px Arial';
+            ctx.font = '18px Arial'; // Menu items - same size as home page
             ctx.fillText('SWATCHES', 15, canvas.height - 60);
             ctx.fillText('LIBRARY', 15, canvas.height - 80);
             ctx.fillText('HOME', 15, canvas.height - 100);
         }
-
         // Update animation
         if (hoveredStack !== -1 && hoveredCard !== -1) {
             cardLiftAmount = lerp(cardLiftAmount, maxLiftAmount, easeSpeed);
@@ -193,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(draw);
     }
 
-    // Event listeners
+    // Event Listeners
     canvas.addEventListener('mousemove', (event) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
@@ -215,11 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (let stackIndex = 0; stackIndex < 2; stackIndex++) {
             let stackY = startY + (stackIndex * (stackHeight + gapBetweenStacks));
-            
             if (mouseX > startX && mouseX < startX + cardWidth && 
                 mouseY > stackY && mouseY < stackY + stackHeight) {
                 hoveredStack = stackIndex;
-                
                 for (let cardIndex = 0; cardIndex < 4; cardIndex++) {
                     let cardY = stackY + (cardIndex * (cardHeight + cardOverlap)) + 6;
                     if (mouseY > cardY && mouseY < cardY + cardHeight + 10) {
@@ -247,12 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    window.addEventListener('resize', () => {
-        canvas.width = 430;
-        canvas.height = 932;
-    });
-
-    // Call initialization
+    // Initialize and start animation
     initializeColors();
     draw();
 });

@@ -1,10 +1,13 @@
 const ColorManager = {
     setLastColor: function(hexcode) {
         localStorage.setItem('lastHexcode', hexcode);
+        // Also store this as the current library color
+        localStorage.setItem('currentLibraryColor', hexcode);
     },
     
     getLastColor: function() {
-        return localStorage.getItem('lastHexcode') || '#f58cbb';
+        // For library page, prioritize the current library color
+        return localStorage.getItem('currentLibraryColor') || localStorage.getItem('lastHexcode') || '#f58cbb';
     },
     
     addToSwatches: function(hexcode) {
@@ -17,5 +20,10 @@ const ColorManager = {
     
     getSwatchColors: function() {
         return JSON.parse(localStorage.getItem('swatchColors') || '[]');
+    },
+
+    // Add this method to update library color specifically
+    updateLibraryColor: function(hexcode) {
+        localStorage.setItem('currentLibraryColor', hexcode);
     }
 };

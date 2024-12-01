@@ -43,17 +43,6 @@ function draw() {
   fill(currentColor);
   rect(20, 20, width-40, height-236, 12);
   
-  // Draw bottom info panel shadow
-  // noStroke();
-  // fill(0, 0, 0, 20);
-  // rect(24, height-200+4, width-48, 194, 12);
-  
-  // Draw bottom info panel
-  // strokeWeight(2);
-  // stroke(0);
-  // fill(255);
-  // rect(20, height-200, width-40, 190, 12);
-  
   // Draw "HEXCODE:" text
   fill(0);
   noStroke();
@@ -74,45 +63,18 @@ function draw() {
   }
 }
 
-function drawArrow() {
-    push();
-    translate(width/2, height-280); // Moved higher above white box
-    stroke(0);
-    strokeWeight(2);
-    fill(arrowHovered ? 150 : 0);
-    
-    // New arrow design
-    beginShape();
-    vertex(-20, 0);    // Left point
-    vertex(0, 20);     // Bottom point
-    vertex(20, 0);     // Right point
-    vertex(10, 0);     // Right inner point
-    vertex(10, -15);   // Right top point
-    vertex(-10, -15);  // Left top point
-    vertex(-10, 0);    // Left inner point
-    endShape(CLOSE);
-    pop();
-}
-
-// function mouseWheel(event) {
-//     if (currentColor !== '#FFFFFF') {
-//         window.location.href = 'library.html';
-//         return false;
-//     }
-// }
-
 function handleInput() {
-  let hexValue = inputBox.value();
-  let hexRegex = /^#[0-9A-Fa-f]{6}$/;
-  
-  if (hexRegex.test(hexValue)) {
-      currentColor = hexValue;
-      ColorManager.setLastColor(hexValue);
-      errorDiv.html('');
-      redraw();
-  } else if (hexValue.length === 7) {
-      errorDiv.html('Please enter a valid hex code (e.g., #FF0000)');
-  }
+    let hexValue = inputBox.value();
+    let hexRegex = /^#[0-9A-Fa-f]{6}$/;
+    
+    if (hexRegex.test(hexValue)) {
+        currentColor = hexValue;
+        ColorManager.setLastColor(hexValue);  // This will now set both lastHexcode and currentLibraryColor
+        errorDiv.html('');
+        redraw();
+    } else if (hexValue.length === 7) {
+        errorDiv.html('Please enter a valid hex code (e.g., #FF0000)');
+    }
 }
 
 function mouseMoved() {
@@ -122,23 +84,10 @@ function mouseMoved() {
     } else {
         menuVisible = false;
     }
-    
-    // Arrow hover check - updated hit area for new arrow
-    if (currentColor !== '#FFFFFF') {
-        let arrowX = width/2;
-        let arrowY = height-280;
-        arrowHovered = (mouseX > arrowX - 20 && mouseX < arrowX + 20 && 
-                       mouseY > arrowY - 15 && mouseY < arrowY + 20);
-    }
     redraw();
 }
 
 function mousePressed() {
-    // if (arrowHovered && currentColor !== '#FFFFFF') {
-    //     window.location.href = 'library.html';
-    //     return;
-    // }
-    
     if (menuVisible) {
         if (mouseY < height - 50 && mouseY > height - 70) {
             window.location.href = 'swatches.html';

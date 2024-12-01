@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let topMargin = 20;
     let bottomMargin = 140;
     let col60, col30, col10;
-    let baseColor = localStorage.getItem('lastHexcode') || '#f58cbb';
+    let baseColor = ColorManager.getLastColor();
     let isComplementary = false;
     let isMonochromatic = false;
     let isTriadic = false;
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.height = 932;
     container.appendChild(canvas);
 
-    // Your original color functions
     function thresholdColor(color) {
         let rgb = chroma(color).rgb();
         let hsl = chroma(rgb).hsl();
@@ -65,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             col30 = chroma(baseHex).set('hsl.h', '+180');
             col10 = chroma.mix(col60, col30, 0.5).saturate(1);
         }
+        ColorManager.updateLibraryColor(col60.hex());
         return [col60.hex(), col30.hex(), col10.hex()];
     }
 
@@ -115,18 +115,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function draw() {
-        // Clear canvas
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw swatches
         for (let row of currentSwatches) {
             for (let swatch of row) {
-                // Shadow
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
                 ctx.fillRect(swatch.x + 4, swatch.y + 4, swatch.size, swatch.size);
 
-                // Swatch
                 ctx.fillStyle = swatch.color;
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 2;
@@ -137,12 +133,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Draw buttons
         drawButton(generateButton, col30.hex());
         drawButton(saveButton, col60.hex());
 
-        // Draw menu
-        drawMenu();
+        // Menu drawing code
+        ctx.fillStyle = '#000';
+        ctx.font = '24px Arial'; // Menu title
+        ctx.textAlign = 'left';
+        ctx.fillText('MENU', 15, canvas.height - 30);
+
+        if (menuVisible) {
+            ctx.font = '18px Arial'; // Menu items - same size as home page
+            ctx.fillText('SWATCHES', 15, canvas.height - 60);
+            ctx.fillText('LIBRARY', 15, canvas.height - 80);
+            ctx.fillText('HOME', 15, canvas.height - 100);
+        }
+
+        requestAnimationFrame(draw);
     }
 
     function drawButton(button, color) {
@@ -161,20 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillText(button.label, button.x + button.width/2, button.y + button.height/2);
     }
 
-    function drawMenu() {
-        ctx.fillStyle = '#000000';
-        ctx.font = '24px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText('MENU', 15, canvas.height - 30);
-
-        if (menuVisible) {
-            ctx.font = '18px Arial';
-            ctx.fillText('SWATCHES', 15, canvas.height - 60);
-            ctx.fillText('LIBRARY', 15, canvas.height - 80);
-            ctx.fillText('HOME', 15, canvas.height - 100);
-        }
-    }
-
     // Initialize
     isComplementary = true;
     createButtons();
@@ -185,15 +178,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event Listeners
     canvas.addEventListener('mousemove', (event) => {
         const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-
-        let previousMenuState = menuVisible;
-        menuVisible = (x < 100 && y > canvas.height - 100);
-
-        if (previousMenuState !== menuVisible) {
-            draw();
-        }
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
     });
 
     canvas.addEventListener('click', (event) => {
@@ -210,21 +197,12 @@ document.addEventListener('DOMContentLoaded', function() {
             isSplitComplementary = false;
             
             switch(currentColorScheme) {
-                case 0:
-                    isComplementary = true;
-                    break;
-                case 1:
-                    isMonochromatic = true;
-                    break;
-                case 2:
-                    isTriadic = true;
-                    break;
-                case 3:
-                    isSplitComplementary = true;
-                    break;
+                case 0: isComplementary = true; break;
+                case 1: isMonochromatic = true; break;
+                case 2: isTriadic = true; break;
+                case 3: isSplitComplementary = true; break;
             }
             generateSwatches();
-            draw();
         }
 
         if (menuVisible) {
