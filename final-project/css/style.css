@@ -2,11 +2,18 @@
 #web-p5-container {
     width: 100%;
     height: 100vh;
+    /* overflow: hidden; */
 }
 
 #mobile-p5-container {
     width: 100%;
     height: 100vh;
+}
+
+#desktopCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 /* Mobile-specific styles */

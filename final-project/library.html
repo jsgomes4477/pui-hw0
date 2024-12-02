@@ -12,11 +12,22 @@
         <script src="js/desktop-lib-sketch.js"></script>
     </head>
     <body>
-        <!-- add web page functionality back in here later -->
+        <!-- Mobile version -->
         <div class="container-fluid d-lg-none">
             <div class="row">
                 <div class="col-12">
                     <div id="mobile-p5-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop version -->
+        <div class="container-xxl d-none d-lg-block">
+            <div class="row">
+                <div class="col-12">
+                    <div id="web-p5-container">
+                        <canvas id="desktopCanvas"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,5 +37,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/mobile-lib-sketch.js"></script>
+        <script src="js/desktop-lib-sketch.js"></script>
     </body>
 </html>
