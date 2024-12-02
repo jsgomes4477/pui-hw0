@@ -153,8 +153,21 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.fillText('LIBRARY', 15, canvas.height - 80);
             ctx.fillText('HOME', 15, canvas.height - 100);
         }
-
+        printColorHexCodes();
         requestAnimationFrame(draw);
+    }
+
+    function printColorHexCodes() {
+        ctx.fillStyle = '#000000';
+        ctx.font = '14px Arial';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        
+        let yPosition = canvas.height - bottomMargin + 10;
+        
+        ctx.fillText(`${col60.hex().substring(1)}`, canvas.width-rightMargin*3, yPosition + 16);
+        ctx.fillText(`${col30.hex().substring(1)}`, canvas.width-rightMargin*3, yPosition + 32);
+        ctx.fillText(`${col10.hex().substring(1)}`, canvas.width-rightMargin*3, yPosition + 48);
     }
 
     function drawButton(button, color) {

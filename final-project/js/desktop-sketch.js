@@ -1,17 +1,18 @@
+let canvas;
+let ctx;
 let inputBox;
 let errorDiv;
 let menuVisible = false;
 let currentColor = '#f58cbb';
 let arrowHovered = false;
-let desktopCanvas;
-let canvasWidth = 430;
+let currentWidth = 430;
+let currentHeight = 932;
 
 function setup() {
-    canvasWidth = window.innerWidth > 530 ? 530 : 430;
-    desktopCanvas = createCanvas(canvasWidth, 932);
-    desktopCanvas.parent('web-p5-container');
+    canvas = createCanvas(currentWidth, currentHeight);
+    canvas.parent('web-p5-container');
+    ctx = canvas.drawingContext;
 
-    // Create and position input box
     inputBox = createInput('#');
     inputBox.position(width/2 - 130, height/2 - 100);
     inputBox.input(handleInput);
@@ -21,7 +22,6 @@ function setup() {
     inputBox.style('border', '2px solid black');
     inputBox.style('width', '280px');
     
-    // Create error message div
     errorDiv = createDiv('');
     errorDiv.class('error-message');
     errorDiv.position(width/2 - 140, height/2 + 80);
@@ -30,11 +30,12 @@ function setup() {
 
     currentColor = getLastEnteredColor();
     
-    draw(); // Call draw once to render the initial state
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Initial call to set correct size
 }
 
 function draw() {
-    background(255);
+    clear();
     
     // Draw main color swatch with shadow
     noStroke();
@@ -67,8 +68,24 @@ function draw() {
     }
 }
 
+function resizeCanvas() {
+    let newWidth = Math.floor(windowWidth / 100) * 100;
+    if (Math.abs(newWidth - currentWidth) >= 100) {
+        currentWidth = newWidth;
+        currentHeight = Math.floor(currentWidth * 932 / 430);
+        resizeCanvas(currentWidth, currentHeight);
+        repositionElements();
+        redraw();
+    }
+}
+
+function repositionElements() {
+    inputBox.position(width/2 - 140, height/2 - 20);
+    errorDiv.position(width/2 - 140, height/2 + 30);
+}
+
 function getLastEnteredColor() {
-    return localStorage.getItem('currentLibraryColor') || '#f58cbb'; // Default to pink if no color is stored
+    return localStorage.getItem('currentLibraryColor') || '#f58cbb';
 }
 
 function handleInput() {
@@ -77,7 +94,7 @@ function handleInput() {
     
     if (hexRegex.test(hexValue)) {
         currentColor = hexValue;
-        ColorManager.setLastColor(hexValue);  // This will now set both lastHexcode and currentLibraryColor
+        ColorManager.setLastColor(hexValue);
         errorDiv.html('');
         redraw();
     } else if (hexValue.length === 7) {
@@ -86,12 +103,7 @@ function handleInput() {
 }
 
 function mouseMoved() {
-    // Menu hover check
-    if (mouseX < 100 && mouseY > height - 100) {
-        menuVisible = true;
-    } else {
-        menuVisible = false;
-    }
+    menuVisible = mouseX < 100 && mouseY > height - 100;
     redraw();
 }
 
@@ -105,18 +117,4 @@ function mousePressed() {
             window.location.href = 'index.html';
         }
     }
-}
-
-function windowResized() {
-  if (window.innerWidth > 530 && canvasWidth !== 530) {
-      canvasWidth = 530;
-      resizeCanvas(canvasWidth, 932);
-      draw();
-  } else if (window.innerWidth <= 530 && canvasWidth !== 430) {
-      canvasWidth = 430;
-      resizeCanvas(canvasWidth, 932);
-      draw();
-  }
-  inputBox.position(width/2 - 140, height/2 - 20);
-  errorDiv.position(width/2 - 140, height/2 + 30);
 }
