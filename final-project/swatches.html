@@ -8,10 +8,9 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <!-- Local Storage scripts -->
         <script src="js/colorManager.js"></script>
-        <!-- Desktop scripts -->
-        <script src="js/desktop-swatch-sketch.js"></script>
     </head>
     <body>
+        <!-- Mobile version -->
         <div class="container-fluid d-lg-none">
             <div class="row">
                 <div class="col-12">
@@ -20,8 +19,20 @@
             </div>
         </div>
 
+        <!-- Desktop version -->
+        <div class="container-xxl d-none d-lg-block">
+            <div class="row">
+                <div class="col-12">
+                    <div id="web-p5-container">
+                        <canvas id="desktopCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Load libraries in correct order -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/mobile-swatch-sketch.js"></script>
+        <script src="js/desktop-swatch-sketch.js"></script>
     </body>
 </html>

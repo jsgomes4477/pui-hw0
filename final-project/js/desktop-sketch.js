@@ -5,7 +5,7 @@ if (window.innerWidth >= 992) {
     let menuVisible = false;
     let currentColor = '#f58cbb';
     let desktopCanvas;
-    let randomSwatches = [];
+    let colorSwatches = []; // Changed from randomSwatches to match function names
 
     function setup() {
         // Create canvas in the web container only
@@ -30,7 +30,7 @@ if (window.innerWidth >= 992) {
         errorDiv.style('color', 'red');
 
         currentColor = getLastEnteredColor();
-        initializeRandomSwatches();
+        initializeColorSwatches(); // Changed to match function name
         
         loop();
     }
