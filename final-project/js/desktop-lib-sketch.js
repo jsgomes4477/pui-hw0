@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById('web-p5-container');
     const canvas = document.getElementById('desktopCanvas');
     const ctx = canvas.getContext('2d');
-
     const baseWidth = 430;
     const baseHeight = 932;
     const baseColumns = 5;
@@ -71,12 +70,23 @@ document.addEventListener('DOMContentLoaded', function() {
     function draw() {
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    
+        const availableWidth = canvas.width - (leftMargin + rightMargin);
+        const fullColumnWidth = baseWidth - (leftMargin + rightMargin);
+    
+        function hasEnoughSpaceForColumn(x) {
+            return x + fullColumnWidth <= canvas.width - rightMargin;
+        }
+    
         for (let row of currentSwatches) {
             for (let swatch of row) {
+                if (!hasEnoughSpaceForColumn(swatch.x)) {
+                    break;
+                }
+    
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
                 ctx.fillRect(swatch.x + 4, swatch.y + 4, swatch.size, swatch.size);
-
+    
                 ctx.fillStyle = swatch.color;
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 2;
@@ -86,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ctx.stroke();
             }
         }
-
+    
         drawButton(generateButton, col30.hex());
         drawButton(saveButton, col60.hex());
         drawMenu();
@@ -173,17 +183,17 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillText(button.label, button.x + button.width/2, button.y + button.height/2);
     }
 
-    function drawMenu(offset) {
+    function drawMenu() {
         ctx.fillStyle = '#000';
         ctx.font = '24px Arial';
         ctx.textAlign = 'left';
-        ctx.fillText('MENU', 15 + offset, canvas.height - 30);
+        ctx.fillText('MENU', 15, canvas.height - 30);
 
         if (menuVisible) {
             ctx.font = '18px Arial';
-            ctx.fillText('SWATCHES', 15 + offset, canvas.height - 60);
-            ctx.fillText('LIBRARY', 15 + offset, canvas.height - 80);
-            ctx.fillText('HOME', 15 + offset, canvas.height - 100);
+            ctx.fillText('SWATCHES', 15, canvas.height - 60);
+            ctx.fillText('LIBRARY', 15, canvas.height - 80);
+            ctx.fillText('HOME', 15, canvas.height - 100);
         }
     }
 
