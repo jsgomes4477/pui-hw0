@@ -60,7 +60,7 @@ window.addEventListener('load', function() {
         }
 
         function drawCardStack(x, y, stackColors, stackIndex) {
-            const cardWidth = Math.min(canvas.width - 280, 800);
+            const cardWidth = 150; // Fixed width
             const cardHeight = 55;
             const cardOverlap = -15;
             const stackHeight = 200;
@@ -131,58 +131,64 @@ window.addEventListener('load', function() {
         function draw() {
             ctx.fillStyle = '#FFF';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Calculate dynamic layout
-            const cardWidth = Math.min(canvas.width - 280, 800);
-            const stackHeight = 200;
-            const gapBetweenStacks = 40;
-            const numStacks = Math.floor(canvas.height > 1920 ? 5 : 4);
-            const totalHeight = (stackHeight * numStacks) + (gapBetweenStacks * (numStacks - 1));
+        
+            // Fixed dimensions from mobile version
+            const cardWidth = 150;          // Fixed width for each shelf
+            const stackHeight = 200;        // Height of each shelf
+            const gapBetweenStacks = 40;    // Vertical gap between shelves
+            const gapBetweenColumns = 60;   // Horizontal gap between columns
+            const columnWidth = cardWidth;   // Width of each column
+        
+            // Calculate how many columns can fit
+            const availableWidth = canvas.width - 100; // Account for margins
+            const numColumns = Math.min(Math.floor((availableWidth + gapBetweenColumns) / (columnWidth + gapBetweenColumns)), 4);
+        
+            // Calculate total width and height needed
+            const totalWidth = (numColumns * columnWidth) + ((numColumns - 1) * gapBetweenColumns);
+            const totalHeight = (stackHeight * 2) + gapBetweenStacks;
+        
+            // Center everything
+            const startX = (canvas.width - totalWidth) / 2;
             const startY = (canvas.height - totalHeight) / 2;
-            const startX = (canvas.width - cardWidth) / 2;
-
+        
             // Draw background
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             drawRoundRect(24, 24, canvas.width-48, canvas.height-48, 12);
             ctx.fill();
-
+        
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 2;
             ctx.fillStyle = '#F0FFF0';
             drawRoundRect(20, 20, canvas.width-40, canvas.height-40, 12);
             ctx.fill();
             ctx.stroke();
-
-            // Draw stacks
-            for (let i = 0; i < numStacks; i++) {
-                const stackY = startY + (i * (stackHeight + gapBetweenStacks));
-                const colorSlice = colors.slice(i * 4, (i + 1) * 4);
-                drawCardStack(startX, stackY, colorSlice, i);
+        
+            // Draw columns
+            for (let col = 0; col < numColumns; col++) {
+                const columnX = startX + (col * (columnWidth + gapBetweenColumns));
+                
+                // Draw two stacks per column
+                drawCardStack(columnX, startY, 
+                    colors.slice(col * 8, col * 8 + 4), col * 2);
+                drawCardStack(columnX, startY + stackHeight + gapBetweenStacks, 
+                    colors.slice(col * 8 + 4, col * 8 + 8), col * 2 + 1);
             }
-
+        
             drawMenu();
             drawRefreshButton();
-
+        
             // Update animation
             if (hoveredStack !== -1 && hoveredCard !== -1) {
                 cardLiftAmount += (maxLiftAmount - cardLiftAmount) * easeSpeed;
             } else {
                 cardLiftAmount += (0 - cardLiftAmount) * easeSpeed;
             }
-
+        
             requestAnimationFrame(draw);
         }
 
-        // Animation loop
-        function animate() {
-            if (window.innerWidth >= 992) {
-                draw();
-                requestAnimationFrame(animate);
-            }
-        }
-
-        // Start animation
-        animate();
+        initializeColors();
+        draw(); // Start the animation loop
     }
 
     // Initialize desktop version if screen is wide enough
@@ -199,5 +205,69 @@ window.addEventListener('load', function() {
                 initDesktop();
             }
         }, 250); // Debounce resize events
+
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            
+            menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
+            
+            // Update hover states
+            hoveredStack = -1;
+            hoveredCard = -1;
+            
+            const cardWidth = 150;
+            const stackHeight = 200;
+            const gapBetweenColumns = 60;
+            const gapBetweenStacks = 40;
+            const numColumns = Math.min(Math.floor((canvas.width - 100) / (cardWidth + gapBetweenColumns)), 4);
+            const totalWidth = (numColumns * cardWidth) + ((numColumns - 1) * gapBetweenColumns);
+            const startX = (canvas.width - totalWidth) / 2;
+            const startY = (canvas.height - totalHeight) / 2;
+        
+            // Check hover for each column
+            for (let col = 0; col < numColumns; col++) {
+                const columnX = startX + (col * (cardWidth + gapBetweenColumns));
+                for (let stack = 0; stack < 2; stack++) {
+                    const stackY = startY + (stack * (stackHeight + gapBetweenStacks));
+                    if (mouseX > columnX && mouseX < columnX + cardWidth && 
+                        mouseY > stackY && mouseY < stackY + stackHeight) {
+                        hoveredStack = col * 2 + stack;
+                        for (let cardIndex = 0; cardIndex < 4; cardIndex++) {
+                            let cardY = stackY + (cardIndex * (cardHeight + cardOverlap)) + 6;
+                            if (mouseY > cardY && mouseY < cardY + cardHeight + 10) {
+                                hoveredCard = cardIndex;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+        
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+        
+            if (menuVisible) {
+                if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
+                    window.location.href = 'swatches.html';
+                } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
+                    window.location.href = 'library.html';
+                } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
+                    window.location.href = 'index.html';
+                }
+            }
+        
+            // Handle refresh button click
+            if (mouseX > refreshButton.x && mouseX < refreshButton.x + refreshButton.width &&
+                mouseY > refreshButton.y && mouseY < refreshButton.y + refreshButton.height) {
+                colors = Array(8).fill('#FFFFFF');
+                ColorManager.setSwatchColors(colors);
+            }
+        });
     });
 });
