@@ -114,15 +114,8 @@ window.addEventListener('load', function() {
         }
 
         function drawRefreshButton() {
-            ctx.fillStyle = '#FFFFFF';
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            drawRoundRect(refreshButton.x, refreshButton.y, refreshButton.width, refreshButton.height, 8);
-            ctx.fill();
-            ctx.stroke();
-
             ctx.fillStyle = '#000000';
-            ctx.font = '14px Arial';
+            ctx.font = '18px Arial';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(refreshButton.label, refreshButton.x + refreshButton.width/2, refreshButton.y + refreshButton.height/2);
@@ -132,46 +125,47 @@ window.addEventListener('load', function() {
             ctx.fillStyle = '#FFF';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-            // Fixed dimensions from mobile version
-            const cardWidth = 150;          // Fixed width for each shelf
-            const stackHeight = 200;        // Height of each shelf
-            const gapBetweenStacks = 40;    // Vertical gap between shelves
-            const gapBetweenColumns = 60;   // Horizontal gap between columns
-            const columnWidth = cardWidth;   // Width of each column
+            // Fixed dimensions
+            const cardWidth = 150;
+            const stackHeight = 200;
+            const gapBetweenColumns = 60;
+            const gapBetweenStacks = 40;
+            const marginX = 20;
+            const marginTop = 20;
+            const marginBottom = 140;
         
-            // Calculate how many columns can fit
-            const availableWidth = canvas.width - 100; // Account for margins
-            const numColumns = Math.min(Math.floor((availableWidth + gapBetweenColumns) / (columnWidth + gapBetweenColumns)), 4);
-        
-            // Calculate total width and height needed
-            const totalWidth = (numColumns * columnWidth) + ((numColumns - 1) * gapBetweenColumns);
+            // Calculate number of columns based on width
+            const numColumns = Math.min(Math.floor((canvas.width - (marginX * 2 + 100)) / (cardWidth + gapBetweenColumns)), 4);
+            
+            // Calculate total width needed for all columns
+            const totalWidth = (numColumns * cardWidth) + ((numColumns - 1) * gapBetweenColumns);
             const totalHeight = (stackHeight * 2) + gapBetweenStacks;
-        
+            
             // Center everything
             const startX = (canvas.width - totalWidth) / 2;
-            const startY = (canvas.height - totalHeight) / 2;
+            const startY = marginTop + ((canvas.height - marginTop - marginBottom - totalHeight) / 2);
         
-            // Draw background
+            // Draw background shadow
             ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-            drawRoundRect(24, 24, canvas.width-48, canvas.height-48, 12);
+            drawRoundRect(marginX + 4, marginTop + 4, canvas.width - (marginX * 2) - 8, 
+                         canvas.height - marginTop - marginBottom - 8, 12);
             ctx.fill();
         
+            // Draw main background
             ctx.strokeStyle = '#000';
             ctx.lineWidth = 2;
             ctx.fillStyle = '#F0FFF0';
-            drawRoundRect(20, 20, canvas.width-40, canvas.height-40, 12);
+            drawRoundRect(marginX, marginTop, canvas.width - (marginX * 2), 
+                         canvas.height - marginTop - marginBottom, 12);
             ctx.fill();
             ctx.stroke();
         
             // Draw columns
             for (let col = 0; col < numColumns; col++) {
-                const columnX = startX + (col * (columnWidth + gapBetweenColumns));
-                
-                // Draw two stacks per column
-                drawCardStack(columnX, startY, 
-                    colors.slice(col * 8, col * 8 + 4), col * 2);
+                const columnX = startX + (col * (cardWidth + gapBetweenColumns));
+                drawCardStack(columnX, startY, colors.slice(col * 8, col * 8 + 4), col * 2);
                 drawCardStack(columnX, startY + stackHeight + gapBetweenStacks, 
-                    colors.slice(col * 8 + 4, col * 8 + 8), col * 2 + 1);
+                             colors.slice(col * 8 + 4, col * 8 + 8), col * 2 + 1);
             }
         
             drawMenu();
@@ -187,24 +181,28 @@ window.addEventListener('load', function() {
             requestAnimationFrame(draw);
         }
 
-        initializeColors();
-        draw(); // Start the animation loop
-    }
-
-    // Initialize desktop version if screen is wide enough
-    if (window.innerWidth >= 992) {
-        initDesktop();
-    }
-
-    // Handle resize events
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            if (window.innerWidth >= 992) {
-                initDesktop();
+        canvas.addEventListener('click', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+        
+            if (menuVisible) {
+                if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
+                    window.location.href = 'swatches.html';
+                } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
+                    window.location.href = 'library.html';
+                } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
+                    window.location.href = 'index.html';
+                }
             }
-        }, 250); // Debounce resize events
+        
+            // Handle refresh button click
+            if (mouseX > refreshButton.x && mouseX < refreshButton.x + refreshButton.width &&
+                mouseY > refreshButton.y && mouseY < refreshButton.y + refreshButton.height) {
+                colors = Array(8).fill('#FFFFFF');
+                ColorManager.setSwatchColors(colors);
+            }
+        });
 
         canvas.addEventListener('mousemove', (event) => {
             const rect = canvas.getBoundingClientRect();
@@ -246,28 +244,24 @@ window.addEventListener('load', function() {
                 }
             }
         });
-        
-        canvas.addEventListener('click', (event) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-        
-            if (menuVisible) {
-                if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
-                    window.location.href = 'swatches.html';
-                } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
-                    window.location.href = 'library.html';
-                } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
-                    window.location.href = 'index.html';
-                }
+
+        initializeColors();
+        draw(); // Start the animation loop
+    }
+
+    // Initialize desktop version if screen is wide enough
+    if (window.innerWidth >= 440) { //changed this from 992
+        initDesktop();
+    }
+
+    // Handle resize events
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            if (window.innerWidth >= 992) {
+                initDesktop();
             }
-        
-            // Handle refresh button click
-            if (mouseX > refreshButton.x && mouseX < refreshButton.x + refreshButton.width &&
-                mouseY > refreshButton.y && mouseY < refreshButton.y + refreshButton.height) {
-                colors = Array(8).fill('#FFFFFF');
-                ColorManager.setSwatchColors(colors);
-            }
-        });
+        }, 250); // Debounce resize events
     });
 });
