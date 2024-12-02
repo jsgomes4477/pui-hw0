@@ -34,9 +34,20 @@ function initDesktop() {
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 430;
-    canvas.height = 932;
+    
+    // Base dimensions for aspect ratio
+    const baseWidth = 430;
+    const baseHeight = 932;
+    
+    // Set canvas size maintaining aspect ratio
+    canvas.width = baseWidth;
+    canvas.height = baseHeight;
     container.appendChild(canvas);
+
+    // Calculate center offset for all elements
+    const centerOffset = (window.innerWidth - baseWidth) / 2;
+    container.style.position = 'relative';
+    container.style.left = `${centerOffset}px`;
 
     // Create and position input box
     inputBox = document.createElement('input');
@@ -48,7 +59,7 @@ function initDesktop() {
     inputBox.style.width = '280px';
     inputBox.style.textAlign = 'left';
     inputBox.style.position = 'absolute';
-    inputBox.style.left = `${(window.innerWidth/2) - 140}px`;
+    inputBox.style.left = `${canvas.width/2 - 130}px`;
     inputBox.style.top = `${canvas.height/2 - 150}px`;
     container.appendChild(inputBox);
 
@@ -56,7 +67,7 @@ function initDesktop() {
     errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.style.position = 'absolute';
-    errorDiv.style.left = `${(window.innerWidth/2) - 140}px`;
+    errorDiv.style.left = `${canvas.width/2 - 140}px`;
     errorDiv.style.top = `${canvas.height/2 + 30}px`;
     errorDiv.style.fontFamily = 'Arial';
     errorDiv.style.color = 'red';
@@ -66,19 +77,16 @@ function initDesktop() {
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Calculate center offset
-        const centerOffset = (window.innerWidth - canvas.width) / 2;
-
         // Draw main color swatch with shadow
         ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.fillRect(24 + centerOffset, 24, canvas.width-48, canvas.height-240, 12);
+        ctx.fillRect(24, 24, canvas.width-48, canvas.height-240, 12);
 
         // Draw main color swatch
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 2;
         ctx.fillStyle = currentColor;
         ctx.beginPath();
-        ctx.roundRect(20 + centerOffset, 20, canvas.width-40, canvas.height-236, 12);
+        ctx.roundRect(20, 20, canvas.width-40, canvas.height-236, 12);
         ctx.fill();
         ctx.stroke();
 
@@ -260,7 +268,7 @@ function initMobile() {
             }
         }
     });
-    
+
     currentColor = ColorManager.getLastColor();
     draw();
 }
