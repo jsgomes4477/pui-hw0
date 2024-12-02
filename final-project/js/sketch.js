@@ -1,26 +1,279 @@
-let webCanvas, mobileCanvas;
-
-function setup() {
-    // Create canvases that fill their containers
-    webCanvas = createCanvas(windowWidth, windowHeight);
-    webCanvas.parent('web-p5-container');
-
-    mobileCanvas = createCanvas(windowWidth, windowHeight);
-    mobileCanvas.parent('mobile-p5-container');
-
-    windowResized();
-}
-
-function windowResized() {
-    if (windowWidth >= 992) { // Bootstrap's lg breakpoint
-        resizeCanvas(windowWidth, windowHeight);
-        webCanvas.show();
-        mobileCanvas.hide();
-    } else {
-        resizeCanvas(windowWidth, windowHeight);
-        webCanvas.hide();
-        mobileCanvas.show();
+function cleanupContainers() {
+    const webContainer = document.getElementById('web-p5-container');
+    const mobileContainer = document.getElementById('mobile-p5-container');
+    
+    if (webContainer) {
+        while (webContainer.firstChild) {
+            webContainer.removeChild(webContainer.firstChild);
+        }
+    }
+    if (mobileContainer) {
+        while (mobileContainer.firstChild) {
+            mobileContainer.removeChild(mobileContainer.firstChild);
+        }
     }
 }
 
-// Main page for JS multi page and web/mobile logic
+window.addEventListener('load', function() {
+    cleanupContainers();
+    if (window.innerWidth >= 992) {
+        initDesktop();
+    } else {
+        initMobile();
+    }
+});
+
+function initDesktop() {
+    let menuVisible = false;
+    let currentColor = '#f58cbb';
+    let inputBox;
+    let errorDiv;
+
+    const container = document.getElementById('web-p5-container');
+    if (!container) return;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 430;
+    canvas.height = 932;
+    container.appendChild(canvas);
+
+    // Create and position input box
+    inputBox = document.createElement('input');
+    inputBox.value = '#';
+    inputBox.style.fontSize = '18px';
+    inputBox.style.padding = '8px';
+    inputBox.style.borderRadius = '12px';
+    inputBox.style.border = '2px solid black';
+    inputBox.style.width = '280px';
+    inputBox.style.textAlign = 'left';
+    inputBox.style.position = 'absolute';
+    inputBox.style.left = `${(window.innerWidth/2) - 140}px`;
+    inputBox.style.top = `${canvas.height/2 - 150}px`;
+    container.appendChild(inputBox);
+
+    // Create error message div
+    errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.style.position = 'absolute';
+    errorDiv.style.left = `${(window.innerWidth/2) - 140}px`;
+    errorDiv.style.top = `${canvas.height/2 + 30}px`;
+    errorDiv.style.fontFamily = 'Arial';
+    errorDiv.style.color = 'red';
+    container.appendChild(errorDiv);
+
+    function draw() {
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Calculate center offset
+        const centerOffset = (window.innerWidth - canvas.width) / 2;
+
+        // Draw main color swatch with shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillRect(24 + centerOffset, 24, canvas.width-48, canvas.height-240, 12);
+
+        // Draw main color swatch
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.fillStyle = currentColor;
+        ctx.beginPath();
+        ctx.roundRect(20 + centerOffset, 20, canvas.width-40, canvas.height-236, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Draw "HEXCODE:" text
+        ctx.fillStyle = '#000';
+        ctx.font = '18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('enter a hexcode', canvas.width/2 - 70, canvas.height/2 - 80);
+
+        // Draw menu
+        ctx.font = '24px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('MENU', 15, canvas.height - 30);
+
+        if (menuVisible) {
+            ctx.font = '18px Arial';
+            ctx.fillText('SWATCHES', 15, canvas.height - 60);
+            ctx.fillText('LIBRARY', 15, canvas.height - 80);
+            ctx.fillText('HOME', 15, canvas.height - 100);
+        }
+    }
+
+    function handleInput() {
+        let hexValue = inputBox.value;
+        let hexRegex = /^#[0-9A-Fa-f]{6}$/;
+        
+        if (hexRegex.test(hexValue)) {
+            currentColor = hexValue;
+            ColorManager.setLastColor(hexValue);
+            errorDiv.innerHTML = '';
+            draw();
+        } else if (hexValue.length === 7) {
+            errorDiv.innerHTML = 'Please enter a valid hex code (e.g., #FF0000)';
+        }
+    }
+
+    inputBox.addEventListener('input', handleInput);
+    currentColor = ColorManager.getLastColor();
+
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
+        draw();
+    });
+
+    canvas.addEventListener('click', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        if (menuVisible) {
+            if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
+                window.location.href = 'swatches.html';
+            } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
+                window.location.href = 'library.html';
+            } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
+                window.location.href = 'index.html';
+            }
+        }
+    });
+
+    draw();
+}
+
+function initMobile() {
+    let menuVisible = false;
+    let currentColor = '#f58cbb';
+    let inputBox;
+    let errorDiv;
+
+    const container = document.getElementById('mobile-p5-container');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 430;
+    canvas.height = 932;
+    container.appendChild(canvas);
+
+    // Create and position input box
+    inputBox = document.createElement('input');
+    inputBox.value = '#';
+    inputBox.style.fontSize = '18px';
+    inputBox.style.padding = '8px';
+    inputBox.style.borderRadius = '12px';
+    inputBox.style.border = '2px solid black';
+    inputBox.style.width = '280px';
+    inputBox.style.textAlign = 'left';  // Add this line
+    inputBox.style.position = 'absolute';
+    inputBox.style.left = `${canvas.width/2 - 130}px`;
+    inputBox.style.top = `${canvas.height/2 - 150}px`;
+    container.appendChild(inputBox);
+
+    // Create error message div
+    errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.style.position = 'absolute';
+    errorDiv.style.left = `${canvas.width/2 - 140}px`;
+    errorDiv.style.top = `${canvas.height/2 + 30}px`;
+    errorDiv.style.fontFamily = 'Arial';
+    errorDiv.style.color = 'red';
+    container.appendChild(errorDiv);
+
+    function draw() {
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw main color swatch with shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        ctx.fillRect(24, 24, canvas.width-48, canvas.height-240, 12);
+
+        // Draw main color swatch
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.fillStyle = currentColor;
+        ctx.beginPath();
+        ctx.roundRect(20, 20, canvas.width-40, canvas.height-236, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Draw "HEXCODE:" text
+        ctx.fillStyle = '#000';
+        ctx.font = '18px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('enter a hexcode', canvas.width/2 - 70, canvas.height/2 - 80);
+
+        // Draw menu
+        ctx.font = '24px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('MENU', 15, canvas.height - 30);
+
+        if (menuVisible) {
+            ctx.font = '18px Arial';
+            ctx.fillText('SWATCHES', 15, canvas.height - 60);
+            ctx.fillText('LIBRARY', 15, canvas.height - 80);
+            ctx.fillText('HOME', 15, canvas.height - 100);
+        }
+    }
+
+    function handleInput() {
+        let hexValue = inputBox.value;
+        let hexRegex = /^#[0-9A-Fa-f]{6}$/;
+        
+        if (hexRegex.test(hexValue)) {
+            currentColor = hexValue;
+            ColorManager.setLastColor(hexValue);
+            errorDiv.innerHTML = '';
+            draw();
+        } else if (hexValue.length === 7) {
+            errorDiv.innerHTML = 'Please enter a valid hex code (e.g., #FF0000)';
+        }
+    }
+
+    inputBox.addEventListener('input', handleInput);
+    currentColor = ColorManager.getLastColor();
+
+    canvas.addEventListener('mousemove', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+        menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
+        draw();
+    });
+
+    canvas.addEventListener('click', (event) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
+        const mouseY = event.clientY - rect.top;
+
+        if (menuVisible) {
+            if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
+                window.location.href = 'swatches.html';
+            } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
+                window.location.href = 'library.html';
+            } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
+                window.location.href = 'index.html';
+            }
+        }
+    });
+    
+    currentColor = ColorManager.getLastColor();
+    draw();
+}
+
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        cleanupContainers();
+        if (window.innerWidth >= 992) {
+            initDesktop();
+        } else {
+            initMobile();
+        }
+    }, 250);
+});
