@@ -7,11 +7,16 @@ window.addEventListener('load', function() {
 });
 
 function initDesktop() {
+    let currentColorScheme = 0;
+    let isComplementary = true;
+    let isMonochromatic = false;
+    let isTriadic = false;
+    let isSplitComplementary = false;
     let menuVisible = true;
+
     let currentSwatches = [];
     let generateButton;
     let saveButton;
-    let currentColorScheme = 0;
     let leftMargin = 20;
     let rightMargin = 20;
     let topMargin = 20;
@@ -21,10 +26,6 @@ function initDesktop() {
     const urlParams = new URLSearchParams(window.location.search);
     const colorFromURL = urlParams.get('color');
     let baseColor = colorFromURL || ColorManager.getLastColor();
-    let isComplementary = false;
-    let isMonochromatic = false;
-    let isTriadic = false;
-    let isSplitComplementary = false;
 
     const container = document.getElementById('web-p5-container');
     if (!container) return;
@@ -199,6 +200,42 @@ function initDesktop() {
         }
     }
 
+    function drawBorderAndNavigate(color) {
+        const cardWidth = canvas.width - 280;
+        const totalHeight = 440;
+        const startY = (canvas.height - totalHeight) / 2 - 50;
+        const startX = (canvas.width - cardWidth) / 2;
+        let opacity = 0;
+        const animationDuration = 1000;
+        const startTime = Date.now();
+    
+        function animate() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - startTime;
+            opacity = Math.min(elapsedTime / animationDuration, 1);
+    
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            draw();
+    
+            ctx.fillStyle = color;
+            ctx.globalAlpha = opacity;
+            drawRoundRect(startX, startY, cardWidth, totalHeight, 12);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+    
+            if (opacity < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                setTimeout(() => {
+                    // Ensure both lastHexcode and currentLibraryColor are set
+                    ColorManager.setLastColor(color);
+                    window.location.href = `library.html?color=${encodeURIComponent(color)}`;
+                }, 100);
+            }
+        }
+        animate();
+    }
+
     isComplementary = true;
     createButtons();
     generateColorPalette();
@@ -217,6 +254,18 @@ function initDesktop() {
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
+        // Add menu navigation
+        if (menuVisible) {
+            if (y < canvas.height - 50 && y > canvas.height - 70) {
+                window.location.href = 'swatches.html';
+            } else if (y < canvas.height - 70 && y > canvas.height - 90) {
+                window.location.href = 'library.html';
+            } else if (y < canvas.height - 90 && y > canvas.height - 110) {
+                window.location.href = 'index.html';
+            }
+            return; // Add this to prevent other click handlers from firing when clicking menu
+        }
+        
         if (x > generateButton.x && x < generateButton.x + generateButton.width &&
             y > generateButton.y && y < generateButton.y + generateButton.height) {
             currentColorScheme = (currentColorScheme + 1) % 4;
@@ -233,15 +282,12 @@ function initDesktop() {
             }
             setCanvasSize();
         }
-
-        if (menuVisible) {
-            if (y < canvas.height - 50 && y > canvas.height - 70) {
-                window.location.href = 'swatches.html';
-            } else if (y < canvas.height - 70 && y > canvas.height - 90) {
-                window.location.href = 'library.html';
-            } else if (y < canvas.height - 90 && y > canvas.height - 110) {
-                window.location.href = 'index.html';
-            }
+        
+        if (hoveredStack !== -1 && hoveredCard !== -1) {
+            const colorIndex = hoveredStack * 4 + (3 - hoveredCard);
+            const selectedColor = colors[colorIndex];
+            ColorManager.setLastColor(selectedColor);
+            drawBorderAndNavigate(selectedColor);
         }
     });
 
@@ -443,6 +489,18 @@ function initMobile() {
         const rect = canvas.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
+    
+        // Add menu navigation
+        if (menuVisible) {
+            if (y < canvas.height - 50 && y > canvas.height - 70) {
+                window.location.href = 'swatches.html';
+            } else if (y < canvas.height - 70 && y > canvas.height - 90) {
+                window.location.href = 'library.html';
+            } else if (y < canvas.height - 90 && y > canvas.height - 110) {
+                window.location.href = 'index.html';
+            }
+            return; // Add this to prevent other click handlers from firing when clicking menu
+        }
 
         if (x > generateButton.x && x < generateButton.x + generateButton.width &&
             y > generateButton.y && y < generateButton.y + generateButton.height) {
@@ -459,16 +517,6 @@ function initMobile() {
                 case 3: isSplitComplementary = true; break;
             }
             generateSwatches();
-        }
-
-        if (menuVisible) {
-            if (y < canvas.height - 50 && y > canvas.height - 70) {
-                window.location.href = 'swatches.html';
-            } else if (y < canvas.height - 70 && y > canvas.height - 90) {
-                window.location.href = 'library.html';
-            } else if (y < canvas.height - 90 && y > canvas.height - 110) {
-                window.location.href = 'index.html';
-            }
         }
     });
 }
