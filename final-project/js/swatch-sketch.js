@@ -1,10 +1,18 @@
-window.addEventListener('load', function() {
-    if (window.innerWidth >= 992) {
-        initDesktop();
-    } else {
-        initMobile();
+function cleanupContainers() {
+    const webContainer = document.getElementById('web-p5-container');
+    const mobileContainer = document.getElementById('mobile-p5-container');
+    
+    if (webContainer) {
+        while (webContainer.firstChild) {
+            webContainer.removeChild(webContainer.firstChild);
+        }
     }
-});
+    if (mobileContainer) {
+        while (mobileContainer.firstChild) {
+            mobileContainer.removeChild(mobileContainer.firstChild);
+        }
+    }
+}
 
 function initDesktop() {
     let menuVisible = false;
@@ -551,10 +559,20 @@ function initMobile() {
     draw();
 }
 
+window.addEventListener('load', function() {
+    cleanupContainers();
+    if (window.innerWidth >= 992) {
+        initDesktop();
+    } else {
+        initMobile();
+    }
+});
+
 let resizeTimeout;
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(function() {
+        cleanupContainers();
         if (window.innerWidth >= 992) {
             initDesktop();
         } else {
