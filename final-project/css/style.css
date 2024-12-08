@@ -11,6 +11,29 @@
     position: relative;
 }
 
+/* Input styles */
+.color-input {
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 12px;
+    border: 2px solid black;
+    width: 280px;
+    text-align: left;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: calc(50% - 150px);
+}
+
+.error-message {
+    font-family: Arial;
+    color: red;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    top: calc(50% + 30px);
+}
+
 #desktopCanvas {
     display: block;
     width: 100%;

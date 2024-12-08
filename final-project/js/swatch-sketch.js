@@ -49,15 +49,18 @@ function initDesktop() {
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-
-    function setCanvasSize() {
-        canvas.width = Math.min(window.innerWidth, 1200);
-        canvas.height = window.innerHeight;
-    }
-
-    setCanvasSize();
+    
+    // Set canvas size
+    canvas.width = Math.min(window.innerWidth, 1200);
+    canvas.height = window.innerHeight;
+    
+    // Center the canvas in the container
+    const totalWidth = canvas.width;
+    const startX = (window.innerWidth - totalWidth) / 2;
+    container.style.transform = `translateX(${startX}px)`;
+    
     container.appendChild(canvas);
-
+    
     const refreshButton = {
         x: canvas.width - 80,
         y: canvas.height - 130,

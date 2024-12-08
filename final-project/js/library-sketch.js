@@ -45,13 +45,12 @@ window.addEventListener('load', function() {
 });
 
 function initDesktop() {
+    let menuVisible = false;
     let currentColorScheme = 0;
     let isComplementary = true;
     let isMonochromatic = false;
     let isTriadic = false;
     let isSplitComplementary = false;
-    let menuVisible = true;
-
     let currentSwatches = [];
     let generateButton;
     let saveButton;
@@ -68,12 +67,18 @@ function initDesktop() {
     const container = handleAccessibleContainer();
     if (!container) return;
 
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    canvas.width = Math.min(window.innerWidth, 1200);
+    canvas.height = window.innerHeight;
+    
+    // Center the canvas in the container
+    const totalWidth = canvas.width;
+    const startX = (window.innerWidth - totalWidth - 200) / 2;
+    container.style.transform = `translateX(${startX}px)`;
+
     const baseWidth = 430;
     const baseHeight = 932;
     const baseColumns = 5;
@@ -330,6 +335,10 @@ function initDesktop() {
     });
 
     container.appendChild(canvas);
+    generateColorPalette();
+    generateSwatches();
+    draw();
+
 }
 
 function initMobile() {
