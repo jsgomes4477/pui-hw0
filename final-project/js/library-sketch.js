@@ -1,17 +1,38 @@
-function cleanupContainers() {
+function handleAccessibleContainer() {
+    // Clean up and prepare containers
+    const mainContent = document.getElementById('main-content');
     const webContainer = document.getElementById('web-p5-container');
     const mobileContainer = document.getElementById('mobile-p5-container');
     
-    if (webContainer) {
-        while (webContainer.firstChild) {
-            webContainer.removeChild(webContainer.firstChild);
+    // Clean up existing containers
+    [webContainer, mobileContainer].forEach(container => {
+        if (container) {
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
         }
+    });
+
+    // Select appropriate container based on window width
+    const container = window.innerWidth >= 992 ? webContainer : mobileContainer;
+    
+    if (!container) return;
+    
+    // Set ARIA attributes for accessibility
+    container.setAttribute('role', 'application');
+    container.setAttribute('aria-label', 'Color picker canvas');
+    
+    // Ensure container is visible
+    container.style.display = 'block';
+    container.style.visibility = 'visible';
+    container.removeAttribute('aria-hidden');
+    
+    // Set main content landmark for screen readers
+    if (mainContent) {
+        mainContent.setAttribute('aria-live', 'polite');
     }
-    if (mobileContainer) {
-        while (mobileContainer.firstChild) {
-            mobileContainer.removeChild(mobileContainer.firstChild);
-        }
-    }
+    
+    return container;
 }
 
 window.addEventListener('load', function() {
@@ -538,11 +559,20 @@ function initMobile() {
     });
 }
 
+window.addEventListener('load', function() {
+    const container = handleAccessibleContainer();
+    if (window.innerWidth >= 992) {
+        initDesktop();
+    } else {
+        initMobile();
+    }
+});
+
 let resizeTimeout;
 window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(function() {
-        cleanupContainers();
+        const container = handleAccessibleContainer();
         if (window.innerWidth >= 992) {
             initDesktop();
         } else {

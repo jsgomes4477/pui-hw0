@@ -40,3 +40,38 @@
     text-align: center;
     margin-top: 10px;
 }
+
+/* Accessibility styles */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1em;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Focus indicators */
+a:focus,
+button:focus,
+input:focus {
+    outline: 3px solid #4A90E2;
+    outline-offset: 2px;
+}
+
+/* Hide menu items visually but keep them accessible */
+.d-none {
+    visibility: hidden;
+    position: absolute;
+}
+
+.d-none:focus-within {
+    visibility: visible;
+    position: static;
+}
