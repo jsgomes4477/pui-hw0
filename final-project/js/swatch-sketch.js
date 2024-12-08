@@ -44,12 +44,8 @@ function initDesktop() {
     const maxLiftAmount = 15;
     const easeSpeed = 0.4;
 
-    const container = document.getElementById('web-p5-container');
+    const container = handleAccessibleContainer();
     if (!container) return;
-
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');

@@ -5,8 +5,10 @@
 }
 
 #mobile-p5-container {
-    width: 100%;
-    height: 100vh;
+    width: 430px;
+    height: 932px;
+    margin: 0 auto;
+    position: relative;
 }
 
 #desktopCanvas {

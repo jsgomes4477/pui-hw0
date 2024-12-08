@@ -65,7 +65,7 @@ function initDesktop() {
     const colorFromURL = urlParams.get('color');
     let baseColor = colorFromURL || ColorManager.getLastColor();
 
-    const container = document.getElementById('web-p5-container');
+    const container = handleAccessibleContainer();
     if (!container) return;
 
     while (container.firstChild) {
