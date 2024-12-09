@@ -21,7 +21,8 @@
                 class="color-input" 
                 value="#f58cbb"
                 aria-label="Enter hex color code"
-                aria-description="Enter a 6-digit hex color code starting with # to generate color schemes"
+                aria-description="Enter a 6-digit hex color code starting 
+                                  with # to generate color schemes"
                 pattern="^#[0-9A-Fa-f]{6}$"
                 title="Please enter a valid 6-digit hex color code starting with #"
                 tabindex="1"
@@ -33,10 +34,25 @@
             <button 
                 class="refresh-button" 
                 aria-label="Change color scheme"
-                aria-description="Click to cycle through different color harmonies: complementary, monochromatic, triadic, and split-complementary"
+                aria-description="Click to cycle through different 
+                    color harmonies: complementary, monochromatic, triadic, 
+                    and split-complementary"
                 tabindex="2"
             >
                 refresh
+            </button>
+        </div>
+
+        <!-- Library controls -->
+        <div id="library-container" role="group" aria-label="Library navigation">
+            <button 
+                class="library-button" 
+                aria-label="Open color library"
+                aria-description="Navigate to your saved color schemes library"
+                tabindex="3"
+                onclick="window.location.href='library.html'"
+            >
+                library
             </button>
         </div>
     </main>

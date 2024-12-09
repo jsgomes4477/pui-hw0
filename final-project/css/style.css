@@ -103,3 +103,39 @@ body {
 .refresh-button:focus-visible {
     box-shadow: 0 0 0 3px #4A90E2;
 }
+
+/* Library Button Styling */
+.library-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    outline: none;
+}
+
+.library-button {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    padding: 12px 24px;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    font-family: 'Pixelify Sans', cursive;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #000000;
+    outline: none;
+}
+
+.library-button:focus {
+    outline: none;
+    border: none;
+}
+
+.library-button:hover {
+    transform: scale(1.1);
+}
