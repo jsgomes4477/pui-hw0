@@ -1,346 +1,230 @@
-function handleAccessibleContainer() {
-    // Clean up and prepare containers
-    const mainContent = document.getElementById('main-content');
-    const webContainer = document.getElementById('web-p5-container');
-    const mobileContainer = document.getElementById('mobile-p5-container');
-    
-    // Clean up existing containers
-    [webContainer, mobileContainer].forEach(container => {
-        if (container) {
-            while (container.firstChild) {
-                container.removeChild(container.firstChild);
-            }
-        }
-    });
+let shapes = [];
+let gridCells = [];
+let defaultColor = '#f58cbb';
+let input;
+let grainDensity = 0.8;
+let grainSize = 0.4;
+let mainBuffer; // Buffer for main content
+let blurBuffer; // Buffer for blur effect
 
-    // Select appropriate container based on window width
-    const container = window.innerWidth >= 992 ? webContainer : mobileContainer;
+function setup() {
+    const canvas = createCanvas(windowWidth, windowHeight);
+    canvas.parent('p5-container');
+    pixelDensity(0.9);
     
-    if (!container) return;
+    // Create buffers
+    mainBuffer = createGraphics(width, height);
+    blurBuffer = createGraphics(width, height);
     
-    // Set ARIA attributes for accessibility
-    container.setAttribute('role', 'application');
-    container.setAttribute('aria-label', 'Color picker canvas');
+    createGrid();
+    createShapes();
     
-    // Ensure container is visible
-    container.style.display = 'block';
-    container.style.visibility = 'visible';
-    container.removeAttribute('aria-hidden');
+    input = document.getElementById('color-input');
+    input.addEventListener('input', handleColorInput);
+    input.value = defaultColor;
     
-    // Set main content landmark for screen readers
-    if (mainContent) {
-        mainContent.setAttribute('aria-live', 'polite');
-    }
-    
-    return container;
+    noStroke();
+    smooth();
+    frameRate(30);
 }
 
-// Add this after your existing handleAccessibleContainer function
-function setupAccessibleInteractions(canvas, container) {
-    // Make canvas focusable
-    canvas.setAttribute('tabindex', '0');
-    canvas.setAttribute('role', 'application');
-    canvas.setAttribute('aria-label', 'Color selection canvas');
-
-    // Add keyboard navigation
-    canvas.addEventListener('keydown', handleKeyboardNavigation);
+function draw() {
+    clear();
+    background(255);
     
-    // Add ARIA live region
-    const liveRegion = document.createElement('div');
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.className = 'sr-only';
-    container.appendChild(liveRegion);
+    // Draw to main buffer
+    mainBuffer.clear();
+    mainBuffer.background(255);
 
-    return liveRegion;
-}
-
-// Add this function for keyboard navigation
-function handleKeyboardNavigation(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-        if (menuVisible) {
-            const rect = this.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height - 70;
-            
-            const event = new MouseEvent('click', {
-                clientX: rect.left + centerX,
-                clientY: rect.top + centerY
-            });
-            this.dispatchEvent(event);
-        }
-    }
-    
-    if (e.key.startsWith('Arrow')) {
-        e.preventDefault();
-        menuVisible = true;
-        draw();
-    }
-}
-
-function initDesktop() {
-    let menuVisible = false;
-    let currentColor = '#f58cbb';
-    let inputBox;
-    let errorDiv;
-    
-    const container = handleAccessibleContainer();
-    if (!container) return;
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Base dimensions for aspect ratio
-    const baseWidth = 430;
-    const baseHeight = 932;
-    
-    // Set canvas size maintaining aspect ratio
-    canvas.width = baseWidth;
-    canvas.height = baseHeight;
-    
-    // Center the canvas in the container - only for home page
-    const totalWidth = canvas.width;
-    const startX = (window.innerWidth - totalWidth) / 2;
-    container.classList.add('home-desktop');
-    
-    container.appendChild(canvas);
-    
-    // Create and position input box
-    inputBox = document.createElement('input');
-    inputBox.value = '#';
-    inputBox.className = 'color-input';
-    inputBox.setAttribute('aria-label', 'Color hex code input');
-
-    // Create error message div
-    errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    container.appendChild(errorDiv);
-
-    function draw() {
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw main color swatch with shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.fillRect(24, 24, canvas.width-48, canvas.height-240, 12);
-
-        // Draw main color swatch
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
-        ctx.fillStyle = currentColor;
-        ctx.beginPath();
-        ctx.roundRect(20, 20, canvas.width-40, canvas.height-236, 12);
-        ctx.fill();
-        ctx.stroke();
-
-        // Draw "HEXCODE:" text
-        ctx.fillStyle = '#000';
-        ctx.font = '18px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('enter a hexcode', canvas.width/2 - 70, canvas.height/2 - 80);
-
-        // Draw menu
-        ctx.font = '24px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText('MENU', 15, canvas.height - 30);
-
-        if (menuVisible) {
-            ctx.font = '18px Arial';
-            ctx.fillText('SWATCHES', 15, canvas.height - 60);
-            ctx.fillText('LIBRARY', 15, canvas.height - 80);
-            ctx.fillText('HOME', 15, canvas.height - 100);
-        }
-    }
-
-    function handleInput() {
-        let hexValue = inputBox.value;
-        let hexRegex = /^#[0-9A-Fa-f]{6}$/;
+    // Draw grid cells
+    gridCells.forEach(cell => {
+        let cellColor = color(defaultColor);
+        cellColor.setAlpha(cell.alpha);
+        mainBuffer.fill(cellColor);
+        mainBuffer.noStroke();
         
-        if (hexRegex.test(hexValue)) {
-            currentColor = hexValue;
-            ColorManager.setLastColor(hexValue);
-            errorDiv.innerHTML = '';
-            updateAccessibleStatus(hexValue);
-            draw();
-        } else if (hexValue.length === 7) {
-            errorDiv.innerHTML = 'Please enter a valid hex code (e.g., #FF0000)';
-            updateAccessibleStatus('Invalid color code entered');
+        mainBuffer.beginShape();
+        
+        // Number of points per edge for smoother curves
+        const pointsPerEdge = 15;
+        const stepX = cell.width / pointsPerEdge;
+        const stepY = cell.height / pointsPerEdge;
+        
+        // Top edge
+        for(let i = 0; i <= pointsPerEdge; i++) {
+            let x = cell.x + (i * stepX);
+            let noiseVal = noise(x * 0.02, cell.y * 0.02, frameCount * 0.01) * 20;
+            mainBuffer.curveVertex(x + random(-3, 3), cell.y + noiseVal);
         }
-    }
-
-    inputBox.addEventListener('input', handleInput);
-    currentColor = ColorManager.getLastColor();
-
-    canvas.addEventListener('mousemove', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-        menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
-        draw();
+        
+        // Right edge
+        for(let i = 0; i <= pointsPerEdge; i++) {
+            let y = cell.y + (i * stepY);
+            let noiseVal = noise((cell.x + cell.width) * 0.02, y * 0.02, frameCount * 0.01) * 20;
+            mainBuffer.curveVertex(cell.x + cell.width + noiseVal, y + random(-3, 3));
+        }
+        
+        // Bottom edge
+        for(let i = pointsPerEdge; i >= 0; i--) {
+            let x = cell.x + (i * stepX);
+            let noiseVal = noise(x * 0.02, (cell.y + cell.height) * 0.02, frameCount * 0.01) * 20;
+            mainBuffer.curveVertex(x + random(-3, 3), cell.y + cell.height + noiseVal);
+        }
+        
+        // Left edge
+        for(let i = pointsPerEdge; i >= 0; i--) {
+            let y = cell.y + (i * stepY);
+            let noiseVal = noise(cell.x * 0.02, y * 0.02, frameCount * 0.01) * 20;
+            mainBuffer.curveVertex(cell.x + noiseVal, y + random(-3, 3));
+        }
+        
+        // Add extra control points to smooth corners
+        mainBuffer.curveVertex(cell.x + random(-6, 6), cell.y + noise(cell.x * 0.02, cell.y * 0.02) * 20);
+        mainBuffer.curveVertex(cell.x + random(-6, 6), cell.y + noise(cell.x * 0.02, cell.y * 0.02) * 20);
+        
+        mainBuffer.endShape(CLOSE);
     });
-
-    canvas.addEventListener('click', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-
-        if (menuVisible) {
-            if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
-                window.location.href = 'swatches.html';
-            } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
-                window.location.href = 'library.html';
-            } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
-                window.location.href = 'index.html';
+    
+    // Draw organic shapes in white
+    mainBuffer.fill(255);
+    shapes.forEach(shape => {
+        mainBuffer.push();
+        mainBuffer.translate(shape.x, shape.y);
+        mainBuffer.rotate(shape.rotation);
+        
+        switch(shape.type) {
+            case 'star':
+                drawStar(mainBuffer, 0, 0, shape.size/3, shape.size/2);
+                break;
+            case 'flower':
+                drawFlower(mainBuffer, 0, 0, shape.size);
+                break;
+            case 'softstar':
+                drawSoftStar(mainBuffer, 0, 0, shape.size/2);
+                break;
+        }
+        mainBuffer.pop();
+    });
+    
+    // Apply blur effect
+    blurBuffer.clear();
+    blurBuffer.image(mainBuffer, 0, 0);
+    blurBuffer.filter(BLUR, 0.0001);
+    
+    // Draw blurred content
+    image(blurBuffer, 0, 0);
+    
+    // Apply grain effect
+    loadPixels();
+    for (let x = 0; x < width; x += 2) { // Optimize by processing every other pixel
+        for (let y = 0; y < height; y += 2) {
+            if (random() < grainDensity) {
+                let index = (x + y * width) * 4;
+                let noiseVal = noise(x * grainSize, y * grainSize) * 50;
+                pixels[index] = pixels[index] - noiseVal;
+                pixels[index + 1] = pixels[index + 1] - noiseVal;
+                pixels[index + 2] = pixels[index + 2] - noiseVal;
+                
+                // Apply to neighboring pixels for better performance
+                for(let dx = 0; dx < 2; dx++) {
+                    for(let dy = 0; dy < 2; dy++) {
+                        let ni = ((x + dx) + (y + dy) * width) * 4;
+                        if(ni < pixels.length) {
+                            pixels[ni] = pixels[index];
+                            pixels[ni + 1] = pixels[index + 1];
+                            pixels[ni + 2] = pixels[index + 2];
+                        }
+                    }
+                }
             }
         }
-    });
+    }
+    updatePixels();
+    
+    noLoop();
+}
 
+function createGrid() {
+    const baseSize = 300;
+    const cols = ceil(width / baseSize) + 1;
+    const rows = ceil(height / baseSize) + 1;
+    
+    gridCells = [];
+    for (let i = 0; i < cols * rows; i++) {
+        let isWide = random() > 0.7;
+        let isTall = random() > 0.7;
+        
+        gridCells.push({
+            x: (i % cols) * baseSize + random(-30, 30),
+            y: floor(i / cols) * baseSize + random(-30, 30),
+            width: isWide ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
+            height: isTall ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
+            alpha: random(150, 220)
+        });
+    }
+}
+
+function createShapes() {
+    shapes = [];
+    for (let i = 0; i < 20; i++) {
+        shapes.push({
+            x: random(width),
+            y: random(height),
+            size: random(30, 60),
+            type: random(['star', 'flower', 'softstar']),
+            rotation: random(TWO_PI),
+            noiseOffset: random(1000)
+        });
+    }
+}
+
+function drawStar(g, x, y, radius1, radius2) {
+    g.beginShape();
+    for (let i = 0; i < 10; i++) {
+        let angle = TWO_PI * i / 10;
+        let r = (i % 2 === 0) ? radius2 : radius1;
+        let px = x + cos(angle) * r;
+        let py = y + sin(angle) * r;
+        g.curveVertex(px, py);
+    }
+    g.endShape(CLOSE);
+}
+
+function drawFlower(g, x, y, size) {
+    for (let i = 0; i < 6; i++) {
+        g.push();
+        g.rotate(i * TWO_PI / 6);
+        g.ellipse(size/3, 0, size/2, size/4);
+        g.pop();
+    }
+}
+
+function drawSoftStar(g, x, y, size) {
+    g.beginShape();
+    for (let angle = 0; angle < TWO_PI; angle += 0.1) {
+        let r = size * (0.8 + sin(angle * 3) * 0.2);
+        let px = x + cos(angle) * r;
+        let py = y + sin(angle) * r;
+        g.curveVertex(px, py);
+    }
+    g.endShape(CLOSE);
+}
+
+function handleColorInput(e) {
+    let newColor = e.target.value;
+    if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
+        defaultColor = newColor;
+        createGrid();
+        createShapes();
+        draw();
+    }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    mainBuffer = createGraphics(width, height);
+    blurBuffer = createGraphics(width, height);
+    createGrid();
+    createShapes();
     draw();
 }
-
-function initMobile() {
-    let menuVisible = false;
-    let currentColor = '#f58cbb';
-    let inputBox;
-    let errorDiv;
-
-    const container = handleAccessibleContainer();
-    if (!container) return;
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 430;
-    canvas.height = 932;
-    container.appendChild(canvas);
-
-    // Create and position input box
-    inputBox = document.createElement('input');
-    inputBox.value = '#';
-    inputBox.style.fontSize = '18px';
-    inputBox.style.padding = '8px';
-    inputBox.style.borderRadius = '12px';
-    inputBox.style.border = '2px solid black';
-    inputBox.style.width = '280px';
-    inputBox.style.textAlign = 'left';  // Add this line
-    inputBox.style.position = 'absolute';
-    inputBox.style.left = `${canvas.width/2 - 130}px`;
-    inputBox.style.top = `${canvas.height/2 - 150}px`;
-    inputBox.setAttribute('aria-label', 'Color hex code input');
-    container.appendChild(inputBox);
-
-    // Create error message div
-    errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
-    errorDiv.style.position = 'absolute';
-    errorDiv.style.left = `${canvas.width/2 - 140}px`;
-    errorDiv.style.top = `${canvas.height/2 + 30}px`;
-    errorDiv.style.fontFamily = 'Arial';
-    errorDiv.style.color = 'red';
-    container.appendChild(errorDiv);
-
-    function draw() {
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw main color swatch with shadow
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        ctx.fillRect(24, 24, canvas.width-48, canvas.height-240, 12);
-
-        // Draw main color swatch
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
-        ctx.fillStyle = currentColor;
-        ctx.beginPath();
-        ctx.roundRect(20, 20, canvas.width-40, canvas.height-236, 12);
-        ctx.fill();
-        ctx.stroke();
-
-        // Draw "HEXCODE:" text
-        ctx.fillStyle = '#000';
-        ctx.font = '18px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('enter a hexcode', canvas.width/2 - 70, canvas.height/2 - 80);
-
-        // Draw menu
-        ctx.font = '24px Arial';
-        ctx.textAlign = 'left';
-        ctx.fillText('MENU', 15, canvas.height - 30);
-
-        if (menuVisible) {
-            ctx.font = '18px Arial';
-            ctx.fillText('SWATCHES', 15, canvas.height - 60);
-            ctx.fillText('LIBRARY', 15, canvas.height - 80);
-            ctx.fillText('HOME', 15, canvas.height - 100);
-        }
-    }
-
-    function handleInput() {
-        let hexValue = inputBox.value;
-        let hexRegex = /^#[0-9A-Fa-f]{6}$/;
-        
-        if (hexRegex.test(hexValue)) {
-            currentColor = hexValue;
-            ColorManager.setLastColor(hexValue);
-            errorDiv.innerHTML = '';
-            updateAccessibleStatus(hexValue);
-            draw();
-        } else if (hexValue.length === 7) {
-            errorDiv.innerHTML = 'Please enter a valid hex code (e.g., #FF0000)';
-            updateAccessibleStatus('Invalid color code entered');
-        }
-    }
-
-    inputBox.addEventListener('input', handleInput);
-    currentColor = ColorManager.getLastColor();
-
-    canvas.addEventListener('mousemove', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-        menuVisible = (mouseX < 100 && mouseY > canvas.height - 100);
-        draw();
-    });
-
-    canvas.addEventListener('click', (event) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseX = event.clientX - rect.left;
-        const mouseY = event.clientY - rect.top;
-
-        if (menuVisible) {
-            if (mouseY < canvas.height - 50 && mouseY > canvas.height - 70) {
-                window.location.href = 'swatches.html';
-            } else if (mouseY < canvas.height - 70 && mouseY > canvas.height - 90) {
-                window.location.href = 'library.html';
-            } else if (mouseY < canvas.height - 90 && mouseY > canvas.height - 110) {
-                window.location.href = 'index.html';
-            }
-        }
-    });
-
-    currentColor = ColorManager.getLastColor();
-    draw();
-}
-
-window.addEventListener('load', function() {
-    const container = handleAccessibleContainer();
-    if (window.innerWidth >= 992) {
-        initDesktop();
-    } else {
-        initMobile();
-    }
-});
-
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-        const container = handleAccessibleContainer();
-        if (window.innerWidth >= 992) {
-            initDesktop();
-        } else {
-            initMobile();
-        }
-    }, 250);
-});

@@ -1,161 +1,29 @@
-/* Container styles */
-#web-p5-container {
-    width: 100%;
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+#p5-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 100vh;
 }
 
-#mobile-p5-container {
-    width: 430px;
-    height: 932px;
-    margin: 0 auto;
-    position: relative;
-}
-
-/* Home page desktop container positioning */
-#web-p5-container.home-desktop {
-    transform: translateX(calc((100vw - 430px) / 2));
-}
-
-/* Add this to your style.css */
 .color-input {
     position: absolute;
-    left: calc(50% - 140px); /* Half of container width minus half of input width */
-    top: calc(50% - 150px);
-    width: 280px;
-    font-family: Helvetica;
-    font-size: 18px;
-    padding: 8px;
-    border-radius: 12px;
-    border: 2px solid black;
-    text-align: left;
-}
-
-/* Desktop input positioning */
-#web-p5-container .color-input {
-    position: absolute;
-    left: 85px;  /* 20px (left margin) + ((430px - 280px) / 2) - 10px (adjustment) */
-    top: calc(50% - 150px);
-    width: 280px;
-    font-family: Helvetica;
-    font-size: 18px;
-    padding: 8px;
-    border-radius: 12px;
-    border: 2px solid black;
-    text-align: left;
-}
-
-/* Error message positioning */
-#web-p5-container .error-message {
-    position: absolute;
-    left: 75px;  /* Matches input positioning */
-    top: calc(50% + 30px);
-    width: 280px;
-    font-family: Arial;
-    color: red;
-    text-align: center;
-}
-
-#desktopCanvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-/* Text styles */
-.canvas-text {
-    font-family: Arial;
-    font-size: 18px;
-    text-align: center;
-}
-
-.menu-text {
-    font-family: Arial;
-    font-size: 24px;
-    text-align: left;
-}
-
-.submenu-text {
-    font-family: Arial;
-    font-size: 18px;
-    text-align: left;
-}
-
-/* Button styles */
-.generate-button, .save-button {
-    font-family: Arial;
-    font-size: 18px;
-    text-align: center;
-}
-
-.refresh-button {
-    font-family: Arial;
-    font-size: 16px;
-    text-align: center;
-}
-
-/* Container positioning */
-.desktop-transform {
-    transform: translateX(calc((100vw - 100% - 200px) / 2)); 
-    /* change the above calculation for better centering */
-}
-
-/* Mobile-specific styles */
-#mobile-p5-container input {
-    font-family: Helvetica;
-    font-size: 24px;
-    text-align: center;
-    width: 280px;
-    height: 40px;
-    border: 2px solid black;
-    border-radius: 0px;
-    text-transform: uppercase;
-}
-
-#mobile-p5-container .menu-text {
-    font-family: Montserrat;
-    font-weight: 300;
-    text-transform: uppercase;
-}
-
-#mobile-p5-container .error-message {
-    font-family: Helvetica;
-    font-size: 14px;
-    color: red;
-    text-align: center;
-    margin-top: 10px;
-}
-
-/* Accessibility styles */
-.skip-link {
-    position: absolute;
-    left: -9999px;
-    z-index: 999;
-    padding: 1em;
-    background-color: white;
-    color: black;
-    text-decoration: none;
-}
-
-.skip-link:focus {
     left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Focus indicators */
-a:focus,
-button:focus,
-input:focus {
-    outline: 3px solid #4A90E2;
-    outline-offset: 2px;
-}
-
-/* Hide menu items visually but keep them accessible */
-.d-none {
-    visibility: hidden;
-    position: absolute;
-}
-
-.d-none:focus-within {
-    visibility: visible;
-    position: static;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 100;
 }
