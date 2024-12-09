@@ -3,11 +3,11 @@ const ColorManager = {
         localStorage.setItem('lastHexcode', hexcode);
         localStorage.setItem('currentLibraryColor', hexcode);
         
-        // Add the new color to library shapes if not already there
+        // Update library shapes
         const shapes = JSON.parse(localStorage.getItem('libraryShapes') || '[]');
         const unfilled = shapes.find(shape => !shape.filled);
         if (unfilled) {
-            unfilled.color = hexcode;  // Use the actual hexcode instead of random palette color
+            unfilled.color = hexcode;
             unfilled.filled = true;
             localStorage.setItem('libraryShapes', JSON.stringify(shapes));
         }

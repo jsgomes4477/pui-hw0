@@ -1,11 +1,19 @@
 let mainBuffer;
+let blurBuffer;
 let shapes = [];
 let backgroundColor;
 const SHAPE_STORAGE_KEY = 'libraryShapes';
+let grainDensity = 0.8;
+let grainSize = 0.4;
 
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent('p5-container');
+    pixelDensity(0.5);
+    
+    // Create buffers
+    mainBuffer = createGraphics(width, height);
+    blurBuffer = createGraphics(width, height);
     
     // Get palette colors
     const palette = ColorManager.getLastPalette();
@@ -25,66 +33,127 @@ function setup() {
     }
     
     noStroke();
+    smooth();
     frameRate(30);
 }
 
+function draw() {
+    // Clear everything first
+    clear();
+    
+    // Draw to main buffer
+    mainBuffer.clear();
+    mainBuffer.background(backgroundColor);
+    
+    // Draw shapes
+    shapes.forEach(shape => {
+        mainBuffer.fill(shape.color);
+        mainBuffer.push();
+        mainBuffer.translate(shape.x, shape.y);
+        mainBuffer.rotate(shape.rotation);
+        
+        switch(shape.type) {
+            case 'star':
+                drawStar(mainBuffer, 0, 0, shape.size/3, shape.size/2);
+                break;
+            case 'flower':
+                drawFlower(mainBuffer, 0, 0, shape.size);
+                break;
+            case 'softstar':
+                drawSoftStar(mainBuffer, 0, 0, shape.size/2);
+                break;
+        }
+        mainBuffer.pop();
+    });
+    
+    // Apply blur effect
+    blurBuffer.clear();
+    blurBuffer.image(mainBuffer, 0, 0);
+    blurBuffer.filter(BLUR, 0.0001);
+    
+    // Draw final content
+    image(blurBuffer, 0, 0);
+    
+    // Apply grain effect
+    loadPixels();
+    for (let x = 0; x < width; x += 2) {
+        for (let y = 0; y < height; y += 2) {
+            if (random() < grainDensity) {
+                let index = (x + y * width) * 4;
+                let noiseVal = noise(x * grainSize, y * grainSize) * 50;
+                pixels[index] = pixels[index] - noiseVal;
+                pixels[index + 1] = pixels[index + 1] - noiseVal;
+                pixels[index + 2] = pixels[index + 2] - noiseVal;
+                
+                for(let dx = 0; dx < 2; dx++) {
+                    for(let dy = 0; dy < 2; dy++) {
+                        let ni = ((x + dx) + (y + dy) * width) * 4;
+                        if(ni < pixels.length) {
+                            pixels[ni] = pixels[index];
+                            pixels[ni + 1] = pixels[index + 1];
+                            pixels[ni + 2] = pixels[index + 2];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    updatePixels();
+    
+    noLoop();
+}
+
 function createInitialShapes() {
-    const numShapes = constrain(floor(width * height / 200000), 4, 12);
+    // Fixed number of shapes based on screen width
+    let numShapes;
+    if (width < 768) {
+        numShapes = 5;
+    } else if (width < 1024) {
+        numShapes = 10;
+    } else {
+        numShapes = 14;
+    }
     
-    // Get the last palette
-    const palette = ColorManager.getLastPalette();
-    const colors = palette ? [palette.col60, palette.col30, palette.col10] : ['#FFFFFF'];
+    const cols = Math.ceil(Math.sqrt(numShapes));
+    const rows = Math.ceil(numShapes / cols);
+    const cellWidth = width / (cols + 1); // Add padding by using +1
+    const cellHeight = height / (rows + 1);
+    const padding = cellWidth * 0.1; // Reduced padding to 10%
     
+    // Create all shapes at once in a grid
     for (let i = 0; i < numShapes; i++) {
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        
+        // Calculate position with tighter spacing
+        const x = cellWidth * (col + 0.5) + random(-padding, padding);
+        const y = cellHeight * (row + 0.5) + random(-padding, padding);
+        
         shapes.push({
-            x: random(width * 0.2, width * 0.8),
-            y: random(height * 0.2, height * 0.8),
-            size: random(150, 300),
+            x: x,
+            y: y,
+            size: random(250, 300),
             type: random(['star', 'flower', 'softstar']),
             rotation: random(TWO_PI),
-            color: i < colors.length ? colors[i % colors.length] : '#FFFFFF',
-            filled: i < colors.length
+            color: '#FFFFFF',
+            filled: false
         });
     }
     saveShapes();
 }
 
-function draw() {
-    background(backgroundColor);
-    
-    // Draw shapes
-    shapes.forEach(shape => {
-        fill(shape.color);
-        push();
-        translate(shape.x, shape.y);
-        rotate(shape.rotation);
-        
-        switch(shape.type) {
-            case 'star':
-                drawStar(0, 0, shape.size/3, shape.size/2);
-                break;
-            case 'flower':
-                drawFlower(0, 0, shape.size);
-                break;
-            case 'softstar':
-                drawSoftStar(0, 0, shape.size/2);
-                break;
-        }
-        pop();
-    });
-    
-    noLoop();
-}
-
 function updateShapeColors(newColor) {
-    const palette = ColorManager.getLastPalette();
-    if (!palette) return;
-
-    // Find first unfilled shape
-    const unfilled = shapes.find(shape => !shape.filled);
+    // Find first unfilled shape that's visible
+    const unfilled = shapes.find(shape => 
+        !shape.filled && 
+        shape.x >= 0 && 
+        shape.x <= width && 
+        shape.y >= 0 && 
+        shape.y <= height
+    );
+    
     if (unfilled) {
-        const colors = [palette.col60, palette.col30, palette.col10];
-        unfilled.color = random(colors);
+        unfilled.color = newColor;
         unfilled.filled = true;
         saveShapes();
         draw();
@@ -95,37 +164,36 @@ function saveShapes() {
     localStorage.setItem(SHAPE_STORAGE_KEY, JSON.stringify(shapes));
 }
 
-// Drawing functions remain the same
-function drawStar(x, y, radius1, radius2) {
-    beginShape();
+function drawStar(g, x, y, radius1, radius2) {
+    g.beginShape();
     for (let i = 0; i < 10; i++) {
         let angle = TWO_PI * i / 10;
         let r = (i % 2 === 0) ? radius2 : radius1;
         let px = x + cos(angle) * r;
         let py = y + sin(angle) * r;
-        vertex(px, py);
+        g.vertex(px, py);
     }
-    endShape(CLOSE);
+    g.endShape(CLOSE);
 }
 
-function drawFlower(x, y, size) {
+function drawFlower(g, x, y, size) {
     for (let i = 0; i < 6; i++) {
-        push();
-        rotate(i * TWO_PI / 6);
-        ellipse(size/3, 0, size/2, size/4);
-        pop();
+        g.push();
+        g.rotate(i * TWO_PI / 6);
+        g.ellipse(size/3, 0, size/2, size/4);
+        g.pop();
     }
 }
 
-function drawSoftStar(x, y, size) {
-    beginShape();
+function drawSoftStar(g, x, y, size) {
+    g.beginShape();
     for (let angle = 0; angle < TWO_PI; angle += 0.1) {
         let r = size * (0.8 + sin(angle * 3) * 0.2);
         let px = x + cos(angle) * r;
         let py = y + sin(angle) * r;
-        vertex(px, py);
+        g.vertex(px, py);
     }
-    endShape(CLOSE);
+    g.endShape(CLOSE);
 }
 
 function resetLibraryShapes() {
@@ -139,36 +207,42 @@ function resetLibraryShapes() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    mainBuffer = createGraphics(width, height);
+    blurBuffer = createGraphics(width, height);
     
-    // Calculate new number of shapes needed
-    const newNumShapes = constrain(floor(width * height / 200000), 4, 12);
-    
-    if (newNumShapes > shapes.length) {
-        // Add new shapes while preserving existing ones
-        const additionalShapes = newNumShapes - shapes.length;
-        for (let i = 0; i < additionalShapes; i++) {
-            shapes.push({
-                x: random(width * 0.2, width * 0.8),
-                y: random(height * 0.2, height * 0.8),
-                size: random(150, 300),
-                type: random(['star', 'flower', 'softstar']),
-                rotation: random(TWO_PI),
-                color: '#FFFFFF',
-                filled: false
-            });
-        }
-    } else if (newNumShapes < shapes.length) {
-        // Remove unfilled shapes first, then filled ones if necessary
-        const shapesToRemove = shapes.length - newNumShapes;
-        for (let i = 0; i < shapesToRemove; i++) {
-            const unfilledIndex = shapes.findIndex(shape => !shape.filled);
-            if (unfilledIndex !== -1) {
-                shapes.splice(unfilledIndex, 1);
-            } else {
-                shapes.pop();
-            }
-        }
+    let targetShapes;
+    if (width < 768) {
+        targetShapes = 5;
+    } else if (width < 1024) {
+        targetShapes = 10;
+    } else {
+        targetShapes = 14;
     }
+    
+    const cols = Math.ceil(Math.sqrt(targetShapes));
+    const rows = Math.ceil(targetShapes / cols);
+    const cellWidth = width / cols;
+    const cellHeight = height / rows;
+    const padding = cellWidth * 0.2;
+    const shapeSize = Math.min(cellWidth, cellHeight) * 0.6;
+    
+    // Update existing shapes' positions and sizes
+    shapes.forEach((shape, index) => {
+        const col = index % cols;
+        const row = Math.floor(index / cols);
+        
+        shape.x = cellWidth * col + padding + random(cellWidth - 2 * padding);
+        shape.y = cellHeight * row + padding + random(cellHeight - 2 * padding);
+        shape.size = shapeSize;
+        
+        // Update visibility
+        shape.visible = (
+            shape.x >= -shape.size && 
+            shape.x <= width + shape.size && 
+            shape.y >= -shape.size && 
+            shape.y <= height + shape.size
+        );
+    });
     
     saveShapes();
     draw();
