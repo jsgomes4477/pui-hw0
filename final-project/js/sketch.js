@@ -280,12 +280,15 @@ function createRefreshButton() {
     // Create the button first
     refreshButton = createButton('refresh');
     refreshButton.class('refresh-button');
+    refreshButton.attribute('aria-label', 'Change color scheme');
+    refreshButton.attribute('aria-description', 'Click to cycle through complementary, monochromatic, triadic, and split-complementary color schemes');
     refreshButton.parent(container);
     refreshButton.mousePressed(cycleColorScheme);
     
     // Create shape container
     refreshShape = createDiv('');
     refreshShape.class('refresh-shape');
+    refreshShape.attribute('role', 'presentation');
     refreshShape.parent(container);
     
     // Initial color setup

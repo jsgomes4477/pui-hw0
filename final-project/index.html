@@ -9,10 +9,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
 </head>
 <body>
-    <main>
-        <div id="p5-container"></div>
-        <div id="refresh-container"></div>
-        <input type="text" id="color-input" class="color-input" value="#f58cbb">
+    <main aria-label="Color Explorer Application">
+        <div id="p5-container" role="img" aria-label="Interactive color pattern background"></div>
+        
+        <!-- Input with proper labeling and validation -->
+        <div class="input-container">
+            <label for="color-input" class="visually-hidden">Color Hex Code</label>
+            <input 
+                type="text" 
+                id="color-input" 
+                class="color-input" 
+                value="#f58cbb"
+                aria-label="Enter hex color code"
+                aria-description="Enter a 6-digit hex color code starting with # to generate color schemes"
+                pattern="^#[0-9A-Fa-f]{6}$"
+                title="Please enter a valid 6-digit hex color code starting with #"
+                tabindex="1"
+            >
+        </div>
+
+        <!-- Refresh controls with proper tab order -->
+        <div id="refresh-container" role="group" aria-label="Color scheme controls">
+            <button 
+                class="refresh-button" 
+                aria-label="Change color scheme"
+                aria-description="Click to cycle through different color harmonies: complementary, monochromatic, triadic, and split-complementary"
+                tabindex="2"
+            >
+                refresh
+            </button>
+        </div>
     </main>
     <script src="js/color.js"></script>
     <script src="js/sketch.js"></script>
