@@ -32,6 +32,7 @@ function setup() {
     createGrid();
     createShapes();
     createRefreshButton();
+    createLibraryButton();
     
     input = document.getElementById('color-input');
     input.addEventListener('input', handleColorInput);
@@ -293,6 +294,32 @@ function createRefreshButton() {
     
     // Initial color setup
     updateRefreshShapeColor();
+}
+
+function createLibraryButton() {
+    // Create a container div
+    const container = createDiv('');
+    container.class('library-container');
+    container.attribute('role', 'group');
+    container.attribute('aria-label', 'Library navigation');
+    
+    // Create the button
+    const libraryButton = createButton('library');
+    libraryButton.class('library-button');
+    libraryButton.attribute('aria-label', 'Open color library');
+    libraryButton.attribute('aria-description', 'Navigate to your saved color schemes library');
+    libraryButton.attribute('tabindex', '3');
+    libraryButton.parent(container);
+    
+    // Add keyboard navigation
+    libraryButton.elt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            window.location.href = 'library.html';
+        }
+    });
+    
+    // Add click handler
+    libraryButton.mousePressed(() => window.location.href = 'library.html');
 }
 
 function cycleColorScheme() {

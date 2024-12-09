@@ -111,7 +111,6 @@ body {
     align-items: center;
     gap: 20px;
     z-index: 100;
-    outline: none;
 }
 
 .library-button {
@@ -128,12 +127,13 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     color: #000000;
-    outline: none;
 }
 
-.library-button:focus {
-    outline: none;
-    border: none;
+/* Add focus-visible state */
+.library-refresh-button:focus-visible {
+    outline: 3px solid #4A90E2;
+    outline-offset: 2px;
+    transform: scale(1.1);
 }
 
 .library-button:hover {
@@ -147,7 +147,6 @@ body {
     align-items: center;
     gap: 20px;
     z-index: 100;
-    outline: none;
 }
 
 .library-refresh-button {
@@ -164,12 +163,6 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     color: #000000;
-    outline: none;
-}
-
-.library-refresh-button:focus {
-    outline: none;
-    border: none;
 }
 
 .library-refresh-button:hover {

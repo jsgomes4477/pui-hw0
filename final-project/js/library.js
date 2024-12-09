@@ -34,7 +34,7 @@ function setup() {
     } else {
         createInitialShapes();
     }
-    
+    setupKeyboardNavigation();
     noStroke();
     smooth();
     frameRate(30);
@@ -51,15 +51,20 @@ function draw() {
     // Draw shapes
     shapes.forEach(shape => {
         mainBuffer.fill(shape.color);
-        if (shape === hoveredShape && shape.filled) {
+        
+        // Add focus/hover indicator for filled shapes
+        if ((shape === hoveredShape || shape.hasFocus) && shape.filled) {
             mainBuffer.strokeWeight(3);
             mainBuffer.stroke(255);
+            // Add additional visual focus indicator
+            if (shape.hasFocus) {
+                mainBuffer.strokeWeight(5);
+                mainBuffer.stroke(0, 150, 255);
+            }
         } else {
             mainBuffer.noStroke();
         }
-        mainBuffer.push();
         
-        mainBuffer.fill(shape.color);
         mainBuffer.push();
         mainBuffer.translate(shape.x, shape.y);
         mainBuffer.rotate(shape.rotation);
@@ -76,6 +81,18 @@ function draw() {
                 break;
         }
         mainBuffer.pop();
+
+        // Add aria-live region for screen readers
+        if (shape.filled) {
+            const shapeRegion = document.createElement('div');
+            shapeRegion.setAttribute('aria-live', 'polite');
+            shapeRegion.setAttribute('role', 'status');
+            shapeRegion.style.position = 'absolute';
+            shapeRegion.style.left = '-9999px';
+            shapeRegion.textContent = `Color swatch with hex code ${shape.color}`;
+            document.body.appendChild(shapeRegion);
+            setTimeout(() => document.body.removeChild(shapeRegion), 1000);
+        }
     });
     
     // Apply blur effect
@@ -148,25 +165,21 @@ function createInitialShapes() {
             type: random(['star', 'flower', 'softstar']),
             rotation: random(TWO_PI),
             color: '#FFFFFF',
-            filled: false
+            filled: false,
+            tabIndex: i + 3,
+            ariaLabel: `Color swatch ${i + 1}`,
+            role: 'button'
         });
     }
     saveShapes();
 }
 
 function updateShapeColors(newColor) {
-    // Find first unfilled shape that's visible
-    const unfilled = shapes.find(shape => 
-        !shape.filled && 
-        shape.x >= 0 && 
-        shape.x <= width && 
-        shape.y >= 0 && 
-        shape.y <= height
-    );
-    
+    const unfilled = shapes.find(shape => !shape.filled);
     if (unfilled) {
         unfilled.color = newColor;
         unfilled.filled = true;
+        updateAriaLiveRegion(`Shape filled with color ${newColor}`);
         saveShapes();
         draw();
     }
@@ -274,6 +287,57 @@ function mouseMoved() {
 function isMouseOverShape(shape) {
     const d = dist(mouseX, mouseY, shape.x, shape.y);
     return d < shape.size/2;
+}
+
+function setupKeyboardNavigation() {
+    let currentFocusIndex = -1;
+    const backButton = document.querySelector('.back-button');
+    const resetButton = document.querySelector('.library-refresh-button');
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            
+            // Get all focusable elements
+            const focusableElements = [
+                backButton,
+                resetButton,
+                ...shapes.filter(shape => shape.filled)
+            ];
+            
+            // Move focus to next element
+            currentFocusIndex = (currentFocusIndex + 1) % focusableElements.length;
+            
+            // Reset shape focus states
+            shapes.forEach(shape => shape.hasFocus = false);
+            
+            // Focus the current element
+            const currentElement = focusableElements[currentFocusIndex];
+            if (currentElement instanceof HTMLElement) {
+                currentElement.focus();
+            } else {
+                // It's a shape
+                currentElement.hasFocus = true;
+                draw();
+            }
+        }
+        
+        if (e.key === 'Enter') {
+            const focusedShape = shapes.find(shape => shape.hasFocus);
+            if (focusedShape && focusedShape.filled) {
+                drawBorderAndNavigate(focusedShape.color);
+            }
+        }
+    });
+}
+
+function updateAriaLiveRegion(message) {
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('class', 'visually-hidden');
+    liveRegion.textContent = message;
+    document.body.appendChild(liveRegion);
+    setTimeout(() => document.body.removeChild(liveRegion), 1000);
 }
 
 function windowResized() {
