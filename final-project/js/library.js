@@ -5,6 +5,9 @@ let backgroundColor;
 const SHAPE_STORAGE_KEY = 'libraryShapes';
 let grainDensity = 0.8;
 let grainSize = 0.4;
+let hoveredShape = null;
+let selectedShape = null;
+let transitionOpacity = 0;
 
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
@@ -47,6 +50,15 @@ function draw() {
     
     // Draw shapes
     shapes.forEach(shape => {
+        mainBuffer.fill(shape.color);
+        if (shape === hoveredShape && shape.filled) {
+            mainBuffer.strokeWeight(3);
+            mainBuffer.stroke(255);
+        } else {
+            mainBuffer.noStroke();
+        }
+        mainBuffer.push();
+        
         mainBuffer.fill(shape.color);
         mainBuffer.push();
         mainBuffer.translate(shape.x, shape.y);
@@ -205,10 +217,74 @@ function resetLibraryShapes() {
     draw();
 }
 
+function drawBorderAndNavigate(color) {
+    let startTime = millis();
+    const animationDuration = 1000;
+    
+    function animate() {
+        const elapsed = millis() - startTime;
+        transitionOpacity = min(elapsed / animationDuration, 1);
+        
+        // Draw regular content
+        draw();
+        
+        // Draw overlay
+        mainBuffer.push();
+        mainBuffer.fill(color);
+        mainBuffer.noStroke();
+        mainBuffer.rect(0, 0, width, height);
+        mainBuffer.pop();
+        
+        if (transitionOpacity < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            setTimeout(() => {
+                window.location.href = `index.html?color=${encodeURIComponent(color)}`;
+            }, 100);
+        }
+    }
+    
+    animate();
+}
+
+function mousePressed() {
+    // Find clicked shape
+    shapes.forEach(shape => {
+        if (shape.filled && isMouseOverShape(shape)) {
+            selectedShape = shape;
+            drawBorderAndNavigate(shape.color);
+        }
+    });
+}
+
+function mouseMoved() {
+    // Find hovered shape
+    hoveredShape = null;
+    shapes.forEach(shape => {
+        if (shape.filled && isMouseOverShape(shape)) {
+            hoveredShape = shape;
+            loop(); // Redraw to show highlight
+        }
+    });
+    if (!hoveredShape) {
+        loop(); // Redraw to remove highlight
+    }
+}
+
+function isMouseOverShape(shape) {
+    const d = dist(mouseX, mouseY, shape.x, shape.y);
+    return d < shape.size/2;
+}
+
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     mainBuffer = createGraphics(width, height);
     blurBuffer = createGraphics(width, height);
+    
+    // Only create initial shapes if none exist
+    if (shapes.length === 0) {
+        createInitialShapes();
+    }
     
     let targetShapes;
     if (width < 768) {
