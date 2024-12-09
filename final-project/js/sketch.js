@@ -1,6 +1,6 @@
 let shapes = [];
 let gridCells = [];
-let defaultColor = '#f58cbb';
+let defaultColor;
 let input;
 let grainDensity = 0.8;
 let grainSize = 0.4;
@@ -11,6 +11,9 @@ function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent('p5-container');
     pixelDensity(0.9);
+
+    // Get saved color or use default
+    defaultColor = ColorManager.getColor() || 'f58cbb';
     
     // Create buffers
     mainBuffer = createGraphics(width, height);
@@ -214,6 +217,7 @@ function handleColorInput(e) {
     let newColor = e.target.value;
     if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
         defaultColor = newColor;
+        ColorManager.setColor(newColor);
         createGrid();
         createShapes();
         draw();
