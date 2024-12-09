@@ -6,6 +6,11 @@ let grainDensity = 0.8;
 let grainSize = 0.4;
 let mainBuffer; // Buffer for main content
 let blurBuffer; // Buffer for blur effect
+let col60, col30, col10;
+let isComplementary = true;
+let isMonochromatic = false;
+let isTriadic = false;
+let isSplitComplementary = false;
 
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
@@ -41,7 +46,7 @@ function draw() {
 
     // Draw grid cells
     gridCells.forEach(cell => {
-        let cellColor = color(defaultColor);
+        let cellColor = color(cell.color);
         cellColor.setAlpha(cell.alpha);
         mainBuffer.fill(cellColor);
         mainBuffer.noStroke();
@@ -147,22 +152,70 @@ function draw() {
     noLoop();
 }
 
+function thresholdColor(color) {
+    let rgb = chroma(color).rgb();
+    let hsl = chroma(rgb).hsl();
+    hsl[1] = Math.min(hsl[1], 0.80);
+    hsl[2] = Math.min(hsl[2], 0.65);
+    return chroma.hsl(...hsl);
+}
+
+function generateColorPalette() {
+    let baseHex = thresholdColor(defaultColor);
+    let flipHeuristic = random() > 0.5;
+    let baseL = chroma(baseHex).get('hsl.l');
+    let isMidToned = baseL > 0.4 && baseL < 0.6;
+
+    if (isComplementary) {
+        col60 = baseHex;
+        col30 = chroma(baseHex).set('hsl.h', '+180');
+        col10 = chroma.mix(col60, col30, 0.5).saturate(1);
+    } else if (isMonochromatic) {
+        col60 = baseHex;
+        if (isMidToned && flipHeuristic) {
+            col30 = chroma(baseHex).set('hsl.l', '*1.5');
+            col10 = chroma(baseHex).set('hsl.l', '*0.15');
+        } else {
+            col30 = chroma(baseHex).brighten(2);
+            col10 = chroma(baseHex).darken(2);
+        }
+    } else if (isTriadic) {
+        col60 = baseHex;
+        col30 = chroma(baseHex).set('hsl.h', '+120');
+        col10 = chroma(baseHex).set('hsl.h', '+240');
+    } else if (isSplitComplementary) {
+        col60 = baseHex;
+        col30 = chroma(baseHex).set('hsl.h', '+150');
+        col10 = chroma(baseHex).set('hsl.h', '+210');
+    }
+}
+
 function createGrid() {
+    generateColorPalette();
     const baseSize = 300;
     const cols = ceil(width / baseSize) + 1;
     const rows = ceil(height / baseSize) + 1;
     
     gridCells = [];
     for (let i = 0; i < cols * rows; i++) {
-        let isWide = random() > 0.7;
-        let isTall = random() > 0.7;
+        let rand = random(100);
+        let cellColor;
+        
+        if (rand < 60) {
+            cellColor = col60.hex();
+        } else if (rand < 90) {
+            cellColor = col30.hex();
+        } else {
+            cellColor = col10.hex();
+        }
         
         gridCells.push({
             x: (i % cols) * baseSize + random(-30, 30),
             y: floor(i / cols) * baseSize + random(-30, 30),
-            width: isWide ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
-            height: isTall ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
-            alpha: random(150, 220)
+            width: random() > 0.7 ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
+            height: random() > 0.7 ? baseSize * random(1.5, 2.5) : baseSize * random(0.6, 1.2),
+            alpha: random(150, 220),
+            color: cellColor
         });
     }
 }
@@ -218,6 +271,7 @@ function handleColorInput(e) {
     if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
         defaultColor = newColor;
         ColorManager.setColor(newColor);
+        generateColorPalette();
         createGrid();
         createShapes();
         draw();
