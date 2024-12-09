@@ -33,6 +33,7 @@ function setup() {
     createShapes();
     createRefreshButton();
     createLibraryButton();
+    setupTypewriter();
     
     input = document.getElementById('color-input');
     input.addEventListener('input', handleColorInput);
@@ -271,6 +272,60 @@ function drawSoftStar(g, x, y, size) {
         g.curveVertex(px, py);
     }
     g.endShape(CLOSE);
+}
+
+function setupTypewriter() {
+    // Check if this is the first visit to home page
+    if (sessionStorage.getItem('hasVisitedHome')) {
+        return;
+    }
+    sessionStorage.setItem('hasVisitedHome', 'true');
+
+    const instructions = document.getElementById('instructions');
+    instructions.innerHTML = '';
+
+    const lines = [
+        'welcome to your crazy interactive',
+        'color picker tool peruse complementary,',
+        'monochromatic, triadic, and',
+        'split-complementary color schemes',
+        'by simply inserting a hex code',
+        'of a great color and clicking refresh!'
+    ];
+
+    lines.forEach(line => {
+        const container = document.createElement('div');
+        container.className = 'typewriter-line-container';
+        
+        const background = document.createElement('div');
+        background.className = 'typewriter-background';
+        
+        const p = document.createElement('p');
+        p.className = 'typewriter-line';
+        p.textContent = line;
+        
+        container.appendChild(background);
+        container.appendChild(p);
+        instructions.appendChild(container);
+    });
+
+    let currentLine = 0;
+    const interval = setInterval(() => {
+        if (currentLine < lines.length) {
+            instructions.children[currentLine].classList.add('visible');
+            currentLine++;
+        } else {
+            clearInterval(interval);
+            setTimeout(() => {
+                instructions.classList.add('fade-out');
+                setTimeout(() => {
+                    if (instructions && instructions.parentNode) {
+                        instructions.parentNode.removeChild(instructions);
+                    }
+                }, 2000);
+            }, 4500);
+        }
+    }, 800);
 }
 
 function createRefreshButton() {

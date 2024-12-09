@@ -9,8 +9,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
 </head>
 <body>
+    <header class="visually-hidden">
+        <h1>Color Library</h1>
+        <p>View and manage your saved color schemes</p>
+    </header>
     <main aria-label="Color Library Application">
-        <div id="p5-container" role="img" aria-label="Color library visualization"></div>
+        <div id="instructions" class="typewriter-text" aria-live="polite"></div>
+        <div id="p5-container" role="img" 
+             aria-label="A library of color swatches from previous selections."></div>
         <button 
             class="back-button library-button" 
             aria-label="Return to color explorer"
@@ -21,7 +27,7 @@
             back
         </button>
 
-        <div id="library-refresh-container" role="group" aria-label="Reset library controls">
+        <div id="library-refresh-container" role="group" aria-label="Reset library to blank swatches.">
             <button 
             class="library-refresh-button" 
             aria-label="Reset library shapes"
@@ -32,7 +38,6 @@
             reset
             </button>
         </div>
-
     </main>
     <script src="js/color.js"></script>
     <script src="js/library.js"></script>

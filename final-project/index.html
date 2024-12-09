@@ -9,10 +9,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
 </head>
 <body>
+    <header class="visually-hidden">
+        <h1>Color Explorer</h1>
+        <p>Create and explore color schemes with interactive visualization</p>
+    </header>
     <main aria-label="Color Explorer Application">
-        <div id="p5-container" role="img" aria-label="Interactive color pattern background"></div>
+        <div id="p5-container" role="img" 
+             aria-label="Interactive color pattern background 
+                         depicted pixelated watercolor like swatches 
+                         of color and tiny organic shapes"></div>
         
-        <!-- Input with proper labeling and validation -->
         <div class="input-container">
             <label for="color-input" class="visually-hidden">Color Hex Code</label>
             <input 
@@ -29,7 +35,8 @@
             >
         </div>
 
-        <!-- Refresh controls with proper tab order -->
+        <div id="instructions" class="typewriter-text" aria-live="polite"></div>
+
         <div id="refresh-container" role="group" aria-label="Color scheme controls">
             <button 
                 class="refresh-button" 
@@ -43,7 +50,6 @@
             </button>
         </div>
 
-        <!-- Library controls -->
         <div id="library-container" role="group" aria-label="Library navigation">
             <button 
                 class="library-button" 

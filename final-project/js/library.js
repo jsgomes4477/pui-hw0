@@ -35,6 +35,7 @@ function setup() {
         createInitialShapes();
     }
     setupKeyboardNavigation();
+    setupTypewriter();
     noStroke();
     smooth();
     frameRate(30);
@@ -329,6 +330,59 @@ function setupKeyboardNavigation() {
             }
         }
     });
+}
+
+function setupTypewriter() {
+    // Check if this is the first visit to library page
+    if (sessionStorage.getItem('hasVisitedLibrary')) {
+        return;
+    }
+    sessionStorage.setItem('hasVisitedLibrary', 'true');
+
+    const instructions = document.getElementById('instructions');
+    instructions.innerHTML = '';
+
+    const lines = [
+        'here you will find a history',
+        'of all the colors you have chosen so far,',
+        'click on one to navigate back',
+        'to that color scheme or',
+        'click refresh to start a new palette'
+    ];
+
+    lines.forEach(line => {
+        const container = document.createElement('div');
+        container.className = 'typewriter-line-container';
+        
+        const background = document.createElement('div');
+        background.className = 'typewriter-background';
+        
+        const p = document.createElement('p');
+        p.className = 'typewriter-line';
+        p.textContent = line;
+        
+        container.appendChild(background);
+        container.appendChild(p);
+        instructions.appendChild(container);
+    });
+
+    let currentLine = 0;
+    const interval = setInterval(() => {
+        if (currentLine < lines.length) {
+            instructions.children[currentLine].classList.add('visible');
+            currentLine++;
+        } else {
+            clearInterval(interval);
+            setTimeout(() => {
+                instructions.classList.add('fade-out');
+                setTimeout(() => {
+                    if (instructions && instructions.parentNode) {
+                        instructions.parentNode.removeChild(instructions);
+                    }
+                }, 2000);
+            }, 4500);
+        }
+    }, 800);
 }
 
 function updateAriaLiveRegion(message) {
