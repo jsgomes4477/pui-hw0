@@ -139,3 +139,39 @@ body {
 .library-button:hover {
     transform: scale(1.1);
 }
+
+/* Library Reset Button Styling */
+.library-refresh-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    outline: none;
+}
+
+.library-refresh-button {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    padding: 12px 24px;
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    font-family: 'Pixelify Sans', cursive;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #000000;
+    outline: none;
+}
+
+.library-refresh-button:focus {
+    outline: none;
+    border: none;
+}
+
+.library-refresh-button:hover {
+    transform: scale(1.1);
+}
