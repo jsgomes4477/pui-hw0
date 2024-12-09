@@ -11,6 +11,10 @@ let isComplementary = true;
 let isMonochromatic = false;
 let isTriadic = false;
 let isSplitComplementary = false;
+let refreshButton;
+let refreshShape;
+let refreshShapeColor;
+let refreshShapeRotation = 0;
 
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
@@ -24,8 +28,10 @@ function setup() {
     mainBuffer = createGraphics(width, height);
     blurBuffer = createGraphics(width, height);
     
+    generateColorPalette();
     createGrid();
     createShapes();
+    createRefreshButton();
     
     input = document.getElementById('color-input');
     input.addEventListener('input', handleColorInput);
@@ -264,6 +270,59 @@ function drawSoftStar(g, x, y, size) {
         g.curveVertex(px, py);
     }
     g.endShape(CLOSE);
+}
+
+function createRefreshButton() {
+    // Create a container div
+    const container = createDiv('');
+    container.class('refresh-container');
+    
+    // Create the button first
+    refreshButton = createButton('refresh');
+    refreshButton.class('refresh-button');
+    refreshButton.parent(container);
+    refreshButton.mousePressed(cycleColorScheme);
+    
+    // Create shape container
+    refreshShape = createDiv('');
+    refreshShape.class('refresh-shape');
+    refreshShape.parent(container);
+    
+    // Initial color setup
+    updateRefreshShapeColor();
+}
+
+function cycleColorScheme() {
+    if (isComplementary) {
+        isComplementary = false;
+        isMonochromatic = true;
+    } else if (isMonochromatic) {
+        isMonochromatic = false;
+        isTriadic = true;
+    } else if (isTriadic) {
+        isTriadic = false;
+        isSplitComplementary = true;
+    } else {
+        isSplitComplementary = false;
+        isComplementary = true;
+    }
+    
+    generateColorPalette();
+    createGrid();
+    createShapes();
+    updateRefreshShapeColor();
+    draw();
+}
+
+function updateRefreshShapeColor() {
+    let rand = random(100);
+    if (rand < 60) {
+        refreshShapeColor = col60;
+    } else if (rand < 90) {
+        refreshShapeColor = col30;
+    } else {
+        refreshShapeColor = col10;
+    }
 }
 
 function handleColorInput(e) {
