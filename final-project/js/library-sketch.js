@@ -77,7 +77,7 @@ function initDesktop() {
     // Center the canvas in the container
     const totalWidth = canvas.width;
     const startX = (window.innerWidth - totalWidth - 200) / 2;
-    container.style.transform = `translateX(${startX}px)`;
+    container.className = 'desktop-transform';
 
     const baseWidth = 430;
     const baseHeight = 932;

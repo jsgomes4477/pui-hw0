@@ -11,33 +11,92 @@
     position: relative;
 }
 
-/* Input styles */
+/* Home page desktop container positioning */
+#web-p5-container.home-desktop {
+    transform: translateX(calc((100vw - 430px) / 2));
+}
+
+/* Add this to your style.css */
 .color-input {
+    position: absolute;
+    left: calc(50% - 140px); /* Half of container width minus half of input width */
+    top: calc(50% - 150px);
+    width: 280px;
+    font-family: Helvetica;
     font-size: 18px;
     padding: 8px;
     border-radius: 12px;
     border: 2px solid black;
-    width: 280px;
     text-align: left;
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    top: calc(50% - 150px);
 }
 
-.error-message {
+/* Desktop input positioning */
+#web-p5-container .color-input {
+    position: absolute;
+    left: 85px;  /* 20px (left margin) + ((430px - 280px) / 2) - 10px (adjustment) */
+    top: calc(50% - 150px);
+    width: 280px;
+    font-family: Helvetica;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 12px;
+    border: 2px solid black;
+    text-align: left;
+}
+
+/* Error message positioning */
+#web-p5-container .error-message {
+    position: absolute;
+    left: 75px;  /* Matches input positioning */
+    top: calc(50% + 30px);
+    width: 280px;
     font-family: Arial;
     color: red;
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    top: calc(50% + 30px);
+    text-align: center;
 }
 
 #desktopCanvas {
     display: block;
     width: 100%;
     height: 100%;
+}
+
+/* Text styles */
+.canvas-text {
+    font-family: Arial;
+    font-size: 18px;
+    text-align: center;
+}
+
+.menu-text {
+    font-family: Arial;
+    font-size: 24px;
+    text-align: left;
+}
+
+.submenu-text {
+    font-family: Arial;
+    font-size: 18px;
+    text-align: left;
+}
+
+/* Button styles */
+.generate-button, .save-button {
+    font-family: Arial;
+    font-size: 18px;
+    text-align: center;
+}
+
+.refresh-button {
+    font-family: Arial;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Container positioning */
+.desktop-transform {
+    transform: translateX(calc((100vw - 100% - 200px) / 2)); 
+    /* change the above calculation for better centering */
 }
 
 /* Mobile-specific styles */

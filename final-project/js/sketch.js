@@ -49,7 +49,7 @@ function initDesktop() {
     let currentColor = '#f58cbb';
     let inputBox;
     let errorDiv;
-
+    
     const container = handleAccessibleContainer();
     if (!container) return;
 
@@ -63,36 +63,26 @@ function initDesktop() {
     // Set canvas size maintaining aspect ratio
     canvas.width = baseWidth;
     canvas.height = baseHeight;
+    
+    // Center the canvas in the container - only for home page
+    const totalWidth = canvas.width;
+    const startX = (window.innerWidth - totalWidth) / 2;
+    container.classList.add('home-desktop');
+    
     container.appendChild(canvas);
-
-    // Calculate center offset for all elements
-    const centerOffset = (window.innerWidth - baseWidth) / 2;
-    container.style.position = 'relative';
-    container.style.left = `${centerOffset}px`;
-
+    
     // Create and position input box
     inputBox = document.createElement('input');
     inputBox.value = '#';
-    inputBox.style.fontSize = '18px';
-    inputBox.style.padding = '8px';
-    inputBox.style.borderRadius = '12px';
-    inputBox.style.border = '2px solid black';
-    inputBox.style.width = '280px';
-    inputBox.style.textAlign = 'left';
-    inputBox.style.position = 'absolute';
-    inputBox.style.left = `${canvas.width/2 - 130}px`;
-    inputBox.style.top = `${canvas.height/2 - 150}px`;
+    inputBox.className = 'color-input';
     container.appendChild(inputBox);
 
     // Create error message div
     errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
-    errorDiv.style.position = 'absolute';
-    errorDiv.style.left = `${canvas.width/2 - 140}px`;
-    errorDiv.style.top = `${canvas.height/2 + 30}px`;
-    errorDiv.style.fontFamily = 'Arial';
-    errorDiv.style.color = 'red';
     container.appendChild(errorDiv);
+    
+    // container.appendChild(canvas);
 
     function draw() {
         ctx.fillStyle = '#FFFFFF';
