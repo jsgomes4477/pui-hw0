@@ -1,3 +1,4 @@
+<!-- Home Page (index.html) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +12,19 @@
 </head>
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-
     <main id="main-content" role="main">
-        <nav role="navigation" aria-label="Main menu"></nav>
+        <nav role="navigation" aria-label="Main menu">
+            <div class="menu-items" role="menubar">
+                <a href="index.html" role="menuitem" tabindex="0">Home</a>
+                <a href="library.html" role="menuitem" tabindex="0">Library</a>
+                <a href="swatches.html" role="menuitem" tabindex="0">Swatches</a>
+            </div>
+        </nav>
 
         <div class="container-xxl d-none d-lg-block">
             <div class="row">
                 <div class="col-12">
-                    <div id="web-p5-container"></div>
+                    <div id="web-p5-container" tabindex="0"></div>
                 </div>
             </div>
         </div>
@@ -26,12 +32,11 @@
         <div class="container-fluid d-lg-none">
             <div class="row">
                 <div class="col-12">
-                    <div id="mobile-p5-container"></div>
+                    <div id="mobile-p5-container" tabindex="0"></div>
                 </div>
             </div>
         </div>
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/sketch.js"></script>
 </body>

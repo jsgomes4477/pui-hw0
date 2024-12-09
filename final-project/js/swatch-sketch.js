@@ -35,6 +35,67 @@ function handleAccessibleContainer() {
     return container;
 }
 
+// Add this after your existing handleAccessibleContainer function
+function setupAccessibleInteractions(canvas, container) {
+    // Make canvas focusable
+    canvas.setAttribute('tabindex', '0');
+    canvas.setAttribute('role', 'application');
+    canvas.setAttribute('aria-label', 'Color selection canvas');
+
+    // Add keyboard navigation
+    canvas.addEventListener('keydown', handleKeyboardNavigation);
+    
+    // Add ARIA live region
+    const liveRegion = document.createElement('div');
+    liveRegion.setAttribute('aria-live', 'polite');
+    liveRegion.setAttribute('aria-atomic', 'true');
+    liveRegion.className = 'sr-only';
+    container.appendChild(liveRegion);
+
+    return liveRegion;
+}
+
+// Add this function for keyboard navigation
+function handleKeyboardNavigation(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+        if (menuVisible) {
+            const rect = this.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height - 70;
+            
+            const event = new MouseEvent('click', {
+                clientX: rect.left + centerX,
+                clientY: rect.top + centerY
+            });
+            this.dispatchEvent(event);
+        }
+    }
+    
+    if (e.key.startsWith('Arrow')) {
+        e.preventDefault();
+        menuVisible = true;
+        draw();
+    }
+}
+
+function handleInput(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        if (hoveredStack !== -1 && hoveredCard !== -1) {
+            const colorIndex = hoveredStack * 4 + (3 - hoveredCard);
+            const selectedColor = colors[colorIndex];
+            updateAccessibleStatus(`Selected color ${selectedColor}`);
+            drawBorderAndNavigate(selectedColor);
+        }
+    }
+    
+    if (event.key.startsWith('Arrow')) {
+        event.preventDefault();
+        menuVisible = true;
+        updateAccessibleStatus('Menu opened');
+        draw();
+    }
+}
+
 function initDesktop() {
     let menuVisible = false;
     let hoveredStack = -1;
@@ -68,6 +129,13 @@ function initDesktop() {
         height: 30,
         label: 'refresh'
     };
+
+    const liveRegion = setupAccessibleInteractions(canvas, container);
+
+    // Add this to color change handlers
+    function updateAccessibleStatus(color) {
+        liveRegion.textContent = `Color changed to ${color}`;
+    }
 
     function initializeColors() {
         const storedColors = localStorage.getItem('swatchColors');
@@ -299,6 +367,8 @@ function initDesktop() {
         }
     });
 
+    document.addEventListener('keydown', handleInput);
+
     initializeColors();
     draw();
 }
@@ -326,6 +396,13 @@ function initMobile() {
         height: 30,
         label: 'refresh'
     };
+
+    const liveRegion = setupAccessibleInteractions(canvas, container);
+
+    // Add this to color change handlers
+    function updateAccessibleStatus(color) {
+        liveRegion.textContent = `Color changed to ${color}`;
+    }
 
     function lerp(start, end, amt) {
         return (1 - amt) * start + amt * end;
@@ -574,6 +651,8 @@ function initMobile() {
             }
         }
     });
+
+    document.addEventListener('keydown', handleInput);
 
     initializeColors();
     draw();
