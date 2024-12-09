@@ -35,68 +35,6 @@ function handleAccessibleContainer() {
     return container;
 }
 
-// Add this after your existing handleAccessibleContainer function
-function setupAccessibleInteractions(canvas, container) {
-    // Make canvas focusable
-    canvas.setAttribute('tabindex', '0');
-    canvas.setAttribute('role', 'application');
-    canvas.setAttribute('aria-label', 'Color selection canvas');
-
-    // Add keyboard navigation
-    canvas.addEventListener('keydown', handleKeyboardNavigation);
-    
-    // Add ARIA live region
-    const liveRegion = document.createElement('div');
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.className = 'sr-only';
-    container.appendChild(liveRegion);
-
-    return liveRegion;
-}
-
-// Add this function for keyboard navigation
-function handleKeyboardNavigation(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-        if (menuVisible) {
-            const rect = this.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height - 70;
-            
-            const event = new MouseEvent('click', {
-                clientX: rect.left + centerX,
-                clientY: rect.top + centerY
-            });
-            this.dispatchEvent(event);
-        }
-    }
-    
-    if (e.key.startsWith('Arrow')) {
-        e.preventDefault();
-        menuVisible = true;
-        draw();
-    }
-}
-
-function handleInput(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
-        if (menuVisible) {
-            const rect = canvas.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height - 70;
-            updateAccessibleStatus('Menu activated');
-            simulateClick(centerX, centerY);
-        }
-    }
-    
-    if (event.key.startsWith('Arrow')) {
-        event.preventDefault();
-        menuVisible = true;
-        updateAccessibleStatus('Menu opened');
-        draw();
-    }
-}
-
 function initDesktop() {
     let menuVisible = false;
     let currentColorScheme = 0;
@@ -387,8 +325,6 @@ function initDesktop() {
         }
     });
 
-    document.addEventListener('keydown', handleInput);
-
     container.appendChild(canvas);
     generateColorPalette();
     generateSwatches();
@@ -621,8 +557,6 @@ function initMobile() {
             generateSwatches();
         }
     });
-
-    document.addEventListener('keydown', handleInput);
 }
 
 window.addEventListener('load', function() {
