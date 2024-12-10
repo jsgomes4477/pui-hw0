@@ -1,11 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
 
+/* Dark/Light Mode Classes */
+/* Dark/Light Mode Classes */
+/* Theme Variables */
+:root {
+    --text-color: #000000;
+    --border-color: #000000;
+    --shadow-color: #000000;
+}
+
+[data-theme="dark"] {
+    --text-color: #ffffff;
+    --border-color: #ffffff;
+    --shadow-color: #ffffff;
+}
+
+[data-theme="light"] {
+    --text-color: #000000;
+    --border-color: #000000;
+    --shadow-color: #000000;
+}
+
+/* Update body to use CSS variables by default */
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
     background: #ffffff;
     font-family: 'Pixelify Sans', cursive;
+    color: var(--text-color);
 }
 
 #p5-container {
@@ -26,26 +49,27 @@ body {
     padding: 16px;
     font-size: 14px;
     border-radius: 0;
-    border: 4px solid #000;
+    border: 4px solid var(--border-color, #000);
     text-align: center;
     background: #fff;
     z-index: 100;
     font-family: 'Pixelify Sans', cursive;
     letter-spacing: 1px;
     text-transform: uppercase;
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--shadow-color, #000);
     transition: all 0.2s ease;
+    color: var(--text-color, #000);
 }
 
 .color-input:hover {
     transform: translate(-50%, -50%) translate(-2px, -2px);
-    box-shadow: 6px 6px 0 #000;
+    box-shadow: 6px 6px 0 var(--shadow-color, #000);
 }
 
 .color-input:focus {
     outline: none;
-    border-color: #000;
-    box-shadow: 8px 8px 0 #000;
+    border-color: var(--border-color, #000);
+    box-shadow: 8px 8px 0 var(--shadow-color, #000);
 }
 
 /* Refresh Button Styling on Homepage */
@@ -71,13 +95,7 @@ body {
     text-transform: lowercase;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #000000;
-    outline: none;
-}
-
-.refresh-button:focus {
-    outline: none;
-    border: none;
+    color: var(--text-color, #000);
 }
 
 /* Screen reader only class */
@@ -99,20 +117,7 @@ body {
     outline-offset: 2px;
 }
 
-/* Ensure focus state is visible even when outline is removed */
-.refresh-button:focus-visible {
-    box-shadow: 0 0 0 3px #4A90E2;
-}
-
 /* Library Button Styling */
-.library-container {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    z-index: 100;
-}
-
 .library-button {
     position: absolute;
     bottom: 60px;
@@ -126,14 +131,7 @@ body {
     text-transform: lowercase;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #000000;
-}
-
-/* Add focus-visible state */
-.library-refresh-button:focus-visible {
-    outline: 3px solid #4A90E2;
-    outline-offset: 2px;
-    transform: scale(1.1);
+    color: var(--text-color, #000);
 }
 
 .library-button:hover {
@@ -141,14 +139,6 @@ body {
 }
 
 /* Library Reset Button Styling */
-.library-refresh-container {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    z-index: 100;
-}
-
 .library-refresh-button {
     position: absolute;
     top: 60px;
@@ -162,7 +152,7 @@ body {
     text-transform: lowercase;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: #000000;
+    color: var(--text-color, #000);
 }
 
 .library-refresh-button:hover {
@@ -175,7 +165,7 @@ body {
     top: 20%;
     right: 8%;
     width: 300px;
-    color: #000000;
+    color: var(--text-color, #000);
     font-family: 'Pixelify Sans', cursive;
     font-size: 14px;
     line-height: 1.8;

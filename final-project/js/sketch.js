@@ -410,11 +410,26 @@ function updateRefreshShapeColor() {
     }
 }
 
+function updateColorMode(hexColor) {
+    // Calculate relative luminance using chroma.js
+    const luminance = chroma(hexColor).get('hsl.l');
+
+    document.documentElement.removeAttribute('data-theme');
+
+    if (luminance < 0.5) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+
+// Modify your existing handleColorInput function
 function handleColorInput(e) {
     let newColor = e.target.value;
     if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
         defaultColor = newColor;
         ColorManager.setColor(newColor);
+        updateColorMode(newColor);
         generateColorPalette();
         createGrid();
         createShapes();
