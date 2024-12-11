@@ -1,7 +1,5 @@
 <mark>**Note that this document order from FP4 -> FP1**</mark>
 
-<mark>Please sign up for the study</mark> at [https://tinyurl.com/pui-study](https://tinyurl.com/pui-study) to allow us to use your submission to create a better GenAI assistant for designers!
-
 ---
 
 # **FP4 \- Final Project Writeup**
@@ -11,12 +9,7 @@ Feel free to refer to this [Markdown Cheat Sheet](https://www.markdownguide.org/
 
 ## Part 1: Website Description
 
-Describe your website (300 words).
-
-* What is the purpose of your website?   
-* Who is the target audience?  
-* What information do you convey with your website?   
-* How is it interesting and engaging? 
+My website is an interactive color picker that generates colors from complementary, monochromatic, triadic, and split complementary color ways. You can enter a 6 digit hex code to generate a color palette for any color you desire. Each of these colors are then stored in the color swatches library. These color swatches may be refreshed for a new palette. Overall, my website is a tool that allows designers to bring their color palettes through a cute UI that hopes to inspire other designers while also maintaining a simple interface that is far less overwhelming than other color picker tools. Therefore, the target audience is both the audience I may have at my gallery exhibition, but also, any artist or designer who may need a space to simply breathe and rethink their current design in a digital space. I hoped to create this website to supplement a final art project I am doing for my bachelor's thesis about the importance of color, its culture, and how it interplays with our daily lives. In order to create this website, I used the p5.js and Chroma.js libraries so I could generate unique organic shapes with specific grain and blur filters that imitate the color swatches you may find on a pair of jeans which is inspired by colorful textile work and grainy watercolor. Through a generous variation of animation, adorable artifacts, and some retro visual text styling, I have created a UI that I hope is joyous and simple to interact with.
 
 ## Part 2: User Interaction
 
@@ -107,15 +100,28 @@ Document the usage logs (prompts and chat history links) for the GenAI tools you
 
 # **FP3 \- Final Project Check-in**
 
-Document the changes and progress of your project. How have you followed or changed your implementation & GenAI use plan and why? Remember to commit your code to save your progress.
+![FP3 Mid-fi Website](images/mid_UI_home.png)
+
+![FP3 Mid-fi Website](images/mid_UI_gen.png)
+
+![FP3 Mid-fi Website](images/mid_UI_store.png)
+
+I have created an entirely new UI for my project that is inspired by pantone color swatches you might find at a local Home Depot or Lowe's. I hope this inspiration for the UI captures the practically of the website. Furthermore, it is an ultra simple design that utilizes rectangles very well so I can focus on implementing the necessary algorithms for this website including: local storage for keeping track of the most recent hex code entered and using this stored variable across all pages to recolor every aspect of the website, create a storage page for color swatches to be saved and refreshed, a color generation page where four different color palettes can be filtered through using the Chroma.js library, and finally mutli page functionality between mobile and desktop devices using Bootstrap. 
 
 ## Implementation Plan Updates
 
-- [ ] ...
+- [ ] Finish developing desktop version of the website, it is currently not resizing correctly
+- [ ] Make sure all animations including hover animations show up in desktop version
+- [ ] Add better animations between swatches page navigation back to library page navigation
+- [ ] Make sure all pages are centered properly acorss devices and clicking buttons are easy
+- [ ] Add all accessibility feattures including ARIA labels, tabbing functionality, and alt text
+- [ ] Change UI to be more visually appealing if I have time
+- [ ] Simplify the entire code base and add clear commenting for documentaiton purposes
 
 ## Generative AI Use Plan Updates
 
-- [ ] ...
+- [ ] Use AI to help me fix implementation conflicts between Bootstrap and p5.js library
+- [ ] Use AI to help me navigate any errors that may come up as I continue to work
 
 Remember to keep track of your prompts and usage for [FP4 writeup](#part-6-generative-ai-use-and-reflection).
 
