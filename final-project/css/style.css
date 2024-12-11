@@ -61,6 +61,7 @@ body {
     color: var(--text-color, #000);
 }
 
+
 .color-input:hover {
     transform: translate(-50%, -50%) translate(-2px, -2px);
     box-shadow: 6px 6px 0 var(--shadow-color, #000);
