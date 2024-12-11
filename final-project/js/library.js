@@ -21,11 +21,6 @@ function setup() {
     // Get palette colors
     const palette = ColorManager.getLastPalette();
     backgroundColor = palette ? palette.col60 : '#f58cbb';
-
-    const resetButton = document.querySelector('.library-refresh-button');
-    if (resetButton) {
-        resetButton.addEventListener('click', resetLibraryShapes);
-    }
     
     // Load existing shapes or create new ones
     const savedShapes = localStorage.getItem(SHAPE_STORAGE_KEY);

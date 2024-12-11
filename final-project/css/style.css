@@ -160,6 +160,10 @@ body {
     transform: scale(1.1);
 }
 
+.refresh-button:hover {
+    transform: scale(1.1);
+}
+
 /* Instructions Styling */
 .typewriter-text {
     position: absolute;

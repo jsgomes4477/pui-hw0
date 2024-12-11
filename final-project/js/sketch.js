@@ -31,8 +31,7 @@ function setup() {
     generateColorPalette();
     createGrid();
     createShapes();
-    createRefreshButton();
-    createLibraryButton();
+    // createRefreshButton();
     setupTypewriter();
     
     input = document.getElementById('color-input');
@@ -45,9 +44,6 @@ function setup() {
 }
 
 function draw() {
-    clear();
-    background(255);
-    
     // Draw to main buffer
     mainBuffer.clear();
     mainBuffer.background(255);
@@ -155,6 +151,7 @@ function draw() {
             }
         }
     }
+
     updatePixels();
     
     noLoop();
@@ -274,6 +271,30 @@ function drawSoftStar(g, x, y, size) {
     g.endShape(CLOSE);
 }
 
+function drawStitches(g, x, y, w, h, spacing = 8) {
+    g.push();
+    g.stroke(255);
+    g.strokeWeight(2);
+    for(let i = 0; i < w*2 + h*2; i += spacing) {
+      let px, py;
+      if(i < w) {
+        px = x + i;
+        py = y;
+      } else if(i < w + h) {
+        px = x + w;
+        py = y + (i - w);
+      } else if(i < w*2 + h) {
+        px = x + w - (i - (w + h));
+        py = y + h;
+      } else {
+        px = x;
+        py = y + h - (i - (w*2 + h));
+      }
+      g.line(px, py, px, py + 3);
+    }
+    g.pop();
+}  
+
 function setupTypewriter() {
     // Check if this is the first visit to home page
     if (sessionStorage.getItem('hasVisitedHome')) {
@@ -326,55 +347,6 @@ function setupTypewriter() {
             }, 4500);
         }
     }, 800);
-}
-
-function createRefreshButton() {
-    // Create a container div
-    const container = createDiv('');
-    container.class('refresh-container');
-    
-    // Create the button first
-    refreshButton = createButton('refresh');
-    refreshButton.class('refresh-button');
-    refreshButton.attribute('aria-label', 'Change color scheme');
-    refreshButton.attribute('aria-description', 'Click to cycle through complementary, monochromatic, triadic, and split-complementary color schemes');
-    refreshButton.parent(container);
-    refreshButton.mousePressed(cycleColorScheme);
-    
-    // Create shape container
-    refreshShape = createDiv('');
-    refreshShape.class('refresh-shape');
-    refreshShape.attribute('role', 'presentation');
-    refreshShape.parent(container);
-    
-    // Initial color setup
-    updateRefreshShapeColor();
-}
-
-function createLibraryButton() {
-    // Create a container div
-    const container = createDiv('');
-    container.class('library-container');
-    container.attribute('role', 'group');
-    container.attribute('aria-label', 'Library navigation');
-    
-    // Create the button
-    const libraryButton = createButton('library');
-    libraryButton.class('library-button');
-    libraryButton.attribute('aria-label', 'Open color library');
-    libraryButton.attribute('aria-description', 'Navigate to your saved color schemes library');
-    libraryButton.attribute('tabindex', '3');
-    libraryButton.parent(container);
-    
-    // Add keyboard navigation
-    libraryButton.elt.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            window.location.href = 'library.html';
-        }
-    });
-    
-    // Add click handler
-    libraryButton.mousePressed(() => window.location.href = 'library.html');
 }
 
 function cycleColorScheme() {
