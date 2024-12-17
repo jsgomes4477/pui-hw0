@@ -82,10 +82,10 @@ I used Perplexity Pro to help me find some interesting fonts and styling for my 
 
 ### Usage Log
 
-Document the usage logs (prompts and chat history links) for the GenAI tools you used. Some tools may not have an easy way to share usage logs, just try your best! Some instructions for different tools:
+I do not have my chat history from conversations before FP3, but Gen AI only helped me implement very simple algorithms and debug. Since all of those designs were also completely overhauled, these are the most relevant conversations: 
 
-1. [ChatGPT](https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq) / [Gemini](https://support.google.com/gemini/answer/13743730?hl=en&co=GENIE.Platform%3DDesktop): share the anonymous link to all of your chat histories relevant to this project
-2. [GitHub Copilot (VSCode)](https://code.visualstudio.com/docs/copilot/copilot-chat#:~:text=You%20can%20export%20all%20prompts%20and%20responses%20for%20a%20chat%20session%20in%20a%20JSON%20file%20with%20the%20Chat%3A%20Export%20Session...%20command%20(workbench.action.chat.export)%20in%20the%20Command%20Palette.): export chat histories relevant to this project.
+[Perplexity Pro Chat 1] (https://www.perplexity.ai/search/i-have-build-out-a-website-usi-4oxJ0vpUQCah5FtDN2SoMg)
+
 
 ---
 
