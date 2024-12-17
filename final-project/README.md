@@ -50,7 +50,7 @@ I completely redid the visual styling from my FP3 prototype. While I had most of
 
 ## Part 5: Implementation Challenge
 
-What challenges did you experience in implementing your website? (2-4 sentences max)
+The most challenging part of implementation for me was including accessibility features and figuring out the Bootstrap complications. While I was pretty experienced with creating interesting applications through p5.js, I have never created a fully baked out website using HTML and JS. Therefore, dictating tabbing functionality through indexing and mouse pressed and figuring out how to create a multipage website that had dynamic resizing was a process I was pretty unfamiliar with. It required a lot of organization and explicit coding practices that I definitely had to redo a few times to get right.
 
 ## Part 6: Generative AI Use and Reflection
 
