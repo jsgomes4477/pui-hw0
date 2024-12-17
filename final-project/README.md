@@ -60,8 +60,12 @@ For the following aspects of your project, edit the corresponding table cell to 
 
 | Tool Name | Ratings | design | plan | write code | debug | \_ (other?) |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| Input Box | Usage | No | No | No | No | Yes |
-| Input Box | Productivity | N/A | N/A | N/A | N/A | 4 |
+| Input Box | Usage | No | No | No | Yes | No |
+| Input Box | Productivity | N/A | N/A | N/A | 4 | N/A |
+| Buttons| Usage | Yes | No | No | No | No |
+| Buttons | Productivity | 6 | N/A | N/A | N/A | N/A |
+| Color Swatches| Usage | Yes | No | Yes | Yes | No |
+| Tool2 | Productivity | 7 | N/A | 7 | 7 | N/A |
 | Tool2| Usage | Yes/No | Yes/No | Yes/No | Yes/No | Yes/No |
 | Tool2 | Productivity | 1~7 | 1~7 | 1~7 | 1~7 | 1~7 |
 
