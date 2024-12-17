@@ -74,7 +74,7 @@ For the following aspects of your project, edit the corresponding table cell to 
 
 ### Usage Reflection
 
-> Impact on your design and plan 
+> I used Perplexity Pro to help me find some interesting fonts and styling for my input box so that it would have the Y2k aesthetic I was looking for. I also used it to help me debug for accessibility and 
 * It matched my expectations and plan in [FP2](#generative-ai-use-plan) in that … For example, 
   1. Tool1: 
   2. Tool2:
