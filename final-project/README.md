@@ -33,11 +33,14 @@ Describe what important external tool you used (JavaScript library, Web API, ani
 2. Javascript library - p5.js
    * This library was made for artists and designers to create compelling graphics with simple arithmetic and geometric functions that are harder to navigate using simple JS. Furthermore, I have a lot of experience with this library so I was comfortable using it.
    * I used it to create both pages in their entirety aside from the buttons, input box, and local storage functionalities. More specifically, I used it to create the gradients, textile like patterns, define organic shapes, and create a glitch like animation for both pages. 
-   * Since my website's focus is colors and how to find a color scheme that amtches a hex code for a color you might already want to include in a project, the overall styling and aesthetic of this website is very important in order to create a convincing space for artists and designers to utilize. Furthermore, I wanted the website to also have a fun and whimsical look that I find is lacking in a lot of tech spaces currently. 
-4. asdf
-5. asdf
-6. asf
-7. asdf
+   * Since my website's focus is colors and how to find a color scheme that amtches a hex code for a color you might already want to include in a project, the overall styling and aesthetic of this website is very important in order to create a convincing space for artists and designers to utilize. Additionally, I wanted the website to also have a fun and whimsical look that I find is lacking in a lot of tech spaces currently. 
+3. Javascript Library - chroma.js
+   * Why did you choose to use it over other alternatives? (2 sentences max)  
+   * How you used it? (2 sentences max)  
+   * What does it add to your website? (2 sentences max)  
+6. asdf
+7. asf
+8. asdf
 
 
 ## Part 4: Design Iteration
