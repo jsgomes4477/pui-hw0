@@ -32,6 +32,10 @@ My website is an interactive color picker that generates colors from complementa
    * Chroma.js is a library that utilizes the hue, saturation, and luminence of colors instead of te baked in RGB values that p5.js defaults to. This library also has a very intuitive yet powerful mathematical backing that navigates color in a 3D space, allowing you to create colors on the screen that are not prone to the usual desaturation and muddying that most libararies create. (Please look at the chroma.js documentation for this library to better understand this.)
    * I used chroma.js to first transcribe the hex code color from RGB to the HSL space. Then, I utilized trigonometry to go around a hypothetical color wheel to create the four different color palettes I created: complementary, monochromatic, triadic, and split complementary.
    * The main theme of my website is creating intersting color spaces that will look good on both the screen and in real life. Utilizing chroma.js allows me to create convincing color schemes that will best match what unique hex codes (that could map to specific pantone paint swatches) will look like in real life against other generated palettes.
+3. Animations w. p5.js
+   * Since p5.js is so good at creating dynamic animations, I decided to create some dynamic and generative animations that mimic my current creative coding art practice.
+   * This includes a generative background that is stylistically consistent but unique after each user input from the "refresh" button in the home page, a dynaimcally shifting background in the library page, a light up feature for each shape in the library page on mouse hovers, and an instructional animation for how to navigate through both pages when first starting a browser session.
+   * Again, this adds that same sense of wonder and creativity that I want to be present throughout this website. I wanted this website to not only be functional, but to also work as a source of inspiration, and having dynamic backgrounds and user interactions make the overall user experience more joyous overall. 
 
 
 ## Part 4: Design Iteration
