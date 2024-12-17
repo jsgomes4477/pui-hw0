@@ -74,34 +74,11 @@ For the following aspects of your project, edit the corresponding table cell to 
 
 ### Usage Reflection
 
-> I used Perplexity Pro to help me find some interesting fonts and styling for my input box so that it would have the Y2k aesthetic I was looking for. I also used it to help me debug for accessibility and 
-* It matched my expectations and plan in [FP2](#generative-ai-use-plan) in that … For example, 
-  1. Tool1: 
-  2. Tool2:
-* It did not match my expectations and plan in [FP2](#generative-ai-use-plan) in that … For example, 
-  1. Tool1: 
-  2. Tool2:
-* GenAI tool did/did not influence my final design and implementation plan because … For example, 
-  1. Tool1: 
-  2. Tool2:
-
-> Use patterns
-* I accepted the generations when …  For example, 
-  1. Tool1: this tool once suggested … and I adjusted my design according to the suggestion because … 
-  2. Tool2: 
-* I critiqued/evaluated the generated suggestions by … For example, 
-  1. Tool1: this tool once suggested … but I modified/rejected the suggestion because … 
-  2. Tool2: 
-
+I used Perplexity Pro to help me find some interesting fonts and styling for my input box so that it would have the Y2k aesthetic I was looking for. I also used it to help me debug for accessibility and multi page functionality. Finally, I used it to help me create some super simple algorithms necessary for webstorage and my grid display. All of my conversations are logged below.
 
 > Pros and cons of using GenAI tools
-* Pros
-  1. Tool1: 
-  2. Tool2:
-* Cons
-  1. Tool1: 
-  2. Tool2:
-
+* Pros : I was able to get some simple algorithms and formatting for my website done quickly. This is usally programming that I would be able to do on my own but would take me significantly longer to write out and debug on my own. 
+* Cons : The styling for a lot of the generated code is very generic unless you prompt the AI to look into interesting styles. Therefore, I choose my own fonts, blur filters, grain filters, and created my own shapes, but I simply used the AI to help me find interesting fonts or algorithms to help me do those steps without actually using the generated code. 
 
 ### Usage Log
 
