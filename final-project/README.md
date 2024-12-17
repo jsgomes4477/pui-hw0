@@ -40,6 +40,12 @@ My website is an interactive color picker that generates colors from complementa
 
 ## Part 4: Design Iteration
 
+![FP4 High-fi Website](images/high_UI_home1.png)
+
+![FP4 High-fi Website](images/high_UI_home2.png)
+
+![FP4 High-fi Website](images/high_UI_store.png)
+
 Describe how you iterated on your prototypes, if at all, including any changes you made to your original design while you were implementing your website and the rationale for the changes. (4-8 sentences max)
 
 ## Part 5: Implementation Challenge
