@@ -66,10 +66,10 @@ For the following aspects of your project, edit the corresponding table cell to 
 | Buttons | Productivity | 6 | - | - | - | - |
 | Color Swatches| Usage | Yes | No | Yes | Yes | No |
 | Color Swatches | Productivity | 7 | - | 7 | 7 | - |
-| Tool2| Usage | Yes/No | Yes/No | Yes/No | Yes/No | Yes/No |
-| Tool2 | Productivity | 1~7 | 1~7 | 1~7 | 1~7 | 1~7 |
-| Tool2| Usage | Yes/No | Yes/No | Yes/No | Yes/No | Yes/No |
-| Tool2 | Productivity | 1~7 | 1~7 | 1~7 | 1~7 | 1~7 |
+| Color Palette| Usage | Yes | No | Yes | Yes | No |
+| Color Palette | Productivity | 7 | - | 7 | 7 | - |
+| Animation | Usage | No | No | Yes | No | No |
+| Animations | Productivity | - | - | 7 | - | - |
 
 
 ### Usage Reflection
