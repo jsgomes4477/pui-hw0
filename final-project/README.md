@@ -84,8 +84,15 @@ I used Perplexity Pro to help me find some interesting fonts and styling for my 
 
 I do not have my chat history from conversations before FP3, but Gen AI only helped me implement very simple algorithms and debug. Since all of those designs were also completely overhauled, these are the most relevant conversations: 
 
-[Perplexity Pro Chat 1] (https://www.perplexity.ai/search/i-have-build-out-a-website-usi-4oxJ0vpUQCah5FtDN2SoMg)
+[Perplexity Pro Chat 1] : https://www.perplexity.ai/search/i-have-build-out-a-website-usi-4oxJ0vpUQCah5FtDN2SoMg
 
+[Perplexity Pro Chat 2] : https://www.perplexity.ai/search/i-have-built-out-a-website-usi-V1aBqEiLTIGaJkJCtMb8yQ
+
+[Perplexity Pro Chat 3] : https://www.perplexity.ai/search/look-at-the-mobile-version-of-8Jd6hQTcSxenTHQY4Jqcgg
+
+[Perplexity Pro Chat 4] : https://www.perplexity.ai/search/look-at-this-mobile-website-pa-0Z6pskXKS8SGSr_azEUEGg
+
+[Perplexity Pro Chat 5] : https://www.perplexity.ai/search/i-am-creating-the-desktop-vers-Km2xbwWbR5u3Pv56VgnE3w
 
 ---
 
