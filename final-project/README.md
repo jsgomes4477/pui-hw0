@@ -19,6 +19,7 @@ My website is an interactive color picker that generates colors from complementa
 5. Click on any of the shapes to navigate back to the home page with that color's generated palette.
 6. Click on the reset button at the top right corner to refresh all of the shape swatches into blanks again for a new library. 
 7. Click on the back button at the bottom right corner to navigate back to the default home page.
+8. Move your mouse around the library page to see a simple glitch animation in the background. 
 
 ## Part 3: External Tool
 
