@@ -54,22 +54,14 @@ The most challenging part of implementation for me was including accessibility f
 
 ## Part 6: Generative AI Use and Reflection
 
-Describe how you used Generative AI tools to create this final project (fill in the following information, write \~500 words in total).
-
-Document your use of all GenAI tools — ChatGPT, Copilot, Claude, Cursor, etc. using the template below. Add/Delete rows or bullet points if needed, and replace Tool1/Tool2 with the name of the tool.
-
-### Usage Experiences by Project Aspects
-
-Feel free to edit the column \_ (other?) or add more columns if there's any other aspect in your project you've used the GenAI tools for.
-
 For the following aspects of your project, edit the corresponding table cell to answer:
 - *Usage*: Whether you used / did not use this tool for the aspect. Enter [Yes/No]
 - *Productivity*: Give a rating on whether this tool makes your productivity for X aspect [1-Much Reduced, 2-Reduced, 3-Slightly Reduced, 4-Not Reduced nor Improved, 5-Slightly Improved, 6-Improved, 7-Much Improved].
 
 | Tool Name | Ratings | design | plan | write code | debug | \_ (other?) |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| Tool1 | Usage | Yes/No | Yes/No | Yes/No | Yes/No | Yes/No |
-| Tool1 | Productivity | 1~7 | 1~7 | 1~7 | 1~7 | 1~7 |
+| Input Box | Usage | No | No | No | No | Yes |
+| Input Box | Productivity | N/A | N/A | N/A | N/A | 4 |
 | Tool2| Usage | Yes/No | Yes/No | Yes/No | Yes/No | Yes/No |
 | Tool2 | Productivity | 1~7 | 1~7 | 1~7 | 1~7 | 1~7 |
 
