@@ -13,10 +13,12 @@ My website is an interactive color picker that generates colors from complementa
 
 ## Part 2: User Interaction
 
-How a user would interact with your website? For each step, briefly but clearly state the interaction type & how we should reproduce it.
-
-1. Interaction type. Click on X on page Y / scroll on page X, etc.  
-2. 
+2. Click on the input box and enter a 6 digit hex code.
+3. Click on the refresh button at the top left corner to refresh for different color schemes.
+4. Click on the library button at the bottom right corner to navigate to the library page.
+5. Click on any of the shapes to navigate back to the home page with that color's generated palette.
+6. Click on the reset button at the top right corner to refresh all of the shape swatches into blanks again for a new library. 
+7. Click on the back button at the bottom right corner to navigate back to the default home page.
 
 ## Part 3: External Tool
 
