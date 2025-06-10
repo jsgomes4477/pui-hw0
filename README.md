@@ -1,6 +1,6 @@
 # Programming Usable Interfaces
 
-Below is a history of the iterative process it took to create my first website based off the guidelines in class. Please take a look at the HW6 deployed website to see the full working version. I did not design this website, but simply learned how to emulate it in order to familiarize myself with HTML. If you want to see the process, thoughts, and documentation behind my final website project which I designed from scratch, please take a look at the file called "final-project' and the FP4 deployed website. Thank you.
+Below is a history of the iterative process it took to create my first website based off the guidelines in class. Please take a look at the HW6 deployed website to see the full working version. I did not design this website, but simply learned how to emulate it in order to familiarize myself with HTML. If you want to see the process, thoughts, and documentation behind my final website project, which I designed from scratch, please take a look at the file called "final-project' and the FP4 deployed website. Thank you.
 
 Deployed website: https://jsgomes4477.github.io/pui-hw0 `add the URL to your deployed website`
 
